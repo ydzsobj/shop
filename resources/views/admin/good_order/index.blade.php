@@ -250,7 +250,7 @@
                                         </span>
 
                                     </td>
-                                    <td style="width:15%; word-break:break-all; word-wrap:break-word; white-space:inherit">
+                                    <td style="width:20%; word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         @foreach($order->order_skus as $order_sku)
                                             @php($sku = $order_sku->sku_info)
                                             <span>{{$sku->good->name. '【' .$sku->sku_id. '】 ' .$sku->s1_name.' '.$sku->s2_name.' '.$sku->s3_name. ' x'. $order_sku->sku_nums }}</span><br>

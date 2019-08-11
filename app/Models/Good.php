@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Encore\Admin\Facades\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -141,6 +142,15 @@ class Good extends Model
                 $query->where('goods.title', 'like', '%'.$keywords.'%')
                     ->orWhere('goods.name','like', '%'.$keywords.'%');
             });
+        }
+
+        $admin_user = Admin::user();
+
+        if($admin_user->isAdministrator() || $admin_user->isRole('leader')){
+            //管理员 || 组长
+        }else{
+            //组员
+            $base_query->where('goods.admin_user_id', $admin_user->id);
         }
 
         //分页大小

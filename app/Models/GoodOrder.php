@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Encore\Admin\Facades\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -140,6 +141,20 @@ class GoodOrder extends Model
                 break;
             default:
                 break;
+        }
+
+        //当前权限
+        $admin_user = Admin::user();
+        if($admin_user->isAdministrator() || $admin_user->isRole('leader')){
+
+        }else{
+            $good_order_ids = GoodOrderSku::leftJoin('goods', 'goods.id','good_order_skus.good_id')
+                ->where('goods.admin_user_id', $admin_user->id)
+                ->whereBetween('good_order_skus.created_at', [$start_date, Carbon::parse($end_date)->endOfDay()])
+                ->pluck('good_order_id')
+                ->unique();
+
+            $base_query->whereIn('good_orders.id', $good_order_ids);
         }
 
         //分页大小

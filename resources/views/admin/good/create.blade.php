@@ -136,20 +136,20 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                {{--<div class="form-group">--}}
 
-                                    <label for="good_module_id" class="col-sm-2 control-label">所属模块</label>
+                                    {{--<label for="good_module_id" class="col-sm-2 control-label">所属模块</label>--}}
 
-                                    <div class="col-sm-8">
+                                    {{--<div class="col-sm-8">--}}
 
-                                        <select class="form-control single_select" style="width: 100%;" name="good_module_id">
-                                            <option></option>
-                                            @foreach($good_modules as $key=>$module)
-                                                <option value="{{$key}}">{{$module}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                        {{--<select class="form-control single_select" style="width: 100%;" name="good_module_id">--}}
+                                            {{--<option></option>--}}
+                                            {{--@foreach($good_modules as $key=>$module)--}}
+                                                {{--<option value="{{$key}}">{{$module}}</option>--}}
+                                            {{--@endforeach--}}
+                                        {{--</select>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <div class="form-group">
 

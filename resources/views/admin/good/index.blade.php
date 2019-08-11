@@ -102,16 +102,16 @@
                                                         <input type="text" class="form-control keywords" placeholder="单品名/单品展示名" name="keywords" value="{{$search['keywords']}}">
                                                     </div>
                                                 </div>
-                                                <label class="col-sm-1 control-label">所属模块</label>
-                                                <div class="col-sm-2">
-                                                    <select class="form-control status" name="good_module_id">
-                                                        <option></option>
-                                                        @foreach($good_modules as $key=>$module)
-                                                            <option value="{{$key}}" @if($search['good_module_id'] == $key) selected @endif>{{$module}}</option>
-                                                        @endforeach
+                                                {{--<label class="col-sm-1 control-label">所属模块</label>--}}
+                                                {{--<div class="col-sm-2">--}}
+                                                    {{--<select class="form-control status" name="good_module_id">--}}
+                                                        {{--<option></option>--}}
+                                                        {{--@foreach($good_modules as $key=>$module)--}}
+                                                            {{--<option value="{{$key}}" @if($search['good_module_id'] == $key) selected @endif>{{$module}}</option>--}}
+                                                        {{--@endforeach--}}
 
-                                                    </select>
-                                                </div>
+                                                    {{--</select>--}}
+                                                {{--</div>--}}
 
 
                                                 <label class="col-sm-1 control-label">状态</label>
