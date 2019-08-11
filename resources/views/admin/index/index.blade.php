@@ -35,8 +35,8 @@
 
                 <table class="table">
                     <tr>
-                        <td>商品数 : <a href="{{route('goods.index')}}">{{$goods_count}} &nbsp;&nbsp;&nbsp;[发布商品]</a></td>
-                        <td>订单数 : <a href="{{route('good_orders.index')}}">{{$orders_count}} &nbsp;&nbsp;&nbsp;[查看订单]</a></td>
+                        <td>总商品数 : <a href="{{route('goods.index')}}">{{$goods_count}} &nbsp;&nbsp;&nbsp;[发布商品]</a></td>
+                        <td>总订单数 : <a href="{{route('good_orders.index')}}">{{$orders_count}} &nbsp;&nbsp;&nbsp;[查看订单]</a></td>
                         <td>用户数 : <a href="{{route('admin.auth.users.index')}}">{{$admin_users_count}} &nbsp;&nbsp;&nbsp;[管理用户]</a></td>
                     </tr>
 
