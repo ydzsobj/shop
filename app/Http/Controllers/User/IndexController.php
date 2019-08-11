@@ -144,13 +144,23 @@ class IndexController extends Controller
             ->get();
 
         //获取模块
-        $good_modules = GoodModule::select('id as good_module_id','image_url as image')
-            ->orderBy('sort', 'desc')
+        $good_modules = GoodModule::with(['good_module_images' => function($query){
+            $query->select(
+                'good_id as goodsId',
+                'image_url as image',
+                'good_module_id');
+        }])->select(
+            'good_modules.id',
+            'good_modules.name'
+        )
+            ->orderBy('good_modules.sort', 'desc')
             ->get();
 
         $floorData = collect([]);
+        foreach ($good_modules as $good_module){
 
-        $floorData->push(['floor' => $good_modules, 'name' => '']);
+            $floorData->push(['floor' => $good_module->good_module_images, 'name' => $good_module->name]);
+        }
 
         $hotGoods = collect([]);
 
