@@ -16,6 +16,7 @@ class BaseController extends Controller
 //        parent::__construct($request);
 
         View::share('erp_api_domain', env('ERP_API_DOMAIN', ''));
+        View::share('shop_front_url', env('SHOP_FRONT_URL', ''));
         View::share('global_area', config('global_area'));
         View::share('money_sign', config('money_sign'));
 
