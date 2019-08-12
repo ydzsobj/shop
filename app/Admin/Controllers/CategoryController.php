@@ -96,7 +96,7 @@ class CategoryController
 
 //        $form->display('id', 'ID');
         $form->text('name','类别名称')->rules('required');
-        $form->text('sort','排序');
+        $form->text('sort','排序')->required();
 
 //        $form->display('created_at');
 //        $form->display('updated_at');
