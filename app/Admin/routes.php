@@ -43,6 +43,9 @@ Route::group([
     //搜索商品
     $router->get('/search_goods', 'GoodController@search');
 
+    //产品库
+    $router->resource('/products', 'ProductController')->only(['index']);
+
 
 
 });

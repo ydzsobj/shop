@@ -49,4 +49,29 @@ if(!function_exists('recent_thirty_days')){
     }
 }
 
+/**
+ * @获取api数据
+ */
+if(!function_exists('get_api_data')){
+    function get_api_data($url,$query=[]){
+
+        $client = new \GuzzleHttp\Client();
+
+        try {
+            $response = $client->request('GET', $url,['query' => $query ]);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            if ($e->hasResponse()) {
+                echo $e->getResponse();
+            }else{
+                Log::info('请求'.$url.'失败');
+                return false;
+            }
+        }
+
+        $result = json_decode($response->getBody());
+
+        return $result;
+    }
+}
+
 ?>

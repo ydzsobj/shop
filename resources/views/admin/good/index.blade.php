@@ -199,9 +199,6 @@
                                 <th>
                                     单品类别
                                 </th>
-                                <th>
-                                    所属模块
-                                </th>
 
                                 <th>
                                     发布时间
@@ -244,7 +241,6 @@
                                     </td>
                                     <td>{{$good->price}}</td>
                                     <td>{{$good->category->name}}</td>
-                                    <td>{{$good->good_module->name}}</td>
 
                                     <td>{{$good->created_at}}</td>
 
