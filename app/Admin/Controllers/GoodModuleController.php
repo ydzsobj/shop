@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Requests\StoreGoodModule;
 use App\Models\GoodModule;
 use App\Models\Slide;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class GoodModuleController extends BaseController
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request){
+    public function store(StoreGoodModule $request){
 
         $req = $request->only('name','sort');
 

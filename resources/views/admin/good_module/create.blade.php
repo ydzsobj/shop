@@ -14,9 +14,9 @@
 
     <section class="content">
 
-        <style>
-            .good_id{width:300px;}
-        </style>
+        {{--<style>--}}
+            {{--.good_id{width:300px;}--}}
+        {{--</style>--}}
 
         @if (count($errors) > 0)
             <div class="alert alert-danger">

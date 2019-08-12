@@ -95,8 +95,12 @@ class CategoryController
         $form = new Form(new GoodCategory());
 
 //        $form->display('id', 'ID');
-        $form->text('name','类别名称')->rules('required');
-        $form->text('sort','排序')->required();
+//        $form->text('name','类别名称')->rules('required');
+
+        $form->text('name','类别名称')
+            ->creationRules(['required', "unique:good_categories"])
+            ->updateRules(['required', "unique:good_categories,name,{{id}}"]);
+        $form->text('sort','排序')->rules('required');
 
 //        $form->display('created_at');
 //        $form->display('updated_at');

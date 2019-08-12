@@ -83,22 +83,18 @@
                                 <tr>
                                     <td>{{$module->id}}</td>
                                     <td>
-
                                         @foreach($module->good_module_images as $good_module_image)
-                                        <div style="width: 170px;"
-                                             title="{{$module->name}}"
+                                        <div class="col-md-2"
+                                             title="绑定单品：{{$good_module_image->good->name}}"
                                              data-container="body"
                                              data-toggle="popover"
                                              data-placement="right"
                                              data-trigger="hover"
                                              data-html="true"
-                                             data-content="<img src='{{$good_module_image->image_url}}' class='thumbnail' width='260px' height='260px'  />"
+                                             data-content="<img src='{{$good_module_image->image_url}}' class='img-thumbnail'  />"
                                         >
-                                            <img src='{{$good_module_image->image_url}}' class='thumbnail' width="60px" height="60px" />
+                                            <img src='{{$good_module_image->image_url}}' class='img-thumbnail'  style="width:60px;height: 60x;"/>
                                         </div>
-
-                                            <span>对应单品名：{{$good_module_image->good->name}}</span>
-
                                        @endforeach
                                     </td>
                                     <td>{{$module->name}}</td>
