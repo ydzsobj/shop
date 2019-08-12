@@ -28,63 +28,55 @@ class GoodController extends Controller
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
-     * {
+     *{
      *    "success": true,
      *    "msg": "",
      *    "data": {
      *        "current_page": 1,
      *        "data": [
      *            {
-     *                "id": 45,
-     *                "title": "测试0807",
-     *                "original_price": "999.00",
-     *                "price": "$888.00",
+     *                "goodsId": 51,
+     *                "name": "微软（Microsoft）Surface Laptop 2 超轻薄触控笔记本（13.5英寸 第八代Core i5 8G 256G SSD ）典雅黑",
+     *                "mallPrice": "990999.00",
+     *                "price": "8888.00",
+     *                "good_module_id": null,
+     *                "image": "http://192.168.1.132:8081/storage/uploads/image/2019/08/11/0ae29c8dff6c517727e4806a6f5ce96b.png"
+     *            },
+     *            {
+     *                "goodsId": 50,
+     *                "name": "微软（Microsoft）Surface Laptop 2 超轻薄触控笔记本（13.5英寸 第八代Core i5 8G 256G SSD ）典雅黑",
+     *                "mallPrice": "9999.00",
+     *                "price": "8888.00",
+     *                "good_module_id": null,
+     *                "image": "http://192.168.1.132:8081/storage/uploads/image/2019/08/11/251095c01dca97db3e3479a61f2b2941.png"
+     *            },
+     *            {
+     *                "goodsId": 49,
+     *                "name": "李宁 7号6号5号篮球女青少年儿童篮球小学生室外成人耐磨正品蓝球",
+     *                "mallPrice": "1000.00",
+     *                "price": "900.00",
      *                "good_module_id": 2,
-     *                "main_image_url": "http://192.168.1.133:8081/storage/uploads/image/2019/08/08/c10410f41dcf17266e42e9a1de5cd262.png"
+     *                "image": "http://192.168.1.132:8081/storage/uploads/image/2019/08/09/4df0209b6471426a22f0b200497a490f.jpeg"
      *            },
      *            {
-     *                "id": 44,
-     *                "title": "测试0807",
-     *                "original_price": "999.00",
-     *                "price": "$888.00",
+     *                "goodsId": 48,
+     *                "name": "测试-无规格",
+     *                "mallPrice": "899.88",
+     *                "price": "88.99",
      *                "good_module_id": 2,
-     *                "main_image_url": "http://192.168.1.133:8081/storage/uploads/image/2019/08/08/0ca6091f438822002b53a6a29617e078.png"
-     *            },
-     *            {
-     *                "id": 43,
-     *                "title": "122222",
-     *                "original_price": "111.00",
-     *                "price": "$111.00",
-     *                "good_module_id": 2,
-     *                "main_image_url": "http://192.168.1.133:8081/storage/uploads/image/2019/08/07/8e599aec96ca117adb8f0227047819e1.png"
-     *            },
-     *            {
-     *                "id": 42,
-     *                "title": "联想ThinkPad X1 Carbon 2018（05CD）英特尔酷睿i7 14英寸轻薄笔记本电脑（i7-8550U 16G 1TSSD WQHD Win10Pro）黑色",
-     *                "original_price": "999.00",
-     *                "price": "$888.00",
-     *                "good_module_id": 1,
-     *                "main_image_url": "http://192.168.1.133:8081/storage/uploads/image/2019/08/07/f6cfcfdb53d78856bc8f5d78e97f7a89.png"
-     *            },
-     *            {
-     *                "id": 41,
-     *                "title": "联想ThinkPad X1 Carbon 2018（05CD）英特尔酷睿i7 14英寸轻薄笔记本电脑（i7-8550U 16G 1TSSD WQHD Win10Pro）黑色",
-     *                "original_price": "99999.00",
-     *                "price": "$88888.00",
-     *                "good_module_id": 4,
-     *                "main_image_url": "http://192.168.1.133:8081/storage/uploads/image/2019/08/07/4f21e882d657388dbb10c1aadb5d9a77.png"
+     *                "image": "http://192.168.1.132:8081/storage/uploads/image/2019/08/08/03b5ed3f0111edeeaa393c075c0d34f4.png"
      *            },
      *        ],
-     *        "first_page_url": "http://192.168.1.133:8081/api/user/goods?page=1",
+     *        "first_page_url": "http://192.168.1.132:8081/api/user/goods?page=1",
      *        "from": 1,
      *        "last_page": 2,
-     *        "last_page_url": "http://192.168.1.133:8081/api/user/goods?page=2",
-     *        "next_page_url": "http://192.168.1.133:8081/api/user/goods?page=2",
-     *        "path": "http://192.168.1.133:8081/api/user/goods",
+     *        "last_page_url": "http://192.168.1.132:8081/api/user/goods?page=2",
+     *        "next_page_url": "http://192.168.1.132:8081/api/user/goods?page=2",
+     *        "path": "http://192.168.1.132:8081/api/user/goods",
      *        "per_page": 20,
      *        "prev_page_url": null,
      *        "to": 20,
-     *        "total": 22
+     *        "total": 28
      *    }
      *}
      */

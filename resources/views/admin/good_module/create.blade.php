@@ -246,7 +246,7 @@
                 $(".good_id").select2({
                     language: {
                         inputTooShort: function () {
-                            return "请输入产品关键字";
+                            return "请输入单品名关键字";
                         }
                     },
                     "allowClear": true,
