@@ -73,7 +73,7 @@
 <script src="{{admin_asset("vendor/laravel-admin/nestable/jquery.nestable.js")}}"></script>
 <script src="{{admin_asset("vendor/laravel-admin/toastr/build/toastr.min.js")}}"></script>
 <script src="{{admin_asset("vendor/laravel-admin/bootstrap3-editable/js/bootstrap-editable.min.js")}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+<script src="{{URL::asset('/js/promise.min.js')}}"></script>
 <script src="{{URL::asset('/js/ie-sweetalert2.js')}}"></script>
 <script src="{{admin_asset("vendor/laravel-admin/sweetalert2/dist/sweetalert2.min.js")}}"></script>
 <script src="{{admin_asset("vendor/laravel-admin/laravel-admin/laravel-admin.js")}}"></script>
