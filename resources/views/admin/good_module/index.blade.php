@@ -108,14 +108,14 @@
                                             </a>
                                             <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
 
-                                                {{--<li><a href="#" data-toggle="modal" data-target="#editModal_{{$module->id}}" data-remote="{{route('good_modules.edit',['id' => $module->id])}}">编辑</a></li>--}}
+                                                <li><a href="#" data-toggle="modal" data-target="#editModal_{{$module->id}}" data-remote="{{route('good_modules.edit',['id' => $module->id])}}">编辑</a></li>
                                                 <li><a href="#" id ="disable_{{$module->id}}" data-id="{{$module->id}}" data-title="删除" data-action="disable" class="grid-row-action">删除</a></li>
 
                                             </ul>
                                         </div>
 
                                         <!-- 模态框（Modal） -->
-                                        <div class="modal fade" id="editModal_{{$module->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="editModal_{{$module->id}}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:100%">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -150,7 +150,7 @@
 
         <section class="content-header">
             <h1>
-                轮播图
+                轮播图(上传多张图时 ,请保持每张图片宽高一致)
             </h1>
         </section>
         <div class="row"><div class="col-md-12"><div class="box">
@@ -209,9 +209,9 @@
                                              data-placement="right"
                                              data-trigger="hover"
                                              data-html="true"
-                                             data-content="<img src='{{$slide->image_url}}' class='thumbnail' width='260px' height='260px'  />"
+                                             data-content="<img src='{{$slide->image_url}}' class='img-thumbnail' width='260px' height='260px'  />"
                                         >
-                                            <img src='{{$slide->image_url}}' class='thumbnail' width="60px" height="60px" />
+                                            <img src='{{$slide->image_url}}' class='img-thumbnail' />
                                         </div>
                                     </td>
                                     <td>{{$slide->sort}}</td>

@@ -100,7 +100,12 @@ class CategoryController
         $form->text('name','类别名称')
             ->creationRules(['required', "unique:good_categories"])
             ->updateRules(['required', "unique:good_categories,name,{{id}}"]);
-        $form->text('sort','排序')->rules('required');
+//        $form->text('sort','排序')->updateRules('required|between:0,99');
+
+        $form->text('sort','排序（范围0-99）')->rules('required|regex:/^\d{1,2}$/|min:1', [
+            'regex' => '范围0-99',
+            'min'   => '不能少于1个字符',
+        ]);
 
 //        $form->display('created_at');
 //        $form->display('updated_at');

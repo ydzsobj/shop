@@ -43,11 +43,12 @@
 
                 </div>
             </div>
+
             <div class="form-group">
 
                 <!-- Editable table -->
                 <div class="card">
-                    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">绑定商品</h3>
+                    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">绑定商品(宽高参考：第一张:206*214,其它206*107)</h3>
                     <div class="card-body">
                         <div id="table" class="table-editable">
                                                 {{--<span class="table-add mb-3 mr-2" style="margin-left: 100px;">--}}
@@ -65,15 +66,35 @@
                                 </thead>
                                 <tbody>
 
-                                @foreach($detail->good_module_images as $good_module_image)
+                                {{--<tr>--}}
+                                    {{--<td style="width:30%">--}}
+                                        {{--<input type="file" class="form-control" name="list[][image_file]" />--}}
+                                    {{--</td>--}}
+                                    {{--<td style="width:30%;">--}}
+
+
+                                        {{--<select class="form-control" name="list[][good_id]" required="1">--}}
+                                            {{--<option>123</option>--}}
+                                        {{--</select>--}}
+                                    {{--</td>--}}
+                                    {{--<td>--}}
+                                        {{--<input type="text" class="form-control" value="123" name="list[][id]" required="1"/>--}}
+                                    {{--</td>--}}
+                                {{--</tr>--}}
+
+                                @foreach($detail->good_module_images as $key=>$good_module_image)
                                 <tr>
                                     <td style="width:30%">
-                                        <input type="file" class="form-control" name="list[][image_file]" required="1" />
+                                        <input type="file" class="form-control image_file_{{$good_module_image->id}}" name="list[{{$key}}][image_file]" />
                                     </td>
-                                    <td style="with:40%;">
-                                        <select class="form-control good_id" name="list[][good_id]" required="1">
-                                            {{--<option>{{$good_module_image->good->name}}</option>--}}
+                                    <td style="width:30%;">
+
+                                        <span>已绑单品:{{$good_module_image->good->name}}</span><br />
+                                        <select class="form-control good_id_{{$good_module_image->good->id}}" name="list[{{$key}}][good_id]" required="1">
+                                            <option value="{{$good_module_image->good->id}}" selected="selected">{{$good_module_image->good->name}}</option>
                                         </select>
+
+                                        <input type="hidden" class="form-control good_module_image_{{$good_module_image->id}}" value="{{$good_module_image->id}}" name="list[{{$key}}][id]" />
                                     </td>
                                     {{--<td>--}}
                                         {{--<span class="table-remove">--}}
@@ -127,8 +148,11 @@
     <script>
         $(function () {
 
-            $("input[type='file']").fileinput({
+            @foreach($detail->good_module_images as $good_module_image)
+
+            $(".image_file_{{$good_module_image->id}}").fileinput({
                 "initialPreview": [
+                    "{{$good_module_image->image_url}}"
                 ],
                 "overwriteInitial": true,
                 "initialPreviewAsData": true,
@@ -138,29 +162,16 @@
                 "showUpload": false,
                 "showCancel": false,
                 "dropZoneEnabled": false,
-                {{--"uploadUrl": '/admin/upload',--}}
-                        {{--"uploadExtraData": {--}}
-                        {{--'_token': '{{csrf_token()}}',--}}
-                        {{--'_method': 'post'--}}
-                        {{--},--}}
-
-                        {{--"deleteUrl": "/admin/upload/1",--}}
-                        {{--"deleteExtraData": {--}}
-                        {{--"_token": "{{csrf_token()}}",--}}
-                        {{--"_method": "delete"--}}
-                        {{--},--}}
                 "fileActionSettings": {"showRemove": false, "showDrag": false},
                 "msgPlaceholder": "请选择图片",
                 "allowedFileTypes": ["image"]
             });
 
-            // $('.main_image_url').on('fileremoved', function(event, id, index) {
-            //     console.log('id = ' + id + ', index = ' + index);
-            // });
-
+            @endforeach
 
             //选择产品
-            $(".good_id").select2({
+            $("select[class*=good_id_]").select2({
+            // $(".good_id_29").select2({
                 language: {
                     inputTooShort: function () {
                         return "请输入单品名称关键字";
@@ -207,7 +218,7 @@
                 var $container = $(
                     "<div class='select2-result-repository clearfix'>" +
                     "<div class='select2-result-repository__avatar'>" +
-                    "<img class='thumbnail' width=\"60px\" height=\"60px\"  src='" + repo.main_image_url + "' /></div>" +
+                    "<img class='img-thumbnail' width=\"60px\" height=\"60px\"  src='" + repo.main_image_url + "' /></div>" +
                     // "<div class='select2-result-repository__meta'>" +
                     "<div class='select2-result-repository__title'></div>" +
                     "</div>"
@@ -224,6 +235,11 @@
             function formatRepoSelection (repo) {
                 return repo.name;
             }
+
+            // curr_obj.val('888').trigger('change');
+
+            // $(".good_id_29").append('<option value="initial2" selected="selected">initial2</option>');
+            // $(".good_id_29").trigger('change');
 
         })
     </script>

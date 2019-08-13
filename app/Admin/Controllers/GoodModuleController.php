@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Requests\StoreGoodModule;
 use App\Models\GoodModule;
+use App\Models\GoodModuleImage;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use Storage;
@@ -71,23 +72,28 @@ class GoodModuleController extends BaseController
             'name',
         ]);
 
-        $update_data = collect($update_data);
+        $mod = GoodModule::where('id', $id)->update($update_data);
 
-        $module_image_file = $request->file('module_image_file');
+        if($mod){
+            $module_image_list = $request->list;
+            $update_image_data = collect([]);
+            foreach ($module_image_list as $item){
+                $image_url = isset($item['image_file']) ? $this->upload($item['image_file']) : false;
+                $id = $item['id'];
+                $update_image_data->put('good_id', $item['good_id'] );
+                if($image_url){
+                    $update_image_data->put('image_url', $image_url);
+                }
 
-        $image_url = $module_image_file ? $this->upload($module_image_file) : null;
+                $result = GoodModuleImage::where('id', $id)->update($update_image_data->all());
+            }
 
-        if($image_url){
-            $update_data = $update_data->merge(['image_url' => $image_url]);
-        }
-
-        $result = GoodModule::where('id', $id)->update($update_data->all());
-
-        if($result){
             return redirect(route('good_modules.index'))->with('success', trans('common.update.success'));
+
         }else{
             return redirect(route('good_modules.index'))->with('error', trans('common.update.fail'));
         }
+
     }
 
     /**
