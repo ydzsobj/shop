@@ -14,4 +14,7 @@ return [
     */
 
     'not_exist' => '商品不存在',
+
+    'copy.success' => '复制成功',
+    'copy.fail' => '复制失败',
 ];

@@ -17,6 +17,8 @@ Route::group([
 
     //商品管理
     $router->resource('/goods','GoodController')->except(['show']);
+    //复制商品
+    $router->post('/goods/{id}/copy', 'GoodController@copy')->name('goods.copy');
     //商品导出
     $router->get('/goods/export', 'GoodController@export')->name('goods.export');
     //更新sku价格

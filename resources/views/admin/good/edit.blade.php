@@ -3,7 +3,7 @@
     <h4 class="modal-title" id="myModalLabel">编辑商品</h4>
 </div>
 <!-- form start -->
-<form action="{{route('goods.update',['id' => $detail->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data" pjax-container>
+<form action="{{route('goods.update',['id' => $detail->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
 
     <div class="box-body">
 

@@ -79,7 +79,7 @@ class Good extends Model
      */
     public function get_data($request){
 
-        $base_query =  Good::withTrashed()->with(['list_images','category','admin_user','good_module']);
+        $base_query =  Good::withTrashed()->with(['list_images','category','admin_user','good_module','skus']);
 
         list($query, $search) = $this->query_conditions($base_query, $request);
 

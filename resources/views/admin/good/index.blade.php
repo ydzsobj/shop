@@ -264,6 +264,7 @@
                                                 @if(!$good->deleted_at)
                                                     <li><a target="_blank" href="{{$shop_front_url}}/index.html#/goods?goodsId={{$good->id}}">预览</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#editModal_{{$good->id}}" data-remote="{{route('goods.edit',['id' => $good->id])}}">编辑</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#copyModal_{{$good->id}}">复制</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#SetAttributeModal_{{$good->id}}">SKU配置</a></li>
                                                 <li><a href="#" id ="disable_{{$good->id}}" data-id="{{$good->id}}" data-title="禁用" data-action="disable" class="grid-row-action">禁用</a></li>
                                                 @else
@@ -289,6 +290,63 @@
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal -->
                                         </div>
+                                        <!--复制-->
+                                        <div class="modal fade" id="copyModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" style="width:70%">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title" id="myModalLabel">复制单品</h4>
+                                                    </div>
+                                                    <form action="{{route('goods.copy',['id' => $good->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+
+                                                    <div class="modal-body">
+                                                            <div class="box-body">
+
+                                                                <div class="fields-group">
+
+                                                                    <div class="form-group  ">
+
+                                                                        <label for="name" class="col-sm-2 asterisk control-label">单品名</label>
+
+                                                                        <div class="col-sm-8">
+
+                                                                            <div class="input-group">
+
+                                                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                                                                                <input type="text" id="name" name="name" class="form-control name" placeholder="输入 单品名" required="1" />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group  ">
+
+                                                                        <label for="name" class="col-sm-2 asterisk control-label">所属人</label>
+
+                                                                        <div class="col-sm-8">
+
+                                                                            <div class="input-group">
+
+                                                                               <span class="form-control"> {{\Encore\Admin\Facades\Admin::user()->username}} </span>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="_token" value="{{csrf_token()}}" />
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                        <button type="submit" class="btn btn-primary">提交</button>
+                                                    </div>
+                                                    </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal -->
+                                        </div>
 
                                         <!-- 模态框（Modal） -->
                                         <div class="modal fade" id="SetAttributeModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -298,6 +356,8 @@
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                         <h4 class="modal-title" id="myModalLabel">配置SKU（共{{$good->skus->count()}}个）</h4>
                                                     </div>
+
+                                                    @if($good->skus->count() >0)
                                                     <div class="modal-body">
 
                                                         <table class="table">
@@ -306,6 +366,7 @@
                                                                     <input type="checkbox" class="grid-select-all" />&nbsp;</th>
                                                                 <th>SKUID</th><th>单品名称</th><th>属性规格</th><th>价格（{{$money_sign}}）</th><th>启用状态</th>
                                                             </tr>
+
                                                         @foreach($good->skus as $sku)
                                                             <tr>
                                                                 <td class="column-__row_selector__">
@@ -349,12 +410,15 @@
                                                                 </td>
                                                             </tr>
                                                         @endforeach
+
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" id="disable_list_{{$sku->id}}" data-action="disable">禁用</button>
                                                         <button type="button" class="btn btn-primary" id="enable_list_{{$sku->id}}" data-action="enable">启用</button>
                                                     </div>
+                                                    @endif
+
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal -->
                                         </div>

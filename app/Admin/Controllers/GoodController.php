@@ -4,9 +4,11 @@ namespace App\Admin\Controllers;
 
 use App\Events\BindGoodAttributeEvent;
 use App\Exports\GoodsExport;
+use App\Http\Requests\CopyGood;
 use App\Http\Requests\StoreGood;
 use App\Http\Requests\UpdateGood;
 use App\Models\Good;
+use App\Models\GoodAttribute;
 use App\Models\GoodCategory;
 use App\Models\GoodImage;
 use App\Models\GoodModule;
@@ -297,6 +299,34 @@ class GoodController extends BaseController
 
 
         return $result;
+    }
+
+    //单品复制
+    public function copy(CopyGood $request, $id){
+
+        $name = $request->post('name');
+
+        $admin_user = Admin::user();
+
+        $good = Good::find($id);
+
+        $copy_data = $good->replicate();
+
+        $copy_data->name = $name;
+        $copy_data->admin_user_id = $admin_user->id;
+
+        $result = $copy_data->save();
+
+        if($result){
+            //绑定默认属性
+            event(new BindGoodAttributeEvent($copy_data));
+        }
+
+        $msg = $result ? trans('good.copy.success') : trans('good.copy.fail');
+
+        $alert_type =  $result ? 'success' : 'error';
+
+        return redirect(route('goods.index'))->with($alert_type, $msg);
     }
 
 }
