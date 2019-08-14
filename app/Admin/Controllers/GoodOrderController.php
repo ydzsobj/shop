@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Events\AuditOrderSuccessEvent;
 use App\Exports\GoodOrdersExport;
 use App\Models\Good;
+use App\Models\GoodAuditLog;
 use App\Models\GoodOrder;
 use App\Models\GoodOrderSku;
 use Carbon\Carbon;
@@ -53,10 +54,7 @@ class GoodOrderController extends Controller
         $status = $request->post('status');
         $remark = $request->post('remark');
 
-        $good_order->status = $status;
-        $good_order->last_audited_at = Carbon::now();
-        $good_order->last_audited_admin_user_id = Admin::user()->id;
-        $res = $good_order->save();
+        $res = $good_order->audit($status);
 
         if($res) {
             //记录审核日志
@@ -107,7 +105,7 @@ class GoodOrderController extends Controller
 
         $go = GoodOrder::find($id);
         if(!$go){
-            return redirect()->route('good_order.index')->with('error',trans('order.not_exist'));
+            return redirect()->route('good_orders.index')->with('error',trans('order.not_exist'));
         }
 
         $res = GoodOrder::where('id',$id)->update($rq);
@@ -169,6 +167,66 @@ class GoodOrderController extends Controller
         $go = new GoodOrder();
         $data = $go->export($request);
         return Excel::download(new GoodOrdersExport($data), '订单导出'.date('y-m-d H_i_s').'.xlsx');
+    }
+
+    /**
+     * 批量审核
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function batch_audit(Request $request){
+
+        $order_ids = $request->post('order_ids');
+
+        $order_ids = explode(',', $order_ids);
+
+        $status = $request->post('status');
+        $remark = $request->post('remark');
+
+        $res = GoodOrder::whereIn('id', $order_ids)->update([
+            'status' => $status,
+            'last_audited_at' => Carbon::now(),
+            'last_audited_admin_user_id' => Admin::user()->id
+        ]);
+
+        if($res){
+            //批量增加审核日志
+            $insert_data = collect([]);
+            foreach ($order_ids as $order_id){
+                $data = [
+                    'good_order_id' => $order_id,
+                    'status' => $status,
+                    'admin_user_id' => Admin::user()->id,
+                    'remark' => $remark,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ];
+
+                $insert_data->push($data);
+            }
+
+            GoodAuditLog::insert($insert_data->all());
+
+        }
+
+        $msg = $res ? trans('order.audit.success') : trans('order.audit.fail');
+
+        $alert_type = $res ? 'success' : 'error';
+
+        return redirect()->route('good_orders.index')->with($alert_type, $msg);
+
+    }
+
+    //批量删除
+    public function batch_destroy(Request $request){
+
+        $order_ids = $request->post('order_ids');
+
+        $res = GoodOrder::whereIn('id',$order_ids)->delete();
+
+        $msg = $res ? trans('order.delete.success') : trans('order.delete.fail');
+
+        return returned($res, $msg);
     }
 
 }

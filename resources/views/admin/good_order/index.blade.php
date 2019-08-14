@@ -115,6 +115,21 @@
                             </div>
 
                         </form>
+
+                        <div class="pull-left">
+                            <div class="btn-group grid-select-all-btn" style="display:none;margin-right: 5px;">
+                                <a class="btn btn-sm btn-default"><span class="hidden-xs selected"></span></a>
+                                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" class="grid-batch-0" id="batch_delete">批量删除 </a></li>
+                                    <li><a href="#" class="grid-batch-1" data-toggle="modal" data-target="#auditModalBatch">批量审核 </a></li>
+                                </ul>
+                            </div>
+                        </div>
+
                         <div class="pull-right">
 
                             &nbsp;&nbsp;&nbsp;
@@ -140,6 +155,7 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
+                                <th class="column-__row_selector__"> <input type="checkbox" class="grid-select-all" />&nbsp;</th>
                                 <th>
                                     ID
                                 </th>
@@ -191,6 +207,9 @@
 
                             @foreach($orders as $order)
                                 <tr>
+                                    <td class="column-__row_selector__" class="column-__row_selector__">
+                                        <input type="checkbox" class="grid-row-checkbox" data-id="{{$order->id}}" />
+                                    </td>
                                     <td>{{$order->id}}</td>
                                     <td style="width:10%; word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         {{$order->sn}}<br />
@@ -347,6 +366,56 @@
                     </div>
 
 
+                    <div class="modal fade" id="auditModalBatch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="width:50%;">
+                            <form action="{{route('good_orders.batch_audit')}}" class="form-horizontal" method="post" id="fm_batch_audit">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">批量审核订单</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="title" class="col-sm-2 asterisk control-label">选择状态</label>
+                                                <div class="col-sm-6">
+                                                    <select class="status form-control" name="status" style="width: 200px;" required="1">
+                                                        <option></option>
+                                                        @foreach($status as $key=>$s)
+                                                            <option value="{{$key}}">{{$s}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <span style="color: red;display: none;" class="status_error_tips">选择不能为空</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="title" class="col-sm-2 asterisk control-label">填写审核信息</label>
+                                                <div class="col-sm-6">
+                                                    <div>
+                                                        <textarea cols="30" rows="3" class="form-control" name="remark" required="1"></textarea>
+                                                        <span style="color: red;display: none;" class="remark_error_tips">审核信息不能为空</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        {{--<input type="hidden" name="_method" value="put" />--}}
+                                        <input type="hidden" name="order_ids" id="order_ids" />
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}" />
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" id="batch_audit_submit">提交</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </form>
+                        </div><!-- /.modal -->
+                    </div>
+
                     <div class="box-footer clearfix ">
 
                         <div class="pull-right">
@@ -447,7 +516,6 @@
             });
         })
 
-
         //加备注
         $("a[id*='update_remark_']").editable({
             value :'',
@@ -479,12 +547,159 @@
             },
         });
 
+        //批量删除
+        $("#batch_delete").click(function(){
+            var title = '批量删除';
+            var order_ids = $.admin.grid.selected();
+            if(order_ids.length == 0){
+                swal('需要选择至少一条数据','','error');
+                return false;
+            }
+            swal({
+                title: "确认要" + title + "吗?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确认",
+                showLoaderOnConfirm: true,
+                cancelButtonText: "取消",
+                preConfirm: function() {
+                    return new Promise(function(resolve) {
+                        $.ajax({
+                            method: 'post',
+                            url: '/admin/good_orders/batch_destroy',
+                            data: {
+                                // _method:'post',
+                                _token:"{{csrf_token()}}",
+                                order_ids: order_ids,
+                            },
+                            success: function (data) {
+                                //异步修改数据
+                                // console.log(data);
+                                resolve(data);
+                            }
+                        });
+                    });
+                }
+            }).then(function(data) {
+                console.log(data);
+                var result = data.value;
+                if (typeof result === 'object') {
+                    if (result.success) {
+                        swal(result.msg, '', 'success').then(function(msg){
+                            console.log(msg);
+                            if(msg.value == true){
+                                window.location.reload();
+                            }
+                        });
+
+                    } else {
+                        swal(result.msg, '', 'error');
+                    }
+                }
+            });
+        })
+
+        //批量审核
+        $("#batch_audit_submit").click(function(){
+            var order_ids = $.admin.grid.selected();
+            if(order_ids.length == 0){
+                swal('请选择一条数据','','error');
+                return false;
+            }
+
+            $("#order_ids").val(order_ids);
+
+            var status = $("#fm_batch_audit").find("select[name=status]").val();
+
+            if(!status){
+                $(".status_error_tips").show();
+                return false;
+            }else{
+                $(".status_error_tips").hide();
+            }
+            var remark = $("#fm_batch_audit").find("textarea[name=remark]").val();
+
+            if(!remark){
+                $(".remark_error_tips").show();
+                return false;
+            }else{
+                $(".remark_error_tips").hide();
+            }
 
 
+            $("#fm_batch_audit").submit();
+
+        })
+
+        //分页
         $(".grid-per-pager").on('change', function(e){
             $("#select_per_page").val($(this).val());
             $("#fm").submit();
         })
+
+
+
+        $('.grid-row-checkbox').iCheck({checkboxClass:'icheckbox_minimal-blue'}).on('ifChanged', function () {
+
+            var id = $(this).data('id');
+
+            if (this.checked) {
+                $.admin.grid.select(id);
+                $(this).closest('tr').css('background-color', '#ffffd5');
+            } else {
+                $.admin.grid.unselect(id);
+                $(this).closest('tr').css('background-color', '');
+            }
+        }).on('ifClicked', function () {
+
+            var id = $(this).data('id');
+
+            if (this.checked) {
+                $.admin.grid.unselect(id);
+            } else {
+                $.admin.grid.select(id);
+            }
+
+            var selected = $.admin.grid.selected().length;
+
+            if (selected > 0) {
+                $('.grid-select-all-btn').show();
+            } else {
+                $('.grid-select-all-btn').hide();
+            }
+
+            $('.grid-select-all-btn .selected').html("已选择 {n} 项".replace('{n}', selected));
+        });
+
+        $('.grid-select-all').iCheck({checkboxClass:'icheckbox_minimal-blue'});
+
+        $('.grid-select-all').on('ifChanged', function(event) {
+            if (this.checked) {
+                $('.grid-row-checkbox').iCheck('check');
+            } else {
+                $('.grid-row-checkbox').iCheck('uncheck');
+            }
+        }).on('ifClicked', function () {
+            if (this.checked) {
+                $.admin.grid.selects = {};
+            } else {
+                $('.grid-row-checkbox').each(function () {
+                    var id = $(this).data('id');
+                    $.admin.grid.select(id);
+                });
+            }
+
+            var selected = $.admin.grid.selected().length;
+
+            if (selected > 0) {
+                $('.grid-select-all-btn').show();
+            } else {
+                $('.grid-select-all-btn').hide();
+            }
+
+            $('.grid-select-all-btn .selected').html("已选择 {n} 项".replace('{n}', selected));
+        });
 
 
     </script>

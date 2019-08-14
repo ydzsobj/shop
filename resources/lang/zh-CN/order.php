@@ -16,4 +16,10 @@ return [
     'not_exist' => '订单不存在',
 
     'remark.required' => '备注不能为空',
+
+    'audit.success' => '审核成功',
+    'delete.success' => '删除成功',
+
+    'audit.fail' => '审核失败',
+    'delete.fail' => '删除失败',
 ];

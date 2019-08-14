@@ -194,7 +194,7 @@
                                     单品展示名
                                 </th>
                                 <th>
-                                    单品价格({{$money_sign}})
+                                    单品价格({{$money_sign}}) {!! $sort_links['price'] !!}
                                 </th>
                                 <th>
                                     单品类别
@@ -309,7 +309,7 @@
 
                                                                         <label for="name" class="col-sm-2 asterisk control-label">单品名</label>
 
-                                                                        <div class="col-sm-8">
+                                                                        <div class="col-sm-6">
 
                                                                             <div class="input-group">
 
@@ -323,14 +323,17 @@
 
                                                                     <div class="form-group  ">
 
-                                                                        <label for="name" class="col-sm-2 asterisk control-label">所属人</label>
+                                                                        <label for="admin_user_id" class="col-sm-2 asterisk control-label">所属人</label>
 
                                                                         <div class="col-sm-8">
 
                                                                             <div class="input-group">
-
-                                                                               <span class="form-control"> {{\Encore\Admin\Facades\Admin::user()->username}} </span>
-
+                                                                                 <select class="form-control status" name="admin_user_id" required="1">
+                                                                                     <option></option>
+                                                                                     @foreach($admin_users as $key=>$admin_user)
+                                                                                        <option value="{{$key}}">{{$admin_user}}</option>
+                                                                                     @endforeach
+                                                                                 </select>
                                                                             </div>
                                                                         </div>
                                                                     </div>

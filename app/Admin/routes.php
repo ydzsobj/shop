@@ -34,6 +34,10 @@ Route::group([
     $router->put('good_orders/{id}/update_remark', 'GoodOrderController@update_remark');
     //订单导出
     $router->get('/good_orders/export', 'GoodOrderController@export')->name('good_orders.export');
+    //批量审核
+    $router->post('/good_orders/batch_audit', 'GoodOrderController@batch_audit')->name('good_orders.batch_audit');
+    //批量删除
+    $router->post('/good_orders/batch_destroy', 'GoodOrderController@batch_destroy')->name('good_orders.batch_delete');
 
     //类别管理
     $router->resource('/categories','CategoryController');

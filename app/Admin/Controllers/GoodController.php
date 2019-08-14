@@ -7,6 +7,7 @@ use App\Exports\GoodsExport;
 use App\Http\Requests\CopyGood;
 use App\Http\Requests\StoreGood;
 use App\Http\Requests\UpdateGood;
+use App\Models\AdminUser;
 use App\Models\Good;
 use App\Models\GoodAttribute;
 use App\Models\GoodCategory;
@@ -15,6 +16,7 @@ use App\Models\GoodModule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Excel;
+use Illuminate\Support\Facades\Route;
 use Storage;
 use Encore\Admin\Facades\Admin;
 use Illuminate\Support\Facades\Log;
@@ -32,7 +34,12 @@ class GoodController extends BaseController
         $gd = new Good();
         list($goods, $search) = $gd->get_data($request);
 
-        return view('admin.good.index',compact('goods','search'));
+        $admin_users = AdminUser::pluck('username','id');
+
+        //生成排序链接
+        $sort_links = $this->build_sort_links($request);
+
+        return view('admin.good.index',compact('goods','search', 'admin_users','sort_links'));
     }
 
     //新增页面
@@ -301,7 +308,12 @@ class GoodController extends BaseController
         return $result;
     }
 
-    //单品复制
+    /**
+     * 单品复制
+     * @param CopyGood $request
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function copy(CopyGood $request, $id){
 
         $name = $request->post('name');
@@ -327,6 +339,51 @@ class GoodController extends BaseController
         $alert_type =  $result ? 'success' : 'error';
 
         return redirect(route('goods.index'))->with($alert_type, $msg);
+    }
+
+    /**
+     * 处理排序
+     * @param $sort_field
+     * @param $sort_type
+     */
+    protected function sorter($request, $current_sort_field){
+
+        $sort_field = $request->query('sort_field');
+        $sort_type = $request->query('sort_type');
+
+        $icon = 'fa-sort';
+        $type = 'desc';
+
+        if($sort_field == $current_sort_field){
+            $type = $sort_type == 'desc' ? 'asc' : 'desc';
+            $icon .= "-amount-{$sort_type}";
+        }
+
+        $query = $request->all();
+        $query = array_merge($query, ['sort_field' => $current_sort_field, 'sort_type' => $type ]);
+
+        $url = route(Route::currentRouteName(), $query);
+
+        return "<a class=\"fa fa-fw $icon\" href=\"$url\"></a>";
+
+    }
+
+    /**
+     * 生成排序链接
+     * @param $request
+     * @return array
+     */
+    protected function build_sort_links($request){
+
+        $sort_fields = ['price'];
+
+        $sort_links = [];
+
+        foreach ($sort_fields as $sort_field){
+            $sort_links[$sort_field]  = $this->sorter($request, $sort_field);
+        }
+
+        return $sort_links;
     }
 
 }

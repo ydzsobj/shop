@@ -42,8 +42,8 @@ if(!function_exists('returned')){
 
 if(!function_exists('recent_thirty_days')){
     function recent_thirty_days(){
-        $start_date = Carbon::parse(Carbon::now()->subDays(30))->startOfDay();
-        $end_date = Carbon::parse(Carbon::now())->endOfDay();
+        $start_date = Carbon::parse(Carbon::now()->subDays(30))->startOfDay()->toDateTimeString();
+        $end_date = Carbon::parse(Carbon::now())->endOfDay()->toDateTimeString();
 
         return [$start_date, $end_date];
     }

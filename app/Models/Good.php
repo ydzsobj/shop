@@ -157,6 +157,13 @@ class Good extends Model
         $per_page = $request->get('per_page') ?: $this->page_size;
         $this->page_size = $per_page;
 
+        //排序
+        $sort_field = $request->query('sort_field');
+        $sort_type = $request->query('sort_type');
+        if($sort_field && $sort_type){
+            $base_query->orderBy($sort_field, $sort_type);
+        }
+
 
         $search = compact('start_date','end_date','category_id','product_id','status','keywords','per_page','good_module_id');
 

@@ -221,6 +221,19 @@ class GoodOrder extends Model
     }
 
     /**
+     * @审核更新
+     * @param $status
+     * @param $good_order
+     * @return mixed
+     */
+    public function aduit($status){
+        $this->status = $status;
+        $this->last_audited_at = Carbon::now();
+        $this->last_audited_admin_user_id = Admin::user()->id;
+        return $this->save();
+    }
+
+    /**
      * @param $value
      * @return string
      */

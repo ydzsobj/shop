@@ -13,7 +13,7 @@ class GoodAuditLog extends Model
         'admin_user_id',
         'status',
         'remark',
-        'good_order_id'
+        'good_order_id',
 
     ];
 
