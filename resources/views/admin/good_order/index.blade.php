@@ -531,7 +531,7 @@
                     return response.msg; //msg will be shown in editable form
                 }else{
                     //成功
-                    location.reload();
+                    // location.reload();
                 }
             },
 
