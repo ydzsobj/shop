@@ -175,6 +175,42 @@ class IndexController extends Controller
     }
 
 
+    /**
+     * @api {get} /api/user/configs  1.6 基础配置
+     * @apiName config
+     * @apiGroup User
+     *
+     *
+     * @apiSuccess {string} area 地区
+     * @apiSuccess {string} lang 语言
+     * @apiSuccess {string} money_sign 货币符号
+     *
+     * @apiSuccessExample Success-Response:
+     * HTTP/1.1 200 OK
+     *{
+     *    "success": true,
+     *    "msg": "",
+     *    "data": {
+     *        "config": {
+     *            "area": "中国台湾",
+     *            "lang": "zh_CN",
+     *            "money_sign": "$"
+     *        }
+     *    }
+     *}
+     */
+    public function config(Request $request){
+
+        $config = [
+            'area' => config('global_area'),
+            'lang' => config('global_lang'),
+            'money_sign' => config('money_sign')
+        ];
+
+        return returned(true, '', compact('config'));
+    }
+
+
 
 
 

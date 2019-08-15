@@ -52,6 +52,9 @@ $api->version('v1', function ($api) {
 
             //商品模块列表
             $api->get('/good_modules', 'GoodModuleController@index')->name('user.good.module');
+
+            //配置
+            $api->get('/configs', 'IndexController@config')->name('user.configs');
         });
     });
 

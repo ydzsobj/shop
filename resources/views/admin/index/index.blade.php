@@ -20,6 +20,7 @@
                     <tr>
                         <td>当前地区 : {{$global_area}} <a href="{{route('config.index')}}">&nbsp;&nbsp;[去设置]</a></td>
                         <td>货币符号 : {{$money_sign}} <a href="{{route('config.index')}}">&nbsp;&nbsp;[去设置]</a></td>
+                        <td>语言类型 : {{$global_lang}} <a href="{{route('config.index')}}">&nbsp;&nbsp;[去设置]</a></td>
                     </tr>
                 </table>
             </div><!-- /.box-body -->
