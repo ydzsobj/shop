@@ -343,7 +343,7 @@ class GoodController extends BaseController
                     return $item->toArray();
                 });
 
-                GoodImage::insert($list_images->all());
+                $copy_data->list_images()->createMany($list_images->all());
             }
         }
 
