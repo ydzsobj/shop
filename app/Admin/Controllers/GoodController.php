@@ -188,25 +188,23 @@ class GoodController extends BaseController
         switch ($action){
             case 'disable':
                 $res = $gd->delete();
-                $tips = '禁用';
                 break;
             case 'enable':
 
                 //软删除
                 if($gd->trashed()){
                     $res = $gd->restore();
-                    $tips = '启用';
                 }
 
                 break;
 
             default:
-                return response()->json(['success'=>false,'msg' => '参数不正确']);
+                return response()->json(['success'=>false,'msg' => trans('common.params.error')]);
         }
 
-        $msg = $res ? '成功':'失败';
+        $msg = $res ? trans('common.set.success') : trans('common.set.fail');
 
-        return response()->json(['success' => $res, 'msg' => $tips.$msg ]);
+        return response()->json(['success' => $res, 'msg' => $msg ]);
     }
 
     /**

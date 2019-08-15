@@ -127,13 +127,8 @@
     <script>
         $(function () {
 
-
-
             $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
-
-            $('.after-submit').iCheck({checkboxClass: 'icheckbox_minimal-blue'}).on('ifChecked', function () {
-                $('.after-submit').not(this).iCheck('uncheck');
-            });
+            
             $('.container-refresh').off('click').on('click', function () {
                 $.admin.reload();
                 $.admin.toastr.success('刷新成功 !', '', {positionClass: "toast-top-center"});

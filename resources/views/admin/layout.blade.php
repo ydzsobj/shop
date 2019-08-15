@@ -7,6 +7,8 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="stylesheet" href="{{admin_asset("vendor/laravel-admin/AdminLTE/plugins/iCheck/all.css")}}">
     <link rel="stylesheet" href="{{admin_asset("vendor/laravel-admin/AdminLTE/plugins/colorpicker/bootstrap-colorpicker.min.css")}}">
     <link rel="stylesheet" href="{{admin_asset("vendor/laravel-admin/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css")}}">
