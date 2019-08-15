@@ -74,8 +74,9 @@ class GoodOrder extends Model
      */
     public function get_data($request){
 
-        $base_query =  GoodOrder::with(['order_skus' => function($query){
-        },'admin_user']);
+        $base_query =  GoodOrder::with(['order_skus','admin_user','audit_logs' => function($query){
+            $query->orderBy('created_at', 'desc');
+        }]);
 
         list($query, $search) = $this->query_conditions($base_query, $request);
 
@@ -226,7 +227,7 @@ class GoodOrder extends Model
      * @param $good_order
      * @return mixed
      */
-    public function aduit($status){
+    public function audit($status){
         $this->status = $status;
         $this->last_audited_at = Carbon::now();
         $this->last_audited_admin_user_id = Admin::user()->id;
@@ -241,7 +242,7 @@ class GoodOrder extends Model
         return long2ip($value);
     }
 
-    public function getPriceAttribute($value){
-        return config('money_sign').$value;
-    }
+//    public function getPriceAttribute($value){
+//        return config('money_sign').$value;
+//    }
 }

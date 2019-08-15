@@ -24,13 +24,16 @@ class CopyGood extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:goods,name'
+            'name' => 'required|unique:goods,name',
+            'admin_user_id' => 'required'
         ];
     }
 
     public function messages(){
         return [
-            'unique' => '复制的单品名称不唯一',
+            'name.unique' => '复制的单品名称不唯一',
+            'name.required' => '单品名称必填',
+            'admin_user_id.required' => '所属人必填',
         ];
     }
 }

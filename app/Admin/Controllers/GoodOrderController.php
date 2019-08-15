@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Excel;
 
-class GoodOrderController extends Controller
+class GoodOrderController extends BaseController
 {
 
     /**
@@ -60,9 +60,9 @@ class GoodOrderController extends Controller
             //记录审核日志
             event(new AuditOrderSuccessEvent($good_order, $remark));
 
-            $msg = '审核成功';
+            $msg = trans('order.audit.success');
         }else{
-            $msg = '审核失败';
+            $msg = trans('order.audit.fail');
         }
 
         $alert_type = $res ? 'success' : 'error';

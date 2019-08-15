@@ -319,20 +319,32 @@ class GoodController extends BaseController
 
         $name = $request->post('name');
 
-        $admin_user = Admin::user();
+        $admin_user_id = $request->post('admin_user_id');
 
         $good = Good::find($id);
+
+        $list_images = $good->list_images()->select('good_id','image_url')->get();
 
         $copy_data = $good->replicate();
 
         $copy_data->name = $name;
-        $copy_data->admin_user_id = $admin_user->id;
+        $copy_data->admin_user_id = $admin_user_id;
 
         $result = $copy_data->save();
 
         if($result){
             //绑定默认属性
             event(new BindProductAttributeEvent($copy_data));
+
+            //轮播图复制
+            if($list_images->count() > 0){
+                $list_images = $list_images->map(function($item) use ($copy_data){
+                    $item->good_id = $copy_data->id;
+                    return $item->toArray();
+                });
+
+                GoodImage::insert($list_images->all());
+            }
         }
 
         $msg = $result ? trans('good.copy.success') : trans('good.copy.fail');

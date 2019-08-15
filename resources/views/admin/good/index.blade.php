@@ -93,7 +93,7 @@
                                                 <label class="col-sm-1 control-label">
                                                     关键词搜索
                                                 </label>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-6">
                                                     <div class="input-group input-group-sm">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-pencil"></i>
@@ -101,26 +101,6 @@
 
                                                         <input type="text" class="form-control keywords" placeholder="单品名/单品展示名" name="keywords" value="{{$search['keywords']}}">
                                                     </div>
-                                                </div>
-                                                {{--<label class="col-sm-1 control-label">所属模块</label>--}}
-                                                {{--<div class="col-sm-2">--}}
-                                                    {{--<select class="form-control status" name="good_module_id">--}}
-                                                        {{--<option></option>--}}
-                                                        {{--@foreach($good_modules as $key=>$module)--}}
-                                                            {{--<option value="{{$key}}" @if($search['good_module_id'] == $key) selected @endif>{{$module}}</option>--}}
-                                                        {{--@endforeach--}}
-
-                                                    {{--</select>--}}
-                                                {{--</div>--}}
-
-
-                                                <label class="col-sm-1 control-label">状态</label>
-                                                <div class="col-sm-2">
-                                                    <select class="form-control status" name="status">
-                                                        <option></option>
-                                                        <option value="1" @if($search['status'] == 1)selected @endif>启用</option>
-                                                        <option value="2" @if($search['status'] == 2)selected @endif>禁用</option>
-                                                    </select>
                                                 </div>
 
                                             </div>
@@ -160,7 +140,7 @@
                             </div>
                             &nbsp;&nbsp;&nbsp;
                             <div class="btn-group pull-right" style="margin-right: 10px">
-                                <a class="btn btn-sm btn-twitter" title="导出" href="{{route('goods.export')}}"><i class="fa fa-download"></i>
+                                <a class="btn btn-sm btn-twitter" title="导出" href="{{route('goods.export', $search)}}"><i class="fa fa-download"></i>
                                     <span class="hidden-xs"> 导出</span></a>
                             </div>
 
@@ -207,9 +187,9 @@
                                     发布人
                                 </th>
 
-                                <th>
-                                    状态
-                                </th>
+                                {{--<th>--}}
+                                    {{--状态--}}
+                                {{--</th>--}}
 
                                 <th>
                                     操作
@@ -246,13 +226,13 @@
 
                                     <td>{{$good->admin_user->username}}</td>
 
-                                    <td>
-                                        @if($good->deleted_at)
-                                            <span style="color: red">已禁用</span>
-                                        @else
-                                            <span style="color: green">启用</span>
-                                        @endif
-                                    </td>
+                                    {{--<td>--}}
+                                        {{--@if($good->deleted_at)--}}
+                                            {{--<span style="color: red">已禁用</span>--}}
+                                        {{--@else--}}
+                                            {{--<span style="color: green">启用</span>--}}
+                                        {{--@endif--}}
+                                    {{--</td>--}}
                                     <td>
 
                                         <div class="grid-dropdown-actions dropdown">
@@ -267,9 +247,9 @@
                                                 <li><a href="#" data-toggle="modal" data-target="#copyModal_{{$good->id}}">复制</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#SetSkuModal_{{$good->id}}">SKU配置</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#SetAttributeModal_{{$good->id}}">属性配置</a></li>
-                                                <li><a href="#" id ="disable_{{$good->id}}" data-id="{{$good->id}}" data-title="禁用" data-action="disable" class="grid-row-action">禁用</a></li>
+                                                <li><a href="#" id ="disable_{{$good->id}}" data-id="{{$good->id}}" data-title="删除" data-action="disable" class="grid-row-action">删除</a></li>
                                                 @else
-                                                    <li><a href="#" id ="enable_{{$good->id}}" data-id="{{$good->id}}" data-title="启用" data-action="enable" class="grid-row-action">启用</a></li>
+                                                    {{--<li><a href="#" id ="enable_{{$good->id}}" data-id="{{$good->id}}" data-title="启用" data-action="enable" class="grid-row-action">启用</a></li>--}}
                                                 @endif
 
                                             </ul>

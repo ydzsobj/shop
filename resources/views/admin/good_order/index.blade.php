@@ -134,7 +134,7 @@
 
                             &nbsp;&nbsp;&nbsp;
                             <div class="btn-group pull-right" style="margin-right: 10px">
-                                <a class="btn btn-sm btn-twitter" title="导出" href="{{route('good_orders.export')}}"><i class="fa fa-download"></i>
+                                <a class="btn btn-sm btn-twitter" title="导出" href="{{route('good_orders.export', $search)}}"><i class="fa fa-download"></i>
                                     <span class="hidden-xs"> 导出</span></a>
                             </div>
 
@@ -166,7 +166,7 @@
                                     下单IP
                                 </th>
                                 <th>
-                                    下单总价
+                                    下单总价({{$money_sign}})
                                 </th>
 
                                 <th>
@@ -420,7 +420,7 @@
 
                         <div class="pull-right">
                             <!-- Previous Page Link -->
-                            {{$orders->appends($search)->links()}}
+                            {{$orders->appends($search)->links('vendor.pagination.default')}}
                         </div>
 
                         <label class="control-label pull-right" style="margin-right: 10px;margin-top: 20px; font-weight: 100;">
