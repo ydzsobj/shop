@@ -265,7 +265,8 @@
                                                     <li><a target="_blank" href="{{$shop_front_url}}/index.html#/goods?goodsId={{$good->id}}">预览</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#editModal_{{$good->id}}" data-remote="{{route('goods.edit',['id' => $good->id])}}">编辑</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#copyModal_{{$good->id}}">复制</a></li>
-                                                <li><a href="#" data-toggle="modal" data-target="#SetAttributeModal_{{$good->id}}">SKU配置</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#SetSkuModal_{{$good->id}}">SKU配置</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#SetAttributeModal_{{$good->id}}">属性配置</a></li>
                                                 <li><a href="#" id ="disable_{{$good->id}}" data-id="{{$good->id}}" data-title="禁用" data-action="disable" class="grid-row-action">禁用</a></li>
                                                 @else
                                                     <li><a href="#" id ="enable_{{$good->id}}" data-id="{{$good->id}}" data-title="启用" data-action="enable" class="grid-row-action">启用</a></li>
@@ -352,7 +353,7 @@
                                         </div>
 
                                         <!-- 模态框（Modal） -->
-                                        <div class="modal fade" id="SetAttributeModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="SetSkuModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:80%;">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -420,6 +421,69 @@
                                                         <button type="button" class="btn btn-default" id="disable_list_{{$sku->id}}" data-action="disable">禁用</button>
                                                         <button type="button" class="btn btn-primary" id="enable_list_{{$sku->id}}" data-action="enable">启用</button>
                                                     </div>
+                                                    @endif
+
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal -->
+                                        </div>
+
+                                        <div class="modal fade" id="SetAttributeModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" style="width:80%;">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title" id="myModalLabel">配置属性</h4>
+                                                    </div>
+
+                                                    @if($good->product_attributes->count() >0)
+                                                        <div class="modal-body">
+
+                                                            <table class="table">
+                                                                <tr>
+                                                                    <th colspan="2">属性</th>
+                                                                    <th colspan="1">属性值</th>
+                                                                </tr>
+
+                                                                @foreach($good->product_attributes as $attribute)
+                                                                    <tr>
+                                                                        <td>
+                                                                            {{$attribute->attr_name}}
+                                                                        </td>
+                                                                        <td>展示名称：<a href="#"
+                                                                                    title="设置展示名"
+                                                                                    id="update_product_attr_name_{{$attribute->id}}"
+                                                                                    data-type="text"
+                                                                                    data-pk="{{$attribute->id}}"
+                                                                                    data-value="{{$attribute->attr_name}}"
+                                                                                    data-url="/admin/product_attributes/{{$attribute->id}}/update_show_name"
+                                                                                    data-title="设置展示名">{{$attribute->show_name}}
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <table class="table">
+                                                                                @foreach($attribute->attribute_values as $attribute_value)
+                                                                                <tr>
+                                                                                    <td>{{$attribute_value->attr_value_name}}</td>
+                                                                                    <td>展示名称：<a href="#"
+                                                                                                title="设置展示名"
+                                                                                                id="update_product_attr_value_name_{{$attribute_value->id}}"
+                                                                                                data-type="text"
+                                                                                                data-pk="{{$attribute_value->id}}"
+                                                                                                data-value="{{$attribute_value->show_name}}"
+                                                                                                data-url="/admin/product_attribute_values/{{$attribute_value->id}}/update_show_name"
+                                                                                                data-title="设置展示名">{{$attribute_value->show_name}}
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                @endforeach
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+
+                                                            </table>
+                                                        </div>
+
                                                     @endif
 
                                                 </div><!-- /.modal-content -->
@@ -601,7 +665,7 @@
         })
 
         //加备注
-        $("a[id*='update_sku_price_']").editable({
+        $("a[id*='update_sku_price_'], a[id*='update_product_attr_name_'],a[id*='update_product_attr_value_name_']").editable({
             value :'',
             params: function(params) {
                 //originally params contain pk, name and value

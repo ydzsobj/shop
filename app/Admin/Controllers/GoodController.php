@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Events\BindGoodAttributeEvent;
+use App\Events\BindProductAttributeEvent;
 use App\Exports\GoodsExport;
 use App\Http\Requests\CopyGood;
 use App\Http\Requests\StoreGood;
@@ -91,7 +92,7 @@ class GoodController extends BaseController
         if($mod){
 
             //绑定默认属性
-            event(new BindGoodAttributeEvent($mod));
+            event(new BindProductAttributeEvent($mod));
 
             return redirect(route('goods.index'))->with('success', trans('common.create.success'));
         }else{
@@ -331,7 +332,7 @@ class GoodController extends BaseController
 
         if($result){
             //绑定默认属性
-            event(new BindGoodAttributeEvent($copy_data));
+            event(new BindProductAttributeEvent($copy_data));
         }
 
         $msg = $result ? trans('good.copy.success') : trans('good.copy.fail');

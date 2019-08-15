@@ -55,7 +55,9 @@ if(!function_exists('recent_thirty_days')){
 if(!function_exists('get_api_data')){
     function get_api_data($url,$query=[]){
 
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client([
+            'timeout'  => 2.0,
+        ]);
 
         try {
             $response = $client->request('GET', $url,['query' => $query ]);

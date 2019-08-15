@@ -68,6 +68,10 @@ class Good extends Model
         return $this->hasMany(GoodAttribute::class);
     }
 
+    public function product_attributes(){
+        return $this->hasMany(ProductAttribute::class,'product_id','product_id');
+    }
+
     public function skus(){
         return $this->hasMany(GoodSku::class);
     }
@@ -79,7 +83,7 @@ class Good extends Model
      */
     public function get_data($request){
 
-        $base_query =  Good::withTrashed()->with(['list_images','category','admin_user','good_module','skus']);
+        $base_query =  Good::withTrashed()->with(['list_images','category','admin_user','good_module','skus', 'product_attributes']);
 
         list($query, $search) = $this->query_conditions($base_query, $request);
 

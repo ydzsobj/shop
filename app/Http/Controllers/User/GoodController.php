@@ -214,13 +214,13 @@ class GoodController extends Controller
 
         //属性
         $attrs = collect([]);
-        foreach ($good->attributes as $key=>$attribute){
+        foreach ($good->product_attributes as $key=>$attribute){
 
             $key = $key+1;
 
             $item = [
-                'k' => $attribute->name,
-                'v' => $attribute->attribute_values()->select('remote_id as id','name','thumb_url as imgUrl')->get(),
+                'k' => $attribute->show_name,
+                'v' => $attribute->attribute_values()->select('attr_value_id as id','show_name as name','thumb_url as imgUrl')->get(),
                 'k_s' => 's'.$key
             ];
 

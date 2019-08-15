@@ -51,6 +51,10 @@ Route::group([
 
     //产品库
     $router->resource('/products', 'ProductController')->only(['index']);
+    //设置产品属性别名
+    $router->put('/product_attributes/{id}/update_show_name', 'ProductAttributeController@update_show_name');
+    //设置产品属性值别名
+    $router->put('/product_attribute_values/{id}/update_show_name', 'ProductAttributeValueController@update_show_name');
 
 
 
