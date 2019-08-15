@@ -13,6 +13,8 @@ class GoodOrder extends Model
 
     use SoftDeletes;
 
+    protected $page_size = 20;
+
     protected $fillable = [
         'sn',
         'ip',
