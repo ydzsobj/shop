@@ -26,6 +26,8 @@ class StoreGood extends FormRequest
         return [
             'name' => 'required|unique:goods|max:255',
             'title' => 'required',
+            'detail_desc' => 'required',
+            'size_desc' => 'required',
         ];
     }
 
@@ -34,6 +36,8 @@ class StoreGood extends FormRequest
         return [
             'title.required' => '单品展示名必填',
             'name.unique'  => '单品名已存在',
+            'detail_desc.unique'  => '详情描述必填',
+            'size_desc.unique'  => '尺寸描述必填',
         ];
     }
 }
