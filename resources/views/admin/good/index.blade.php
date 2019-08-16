@@ -164,9 +164,9 @@
                                 <th>
                                     ID
                                 </th>
-                                <th>
-                                    封面主图
-                                </th>
+                                {{--<th>--}}
+                                    {{--封面主图--}}
+                                {{--</th>--}}
                                 <th>
                                     单品名
                                 </th>
@@ -202,19 +202,19 @@
                             @foreach($goods as $good)
                                 <tr>
                                     <td>{{$good->id}}</td>
-                                    <td style="width: 80px;">
-                                        <div style="width: 70px;"
-                                             title="{{$good->title}}"
-                                             data-container="body"
-                                             data-toggle="popover"
-                                             data-placement="right"
-                                             data-trigger="hover"
-                                             data-html="true"
-                                             data-content="<img src='{{$good->main_image_url}}' class='img-thumbnail'  />"
-                                        >
-                                            <img src='{{$good->main_image_url}}' class='img-thumbnail' />
-                                        </div>
-                                    </td>
+                                    {{--<td style="width: 80px;">--}}
+                                        {{--<div style="width: 70px;"--}}
+                                             {{--title="{{$good->title}}"--}}
+                                             {{--data-container="body"--}}
+                                             {{--data-toggle="popover"--}}
+                                             {{--data-placement="right"--}}
+                                             {{--data-trigger="hover"--}}
+                                             {{--data-html="true"--}}
+                                             {{--data-content="<img src='{{$good->main_image_url}}' class='img-thumbnail'  />"--}}
+                                        {{-->--}}
+                                            {{--<img src='{{$good->main_image_url}}' class='img-thumbnail' />--}}
+                                        {{--</div>--}}
+                                    {{--</td>--}}
                                     <td>{{$good->name}}</td>
                                     <td style="width:300px; word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         {{$good->title}}
