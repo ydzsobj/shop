@@ -96,7 +96,7 @@ class GoodController extends BaseController
 
             return redirect(route('goods.index'))->with('success', trans('common.create.success'));
         }else{
-            return redirect(route('goods.index'))->with('error', trans('common.create.fail'));
+            return redirect(route('goods.create'))->withErrors()->withInput();
         }
 
     }

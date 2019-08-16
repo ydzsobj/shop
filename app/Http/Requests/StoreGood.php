@@ -36,8 +36,8 @@ class StoreGood extends FormRequest
         return [
             'title.required' => '单品展示名必填',
             'name.unique'  => '单品名已存在',
-            'detail_desc.unique'  => '详情描述必填',
-            'size_desc.unique'  => '尺寸描述必填',
+            'detail_desc.required'  => '详情描述必填',
+            'size_desc.required'  => '尺寸描述必填',
         ];
     }
 }
