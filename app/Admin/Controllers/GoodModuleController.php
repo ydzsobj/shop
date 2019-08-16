@@ -36,7 +36,7 @@ class GoodModuleController extends BaseController
      */
     public function store(StoreGoodModule $request){
 
-        $req = $request->only('name','sort');
+        $req = $request->only('name','sort','show_name');
 
         $mod = GoodModule::create($req);
 
@@ -70,6 +70,7 @@ class GoodModuleController extends BaseController
         $update_data = $request->only([
             'sort',
             'name',
+            'show_name',
         ]);
 
         $mod = GoodModule::where('id', $id)->update($update_data);

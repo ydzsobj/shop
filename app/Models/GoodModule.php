@@ -12,6 +12,7 @@ class GoodModule extends Model
     protected $fillable = [
         'sort',
         'name',
+        'show_name',
         'image_url',
     ];
 

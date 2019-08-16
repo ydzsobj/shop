@@ -77,6 +77,7 @@ class CategoryController
 
         $grid->id('ID');
         $grid->name('类别名称');
+        $grid->show_name('展示名称');
         $grid->sort('排序');
 
         $grid->created_at('创建时间');
@@ -100,7 +101,10 @@ class CategoryController
         $form->text('name','类别名称')
             ->creationRules(['required', "unique:good_categories"])
             ->updateRules(['required', "unique:good_categories,name,{{id}}"]);
-//        $form->text('sort','排序')->updateRules('required|between:0,99');
+
+        $form->text('show_name','展示名称')
+            ->creationRules(['required'])
+            ->updateRules(['required']);
 
         $form->text('sort','排序（范围0-99）')->rules('required|regex:/^\d{1,2}$/|min:1', [
             'regex' => '范围0-99',

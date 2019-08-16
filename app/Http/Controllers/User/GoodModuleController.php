@@ -41,7 +41,7 @@ class GoodModuleController extends Controller
      */
     public function index(Request $request)
     {
-        $good_modules = GoodModule::orderBy('sort', 'desc')->select('id as good_module_id','name')->get();
+        $good_modules = GoodModule::orderBy('sort', 'desc')->select('id as good_module_id','show_name as name')->get();
 
         return returned(true,'', $good_modules);
     }

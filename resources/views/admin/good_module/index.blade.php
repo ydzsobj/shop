@@ -64,6 +64,9 @@
                                     模块名称
                                 </th>
                                 <th>
+                                    展示名称
+                                </th>
+                                <th>
                                     排序
                                 </th>
 
@@ -98,6 +101,7 @@
                                        @endforeach
                                     </td>
                                     <td>{{$module->name}}</td>
+                                    <td>{{$module->show_name}}</td>
                                     <td>{{$module->sort}}</td>
                                     <td>{{$module->created_at}}</td>
                                     <td>

@@ -11,7 +11,7 @@
 
             <div class="form-group  ">
 
-                <label for="title" class="col-sm-2 asterisk control-label">名称</label>
+                <label for="name" class="col-sm-2 asterisk control-label">名称</label>
 
                 <div class="col-sm-8">
 
@@ -20,6 +20,24 @@
                         <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
                         <input type="text" id="name" name="name" value="{{$detail->name}}" class="form-control name" placeholder="输入模块名称" required="1" />
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="form-group  ">
+
+                <label for="show_name" class="col-sm-2 asterisk control-label">展示名称</label>
+
+                <div class="col-sm-8">
+
+                    <div class="input-group">
+
+                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                        <input type="text" id="show_name" name="show_name" value="{{$detail->show_name}}" class="form-control show_name" placeholder="输入展示名称" required="1" />
 
                     </div>
 

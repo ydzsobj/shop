@@ -133,7 +133,7 @@ class IndexController extends Controller
         //分类
         $category = GoodCategory::select(
             'id as mallCategoryId',
-            'name as mallCategoryName'
+            'show_name as mallCategoryName'
         )
             ->orderBy('sort', 'desc')
             ->get();
@@ -151,7 +151,7 @@ class IndexController extends Controller
                 'good_module_id');
         }])->select(
             'good_modules.id',
-            'good_modules.name'
+            'good_modules.show_name as name'
         )
             ->orderBy('good_modules.sort', 'desc')
             ->get();

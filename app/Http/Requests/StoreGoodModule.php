@@ -24,7 +24,8 @@ class StoreGoodModule extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:good_modules,name'
+            'name' => 'required|unique:good_modules,name',
+            'show_name' => 'required',
         ];
     }
 }
