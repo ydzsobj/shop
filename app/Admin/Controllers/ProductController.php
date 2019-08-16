@@ -25,7 +25,12 @@ class ProductController extends BaseController
 
         $products = get_api_data($url, $search);
 
-        $pages = intval(ceil($products->count/$limit));
+        $pages = 0;
+
+        if($products){
+
+            $pages = intval(ceil($products->count/$limit));
+        }
 
         $search['per_page'] = $limit;
 

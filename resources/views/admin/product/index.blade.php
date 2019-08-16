@@ -90,7 +90,7 @@
                         <div class="box-tools pull-right">
                         </div><!-- /.box-tools -->
                         <div class="box-body" style="display: block;">
-                            共 {{$products->count}}条
+                            共 {{$products ? $products->count : 0}}条
                         </div><!-- /.box-body -->
                     </div>
 
@@ -115,8 +115,8 @@
                             </thead>
 
                             <tbody>
-
-                            @foreach($products->data as $product)
+                            @if($products)
+                                @foreach($products->data as $product)
                                 <tr>
                                     <td>{{$product->id}}</td>
                                     <td style="width: 80px;">
@@ -137,7 +137,7 @@
                                 </tr>
 
                                 @endforeach
-
+                            @endif
                             </tbody>
                         </table>
 
