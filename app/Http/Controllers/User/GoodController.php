@@ -200,7 +200,18 @@ class GoodController extends Controller
      *        "list_images": [
      *            "http://192.168.1.133:8081/storage/uploads/image/2019/08/02/3819703491e6aa4bf27cc6f7277831e9.jpeg",
      *            "http://192.168.1.133:8081/storage/uploads/image/2019/08/02/2b096ee0d20d255413df51fd3c3dbb57.jpeg"
-     *        ]
+     *        ],
+     *
+     *       "detail_list_images": [
+     *          "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/iAF2Yar9lwDlGz3wz4UJLs1hbtHL2SvvTo42raPy.jpeg",
+     *          "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/oO11rnan8o3oMTahLwF5EmNriHy9AUXrnWYICanD.jpeg",
+     *          "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/mGkrxweII4dvWwtejsrpnkqUuOSkNAdl00FL3ThP.jpeg",
+     *          "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/dGTLyMb82Au2RYMnuqpWXJoLmPX3PzB5sxV8mFpf.jpeg",
+     *          "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/nlUhV2gmHpaWX4u3InX9OW240QBikBquc3O7EVdk.jpeg",
+     *          "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/J9tltgSRTm2o30xR30aYQ82jfE29wVA0UMqkOWJ5.png",
+     *          "http://192.168.1.133:8081/storage/uploads/image/2019/08/09/mWZochSAnK8rYYfJSWKacflJcBQ5k8TZYvJd4KW7.jpeg",
+     *          "http://192.168.1.133:8081/storage/uploads/image/2019/08/09/ILNWt6a2RJfG2hxS3y7KMGupixiM6x6EVRydzCdO.jpeg"
+     *      ],
      *    }
      *}
      */
@@ -259,6 +270,12 @@ class GoodController extends Controller
 
         //商品总库存
         $good->stock_num = 99999;
+
+        $detail_desc = $good->detail_desc;
+
+        $match = preg_match_all('/http:[^\"]*/',$detail_desc, $matches);
+
+        $good->detail_list_images = $matches[0];
 
         unset($good->attributes);
 

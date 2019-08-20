@@ -27,7 +27,7 @@ class StoreGood extends FormRequest
             'name' => 'required|unique:goods|max:255',
             'title' => 'required',
             'detail_desc' => 'required',
-            'size_desc' => 'required',
+//            'size_desc' => 'required',
         ];
     }
 
@@ -37,7 +37,7 @@ class StoreGood extends FormRequest
             'title.required' => '单品展示名必填',
             'name.unique'  => '单品名已存在',
             'detail_desc.required'  => '详情描述必填',
-            'size_desc.required'  => '尺寸描述必填',
+//            'size_desc.required'  => '尺寸描述必填',
         ];
     }
 }

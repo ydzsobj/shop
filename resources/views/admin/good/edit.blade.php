@@ -189,15 +189,15 @@
                 </div>
             </div>
 
-            <div class="form-group  ">
+            {{--<div class="form-group  ">--}}
 
-                <label for="size_desc" class="col-sm-2 asterisk control-label">商品规格</label>
+                {{--<label for="size_desc" class="col-sm-2 asterisk control-label">商品规格</label>--}}
 
-                <div class="col-sm-8">
-                    <textarea name="size_desc">{{$detail->size_desc}}</textarea>
+                {{--<div class="col-sm-8">--}}
+                    {{--<textarea name="size_desc">{{$detail->size_desc}}</textarea>--}}
 
-                </div>
-            </div>
+                {{--</div>--}}
+            {{--</div>--}}
 
 
         </div>
@@ -229,7 +229,11 @@
 
     <!-- /.box-footer -->
 </form>
-
+<script src="{{admin_asset('/vendor/kindeditor/kindeditor/kindeditor-all.js?version=3.14')}}"></script>
+<script src="{{admin_asset('/vendor/kindeditor/kindeditor/lang/zh-CN.js')}}"></script>
+<script src="{{admin_asset('/vendor/kindeditor/fileupload/jquery.ui.widget.js')}}"></script>
+<script src="{{admin_asset('/vendor/kindeditor/fileupload/jquery.iframe-transport.js')}}"></script>
+<script src="{{admin_asset('/vendor/kindeditor/fileupload/jquery.fileupload.js')}}"></script>
     <script>
         $(function () {
 

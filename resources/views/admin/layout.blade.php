@@ -94,11 +94,6 @@
 <script src="{{admin_asset("vendor/laravel-admin/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js")}}"></script>
 <script src="{{admin_asset("vendor/laravel-admin/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js")}}"></script>
 
-<script src="{{admin_asset('/vendor/kindeditor/kindeditor/kindeditor-all.js?version=3.14')}}"></script>
-<script src="{{admin_asset('/vendor/kindeditor/kindeditor/lang/zh-CN.js')}}"></script>
-<script src="{{admin_asset('/vendor/kindeditor/fileupload/jquery.ui.widget.js')}}"></script>
-<script src="{{admin_asset('/vendor/kindeditor/fileupload/jquery.iframe-transport.js')}}"></script>
-<script src="{{admin_asset('/vendor/kindeditor/fileupload/jquery.fileupload.js')}}"></script>
 
 @stack('scripts')
 
