@@ -372,7 +372,11 @@
                 formatUploadUrl: true,   //自动格式化上传后的URL
                 autoHeightMode: false,   //开启自动高度模式
                 allowImageRemote: false,
-                afterBlur: function () { this.sync(); }   //同步编辑器数据
+                afterBlur: function () { this.sync(); } ,  //同步编辑器数据
+
+                items: [
+                    'source', '|', 'undo', 'redo', '|', 'preview', 'image', 'multiimage', 'media',
+                ]
             });
 
             KindEditor.create('textarea[name="size_desc"]',{
@@ -390,7 +394,11 @@
                 formatUploadUrl: true,   //自动格式化上传后的URL
                 autoHeightMode: false,   //开启自动高度模式
                 allowImageRemote: false,
-                afterBlur: function () { this.sync(); }   //同步编辑器数据
+                afterBlur: function () { this.sync(); } ,  //同步编辑器数据
+
+                items: [
+                    'source', '|', 'undo', 'redo', '|', 'preview', 'image', 'multiimage', 'media',
+                ]
             });
         });
     </script>
