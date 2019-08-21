@@ -36,7 +36,8 @@ class Good extends Model
         'detail_desc',
         'size_desc',
         'main_image_url',
-        'main_video_url'
+        'main_video_url',
+        'fb_pix',
 
     ];
 

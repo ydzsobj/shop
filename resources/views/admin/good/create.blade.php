@@ -176,6 +176,22 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group  ">
+
+                                    <label for="fb_pix" class="col-sm-2 control-label">fb像素</label>
+
+                                    <div class="col-sm-8">
+
+                                        <div class="input-group">
+
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                                            <input type="text" id="fb_pix" name="fb_pix" value="" class="form-control fb_pix" placeholder="" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
 
                                 <div class="form-group  ">
 

@@ -63,7 +63,8 @@ class GoodController extends BaseController
             'good_module_id',
             'show_comment',
             'detail_desc',
-            'size_desc'
+            'size_desc',
+            'fb_pix'
         ]);
 
         if(is_null($request->post('show_comment'))){
@@ -120,7 +121,8 @@ class GoodController extends BaseController
             'good_module_id',
             'show_comment',
             'detail_desc',
-            'size_desc'
+            'size_desc',
+            'fb_pix'
         ]);
 
         if(is_null($request->post('show_comment'))){
