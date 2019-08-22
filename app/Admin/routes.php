@@ -10,8 +10,8 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 
+    //首页
     $router->get('/', 'HomeController@index')->name('admin.home');
-
     //文件上传
     $router->resource('/upload', 'AttachmentController',['only' => ['store', 'destroy']]);
 
