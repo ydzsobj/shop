@@ -252,7 +252,7 @@ class GoodController extends Controller
         if($attrs->count() == 0 || $skus->count() ==0){
             $good->tree = null;
         }
-        
+
         $good->none_sku = $good->tree ? false : true;
 
         $good->list = $skus;
