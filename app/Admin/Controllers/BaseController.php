@@ -13,7 +13,6 @@ class BaseController extends Controller
 {
     function __construct(Request $request)
     {
-//        parent::__construct($request);
 
         View::share('erp_api_domain', env('ERP_API_DOMAIN', ''));
         View::share('shop_front_url', env('SHOP_FRONT_URL', ''));
