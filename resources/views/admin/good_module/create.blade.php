@@ -113,7 +113,7 @@
                                         <table class="table text-center" id="list_table">
                                             <thead>
                                             <tr>
-                                                <th class="text-center">展示图片</th>
+                                                <th class="text-center">展示图片({!! $upload_config['image_tips'] !!})</th>
                                                 <th class="text-center">绑定商品</th>
                                                 {{--<th class="text-center">操作</th>--}}
                                             </tr>
@@ -235,9 +235,6 @@
 
             $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
 
-            $('.after-submit').iCheck({checkboxClass: 'icheckbox_minimal-blue'}).on('ifChecked', function () {
-                $('.after-submit').not(this).iCheck('uncheck');
-            });
             $('.container-refresh').off('click').on('click', function () {
                 $.admin.reload();
                 $.admin.toastr.success('刷新成功 !', '', {positionClass: "toast-top-center"});
@@ -257,7 +254,9 @@
                     "dropZoneEnabled": false,
                     "fileActionSettings": {"showRemove": true, "showDrag": false},
                     "msgPlaceholder": "请选择图片",
-                    "allowedFileTypes": ["image"]
+                    "allowedFileTypes": ["image"],
+                    "maxFileSize": "{{$upload_config['image_max']}}",
+                    "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
                 });
 
                 //选择产品

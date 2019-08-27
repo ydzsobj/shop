@@ -96,7 +96,9 @@
                         {{--},--}}
                 "fileActionSettings": {"showRemove": false, "showDrag": false},
                 "msgPlaceholder": "请选择图片",
-                "allowedFileTypes": ["image"]
+                "allowedFileTypes": ["image"],
+                "maxFileSize": "{{$upload_config['image_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             // $('.main_image_url').on('fileremoved', function(event, id, index) {

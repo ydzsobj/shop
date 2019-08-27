@@ -279,7 +279,9 @@
                 {{--},--}}
                 "fileActionSettings": {"showRemove": false, "showDrag": false},
                 "msgPlaceholder": "请选择图片",
-                "allowedFileTypes": ["image"]
+                "allowedFileTypes": ["image"],
+                "maxFileSize": "{{$upload_config['image_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             // $('.main_image_url').on('fileremoved', function(event, id, index) {
@@ -312,7 +314,9 @@
                 {{--},--}}
                 "fileActionSettings": {"showRemove": false, "showDrag": false},
                 "msgPlaceholder": "\u9009\u62e9\u56fe\u7247",
-                "allowedFileTypes": ["image"]
+                "allowedFileTypes": ["image"],
+                "maxFileSize": "{{$upload_config['image_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             $('#list_image_urls').on('fileselectnone', function(event) {
@@ -340,7 +344,9 @@
                 "dropZoneEnabled": false,
                 "fileActionSettings": {"showRemove": false, "showDrag": false},
                 "msgPlaceholder": "选择视频文件",
-                "allowedFileTypes": ["video"]
+                "allowedFileTypes": ["video"],
+                "maxFileSize": "{{$upload_config['video_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             // $('.main_image_url').on('fileselect', function(event, numFiles, label) {
@@ -393,29 +399,9 @@
 
                 items: [
                     'source', '|', 'undo', 'redo', '|', 'preview', 'image', 'multiimage', 'media',
-                ]
-            });
-
-            KindEditor.create('textarea[name="size_desc"]',{
-                width : '100%',   //宽度
-                height : '320px',   //高度
-                resizeType : '0',   //禁止拖动
-                allowFileManager : true,   //允许对上传图片进行管理
-                uploadJson :   '/yxx/kindeditor/upload', //文件上传地址
-                fileManagerJson : '/yxx/kindeditor/manager',   //文件管理地址
-                deleteUrl  : '/yxx/kindeditor/delete', //文件删除地址
-                urlType : 'domain',   //带域名的路径
-                extraFileUploadParams: {
-                    '_token':"{{csrf_token()}}"
-                },
-                formatUploadUrl: true,   //自动格式化上传后的URL
-                autoHeightMode: false,   //开启自动高度模式
-                allowImageRemote: false,
-                afterBlur: function () { this.sync(); } ,  //同步编辑器数据
-
-                items: [
-                    'source', '|', 'undo', 'redo', '|', 'preview', 'image', 'multiimage', 'media',
-                ]
+                ],
+                imageSizeLimit : '{{$upload_config['image_max']}}K', //批量上传图片单张最大容量
+                imageUploadLimit : 20 //批量上传图片同时上传最多个数
             });
         });
     </script>

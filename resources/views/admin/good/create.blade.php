@@ -206,7 +206,7 @@
 
                                 <div class="form-group  ">
 
-                                    <label for="list_image_files" class="col-sm-2 control-label">轮播图(可选择多张)</label>
+                                    <label for="list_image_files" class="col-sm-2 control-label">轮播图(可选择多张,{!! $upload_config['image_tips'] !!})</label>
 
                                     <div class="col-sm-8">
 
@@ -217,7 +217,7 @@
 
                                 <div class="form-group  ">
 
-                                    <label for="main_video_file" class="col-sm-2 control-label">封面视频</label>
+                                    <label for="main_video_file" class="col-sm-2 control-label">封面视频({!! $upload_config['video_tips'] !!})</label>
 
                                     <div class="col-sm-8">
 
@@ -240,7 +240,7 @@
 
                                 <div class="form-group  ">
 
-                                    <label for="detail_desc" class="col-sm-2 asterisk control-label">商品描述</label>
+                                    <label for="detail_desc" class="col-sm-2 asterisk control-label">商品描述({!! $upload_config['image_tips'].$upload_config['video_tips'] !!})</label>
 
                                     <div class="col-sm-8">
                                         <textarea name="detail_desc"></textarea>
@@ -329,7 +329,10 @@
                 {{--},--}}
                 "fileActionSettings": {"showRemove": true, "showDrag": false},
                 "msgPlaceholder": "请选择图片",
-                "allowedFileTypes": ["image"]
+                "allowedFileTypes": ["image"],
+                "allowedFileExtensions": ['jpg','jpeg','png','gif'],
+                "maxFileSize": "{{$upload_config['image_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             // $('.main_image_url').on('fileremoved', function(event, id, index) {
@@ -358,7 +361,9 @@
                 {{--},--}}
                 "fileActionSettings": {"showRemove": true, "showDrag": false},
                 "msgPlaceholder": "\u9009\u62e9\u56fe\u7247",
-                "allowedFileTypes": ["image"]
+                "allowedFileExtensions": ['jpg','jpeg','png','gif'],
+                "maxFileSize": "{{$upload_config['image_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             $('#list_image_urls').on('fileselectnone', function(event) {
@@ -387,7 +392,10 @@
                         {{--},--}}
                 "fileActionSettings": {"showRemove": true, "showDrag": false},
                 "msgPlaceholder": "选择视频文件",
-                "allowedFileTypes": ["video"]
+                "allowedFileTypes": ["video"],
+                "allowedFileExtensions":['mp4','avi'],
+                "maxFileSize": "{{$upload_config['video_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             // $('.main_image_url').on('fileselect', function(event, numFiles, label) {
@@ -401,9 +409,6 @@
 
             $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
 
-            $('.after-submit').iCheck({checkboxClass: 'icheckbox_minimal-blue'}).on('ifChecked', function () {
-                $('.after-submit').not(this).iCheck('uncheck');
-            });
             $('.container-refresh').off('click').on('click', function () {
                 $.admin.reload();
                 $.admin.toastr.success('刷新成功 !', '', {positionClass: "toast-top-center"});
@@ -443,7 +448,10 @@
 
                 items: [
                     'source', '|', 'undo', 'redo', '|', 'preview', 'image', 'multiimage', 'media',
-                    ]
+                    ],
+
+                imageSizeLimit : '{{$upload_config['image_max']}}K', //批量上传图片单张最大容量
+                imageUploadLimit : 20 //批量上传图片同时上传最多个数
             });
 
 

@@ -60,7 +60,7 @@
 
                                 <div class="form-group  ">
 
-                                    <label for="slide_image_file" class="col-sm-2 asterisk control-label">封面主图</label>
+                                    <label for="slide_image_file" class="col-sm-2 asterisk control-label">封面主图({!! $upload_config['image_tips'] !!})</label>
 
                                     <div class="col-sm-8">
 
@@ -134,7 +134,9 @@
                 {{--},--}}
                 "fileActionSettings": {"showRemove": true, "showDrag": false},
                 "msgPlaceholder": "请选择图片",
-                "allowedFileTypes": ["image"]
+                "allowedFileTypes": ["image"],
+                "maxFileSize": "{{$upload_config['image_max']}}",
+                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
             });
 
             // $('.main_image_url').on('fileremoved', function(event, id, index) {

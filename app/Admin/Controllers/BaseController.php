@@ -26,6 +26,9 @@ class BaseController extends Controller
         View::share('good_categories', $good_categories);
         View::share('good_modules', $good_modules);
 
+        //上传配置
+        View::share('upload_config', config('upload'));
+
 
     }
 
