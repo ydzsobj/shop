@@ -49,7 +49,7 @@ class Good extends Model
     }
 
     public function admin_user(){
-        return $this->belongsTo(AdminUser::class);
+        return $this->belongsTo(AdminUser::class)->withDefault();
     }
 
     public function category(){
