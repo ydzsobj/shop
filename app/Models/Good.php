@@ -60,7 +60,13 @@ class Good extends Model
         return $this->belongsTo(GoodModule::class)->withDefault();
     }
 
-
+    /**
+     * @商品评价
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments(){
+        return $this->hasMany(GoodComment::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
