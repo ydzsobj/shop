@@ -55,6 +55,11 @@ $api->version('v1', function ($api) {
 
             //配置
             $api->get('/configs', 'IndexController@config')->name('user.configs');
+
+            //在线支付
+            $api->post('/pay', 'PayPalController@pay');
+            //支付回调
+            $api->get('/pay/callback', 'PayPalController@pay_callback');
         });
     });
 
