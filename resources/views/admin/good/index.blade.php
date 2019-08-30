@@ -434,7 +434,7 @@
                                                                                     id="update_product_attr_name_{{$attribute->id}}"
                                                                                     data-type="text"
                                                                                     data-pk="{{$attribute->id}}"
-                                                                                    data-value="{{$attribute->attr_name}}"
+                                                                                    data-value="{{$attribute->show_name}}"
                                                                                     data-url="/admin/product_attributes/{{$attribute->id}}/update_show_name"
                                                                                     data-title="设置展示名">{{$attribute->show_name}}
                                                                             </a>
