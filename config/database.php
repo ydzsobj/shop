@@ -48,10 +48,10 @@ return [
             'url' => env('DATABASE_URL'),
             //'host' => env('DB_HOST', '127.0.0.1'),
             'write'=>[
-                'host'=>env('DB_READ', '127.0.0.1'),
+                'host'=>env('DB_WRITE', '127.0.0.1'),
             ],
             'read'=>[
-                'host'=>env('DB_WRITE', '127.0.0.1'),
+                'host'=>env('DB_READ', '127.0.0.1'),
             ],
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
