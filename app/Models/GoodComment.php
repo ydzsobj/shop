@@ -22,6 +22,12 @@ class GoodComment extends Model
     protected $fillable = [
         'good_id',
         'comment',
+        'type_id',
+        'comment',
+        'name',
+        'phone',
+        'star_scores',
+        'is_show',
 
     ];
 
