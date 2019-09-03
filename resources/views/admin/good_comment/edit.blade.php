@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">编辑订单</h4>
+    <h4 class="modal-title" id="myModalLabel">编辑评价</h4>
 </div>
 
 <table class="table" style="margin-left: 150px;width: 80%;">
@@ -9,17 +9,6 @@
     <tr><td>支付方式</td><td>{{array_get($pay_types, $detail->pay_type_id, '')}}</td></tr>
     <tr><td>订单状态</td><td>{{array_get($status, $detail->status, '')}}</td></tr>
     <tr><td>下单时间</td><td>{{$detail->created_at}}</td></tr>
-    <tr><td>商品信息</td>
-        <td>
-            <table class="table">
-                <tr><th>单品名称</th><th>数量</th><th>SKU信息</th></tr>
-                @foreach($detail->order_skus as $order_sku)
-                    @php($sku = $order_sku->sku_info)
-                    <tr><td>{{$sku->good->name}}</td><td>{{$order_sku->sku_nums}}</td><td>{{'【'.$sku->sku_id. '】' .$sku->s1_name.' '.$sku->s2_name.' '.$sku->s3_name}}</td></tr>
-                @endforeach
-            </table>
-        </td>
-    </tr>
 
 </table>
 <!-- form start -->

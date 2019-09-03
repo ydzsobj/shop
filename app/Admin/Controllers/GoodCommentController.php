@@ -12,8 +12,8 @@ class GoodCommentController extends Controller
     public function index(Request $request){
 
         $gm = new GoodComment();
-        $good_comments = $gm->get_data($request);
+        list($search, $good_comments) = $gm->get_data($request);
 
-        return view('admin.good_comment.index', compact('good_comments'));
+        return view('admin.good_comment.index', compact('good_comments', 'search'));
     }
 }

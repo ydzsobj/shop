@@ -57,7 +57,10 @@ Route::group([
     $router->put('/product_attribute_values/{id}/update_show_name', 'ProductAttributeValueController@update_show_name');
 
     //商品评价列表 | 删除
-    $router->resource('/good_comments', 'GoodCommentController')->only(['index','destroy']);
+    $router->resource('/good_comments', 'GoodCommentController');
+    //新增评价
+    $router->get('/goods/{id}/create_comment', 'GoodController@create_comment')->name('goods.create_comment');
+    $router->post('/goods/store_comment', 'GoodController@store_comment')->name('goods.store_comment');
 
 
 

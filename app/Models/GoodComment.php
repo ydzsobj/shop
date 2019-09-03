@@ -13,7 +13,15 @@ class GoodComment extends Model
 
     protected $page_size = 20;
 
+    /**
+     * 展示评价
+     */
+    const TYPE_SHOW = 1;
 
+    /**
+     *客户评价
+     */
+    const TYPE_USER = 2;
     /**
      * 可以被批量赋值的属性。
      *
@@ -43,7 +51,7 @@ class GoodComment extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comment_images(){
-        return $this->hasMany(GoodModuleImage::class);
+        return $this->hasMany(GoodCommentImage::class);
     }
 
     public function admin_user(){
@@ -54,12 +62,18 @@ class GoodComment extends Model
 
         $good_id = $request->get('good_id');
 
-        return self::with(['good','comment_images'])
+        $per_page = $request->get('per_page') ?: $this->page_size;
+
+        $search = compact('good_id','per_page');
+
+        $data = self::with(['good','comment_images'])
             ->when($good_id, function($query) use($good_id){
                 $query->where('good_id', $good_id);
             })
             ->orderBy('id','desc')
             ->paginate($this->page_size);
+
+        return [$search, $data];
     }
 
 }
