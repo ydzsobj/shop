@@ -17,6 +17,9 @@ class GoodCommentController extends Controller
      *
      * @apiParam {Number} good_id 商品id
      * @apiParam {String} comment 评价
+     * @apiParam {String} name 评价人名字
+     * @apiParam {String} phone 联系方式
+     * @apiParam {Number} star_scores 星标分数（1-5 满分5星）
      *
      *
      * @apiSuccessExample Success-Response:
@@ -35,7 +38,9 @@ class GoodCommentController extends Controller
      */
     public function store(StoreGoodCommentRequest $request){
 
-        $req = $request->only('good_id','comment');
+        $req = $request->only('good_id','comment','name', 'phone','star_scores');
+
+        $req['type_id'] = GoodComment::TYPE_USER;
 
         $result = GoodComment::create($req);
 

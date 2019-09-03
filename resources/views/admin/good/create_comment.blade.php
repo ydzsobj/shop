@@ -64,7 +64,7 @@
                     <select class="form-control single_select" style="width: 100%;" name="star_scores" required="1" >
                         <option></option>
                         @foreach($star_scores as $key=>$value)
-                            <option value="{{$key}}">{{$value}}</option>
+                            <option value="{{$key}}" @if($key == 5)selected @endif>{{$value}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -115,7 +115,6 @@
 </form>
     <script>
         $(function () {
-
 
             $("#comment_image_files").fileinput({
                 "overwriteInitial": true,

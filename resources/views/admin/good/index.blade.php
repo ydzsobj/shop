@@ -248,6 +248,7 @@
                                                 <li><a href="#" data-toggle="modal" data-target="#SetSkuModal_{{$good->id}}">SKU配置</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#SetAttributeModal_{{$good->id}}">属性配置</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#AddCommentModal_{{$good->id}}" data-remote="{{route('goods.create_comment',['id' => $good->id])}}">新增评价</a></li>
+                                                <li><a href="{{route('good_comments.index', ['good_id' => $good->id])}}" target="_blank">查看评价</a></li>
                                                 <li><a href="#" id ="disable_{{$good->id}}" data-id="{{$good->id}}" data-title="删除" data-action="disable" class="grid-row-action">删除</a></li>
                                                 @else
                                                     {{--<li><a href="#" id ="enable_{{$good->id}}" data-id="{{$good->id}}" data-title="启用" data-action="enable" class="grid-row-action">启用</a></li>--}}
@@ -273,7 +274,7 @@
                                             </div><!-- /.modal -->
                                         </div>
                                         <div class="modal fade" id="AddCommentModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" style="width:100%">
+                                            <div class="modal-dialog" style="width:80%">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

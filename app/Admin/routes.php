@@ -58,9 +58,13 @@ Route::group([
 
     //商品评价列表 | 删除
     $router->resource('/good_comments', 'GoodCommentController');
+    //审核评价
+    $router->put('/good_comments/{id}/update_audited_at', 'GoodCommentController@update_audited_at')
+        ->name('good_comments.update_audited_at');
     //新增评价
     $router->get('/goods/{id}/create_comment', 'GoodController@create_comment')->name('goods.create_comment');
     $router->post('/goods/store_comment', 'GoodController@store_comment')->name('goods.store_comment');
+
 
 
 

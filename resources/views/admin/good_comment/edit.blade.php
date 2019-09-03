@@ -4,23 +4,21 @@
 </div>
 
 <table class="table" style="margin-left: 150px;width: 80%;">
-    <tr><td>订单编号</td><td>{{$detail->sn}}</td></tr>
-    <tr><td>订单总金额</td><td>{{$total_price}}</td></tr>
-    <tr><td>支付方式</td><td>{{array_get($pay_types, $detail->pay_type_id, '')}}</td></tr>
-    <tr><td>订单状态</td><td>{{array_get($status, $detail->status, '')}}</td></tr>
-    <tr><td>下单时间</td><td>{{$detail->created_at}}</td></tr>
+    <tr><td>单品名</td><td>{{$detail->good->name}}</td></tr>
+    <tr><td>审核状态</td><td>@if($detail->audited_at)<span style="color: green;">已审核</span>@else <span style="color: red;">未审核</span> @endif</td></tr>
+    <tr><td>评价时间</td><td>{{$detail->created_at}}</td></tr>
 
 </table>
 <!-- form start -->
-<form action="{{route('good_orders.update',['id' => $detail->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+<form action="{{route('good_comments.update',['id' => $detail->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
 
     <div class="box-body">
 
         <div class="fields-group">
 
-            <div class="form-group  ">
+            <div class="form-group">
 
-                <label for="receiver_name" class="col-sm-2 asterisk control-label">收货人姓名</label>
+                <label for="name" class="col-sm-2 asterisk control-label">评价人名称</label>
 
                 <div class="col-sm-8">
 
@@ -28,7 +26,7 @@
 
                         <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
-                        <input type="text" id="receiver_name" name="receiver_name" value="{{$detail->receiver_name}}" class="form-control receiver_name" placeholder="" required="1" />
+                        <input type="text" id="name" name="name" value="{{$detail->name}}" class="form-control name" placeholder="" required="1" />
 
                     </div>
                 </div>
@@ -36,7 +34,7 @@
 
             <div class="form-group  ">
 
-                <label for="receiver_phone" class="col-sm-2 asterisk control-label">收货人电话</label>
+                <label for="phone" class="col-sm-2 asterisk control-label">联系电话</label>
 
                 <div class="col-sm-8">
 
@@ -44,7 +42,39 @@
 
                         <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
-                        <input type="text" id="receiver_phone" name="receiver_phone" value="{{$detail->receiver_phone}}" class="form-control receiver_phone" placeholder="" required="1" />
+                        <input type="text" id="phone" name="phone" value="{{$detail->show_phone}}" class="form-control phone" placeholder="" required="1" />
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="star_scores" class="col-sm-2 asterisk control-label">星级评分</label>
+
+                <div class="col-sm-8">
+
+                    <select class="form-control single_select" style="width: 100%;" name="star_scores" required="1" >
+                        <option></option>
+                        @foreach($star_scores as $key=>$value)
+                            <option value="{{$key}}" @if($key == $detail->star_scores)selected @endif>{{$value}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="comment" class="col-sm-2 asterisk control-label">评价内容</label>
+
+                <div class="col-sm-8">
+
+                    <div class="input-group">
+
+                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                        <textarea type="text" id="comment" name="comment" class="form-control comment" placeholder="" required="1">{{$detail->comment}}</textarea>
 
                     </div>
                 </div>
@@ -52,36 +82,14 @@
 
             <div class="form-group">
 
-                <label for="address" class="col-sm-2 asterisk control-label">省市区</label>
+                <label for="comment_image_files" class="col-sm-2 control-label">晒图(可选择多张)</label>
 
                 <div class="col-sm-8">
 
-                    <div class="input-group">
+                    <input type="file" id="comment_image_files" class="form-control comment_image_files" name="comment_image_files[]" multiple />
 
-                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-
-                        <input type="text" id="address" name="address" value="{{$detail->address}}" class="form-control address" placeholder="" required="1" />
-
-                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-
-                <label for="short_address" class="col-sm-2 asterisk control-label">详细地址</label>
-
-                <div class="col-sm-8">
-
-                    <div class="input-group">
-
-                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-
-                        <input type="text" id="short_address" name="short_address" value="{{$detail->short_address}}" class="form-control short_address" placeholder="" required="1" />
-
-                    </div>
-                </div>
-            </div>
-
 
         </div>
 
@@ -116,11 +124,41 @@
     <script>
         $(function () {
 
-            $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
-            
-            $('.container-refresh').off('click').on('click', function () {
-                $.admin.reload();
-                $.admin.toastr.success('刷新成功 !', '', {positionClass: "toast-top-center"});
+            $(function () {
+
+                $("#comment_image_files").fileinput({
+                    @if($comment_image_urls)
+                    "initialPreview" :[
+                        {!! $comment_image_urls !!}
+                    ],
+                    @endif
+                    "overwriteInitial": true,
+                    "initialPreviewAsData": true,
+                    "browseLabel": "\u6d4f\u89c8",
+                    "cancelLabel": "\u53d6\u6d88",
+                    "showRemove": false,
+                    "showUpload": false,
+                    "showCancel": false,
+                    "dropZoneEnabled": true,
+                    // "uploadUrl": '/admin/upload',
+                    {{--"uploadExtraData": {--}}
+                            {{--'_token': '{{csrf_token()}}',--}}
+                            {{--'_method': 'post'--}}
+                            {{--},--}}
+                            {{--"deleteUrl": "/admin/upload/null",--}}
+                            {{--"deleteExtraData": {--}}
+                            {{--"_token": "{{csrf_token()}}",--}}
+                            {{--"_method": "delete"--}}
+                            {{--},--}}
+                    "fileActionSettings": {"showRemove": false, "showDrag": false},
+                    "msgPlaceholder": "\u9009\u62e9\u56fe\u7247",
+                    "allowedFileTypes": ["image"],
+                    "maxFileSize": "{{$upload_config['image_max']}}",
+                    "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
+                });
+
+                $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
+
             });
 
 

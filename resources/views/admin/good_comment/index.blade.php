@@ -38,16 +38,36 @@
                                 <div>
                                     <div class="box-body">
                                         <div class="fields-group">
+
                                             <div class="form-group">
+
+                                                <label class="col-sm-1 control-label">单品名</label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control status" name="good_id">
+                                                        <option></option>
+                                                        @foreach($good_names as $good_id=>$name)
+                                                            <option value="{{$good_id}}" @if($search['good_id'] == $good_id) selected @endif>{{$name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
                                                 <label class="col-sm-1 control-label">类型</label>
                                                 <div class="col-sm-2">
                                                     <select class="form-control status" name="type_id">
                                                         <option></option>
-                                                        <option value="1">展示评价</option>
-                                                        <option value="2">客户评价</option>
+                                                        @foreach($type_list as $k=>$type)
+                                                            <option value="{{$k}}" @if($search['type_id'] == $k)selected @endif>{{$type}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-
+                                                <label class="col-sm-1 control-label">审核状态</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control status" name="audit_status">
+                                                        <option></option>
+                                                        @foreach($audit_status as $key=>$status)
+                                                            <option value="{{$key}}" @if($search['audit_status'] == $key)selected @endif>{{$status}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
 
@@ -106,6 +126,9 @@
                                     评价内容
                                 </th>
                                 <th>
+                                    晒图
+                                </th>
+                                <th>
                                     评价人
                                 </th>
                                 <th>
@@ -140,8 +163,23 @@
                                     <td style="word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         {{$comment->comment}}<br />
                                     </td>
+                                    <td>
+                                        @foreach($comment->comment_images as $comment_image)
+                                            <span class=""
+                                                 title=""
+                                                 data-container="body"
+                                                 data-toggle="popover"
+                                                 data-placement="right"
+                                                 data-trigger="hover"
+                                                 data-html="true"
+                                                 data-content="<img src='{{$comment_image->image_url}}' class='img-thumbnail'  />"
+                                            >
+                                                <img src='{{$comment_image->image_url}}' class='img-thumbnail'  style="width:60px;height: 60px;"/>
+                                            </span>
+                                        @endforeach
+                                    </td>
                                     <td>{{$comment->name}}</td>
-                                    <td>{{$comment->phone}}</td>
+                                    <td>{{$comment->show_phone}}</td>
                                     <td>{{$comment->star_scores}}</td>
                                     <td>
                                         @if($comment->audited_at)
@@ -162,15 +200,15 @@
                                             <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
 
                                                 <li><a href="#" data-toggle="modal" data-target="#editModal_{{$comment->id}}" data-remote="{{route('good_comments.edit',['id' => $comment->id])}}">编辑</a></li>
-                                                <li><a href="#" data-toggle="modal" data-target="#auditModal_{{$comment->id}}">审核</a></li>
-                                                <li><a href="#" id ="disable_{{$comment->id}}" data-id="{{$comment->id}}" data-title="删除" data-action="disable" class="grid-row-action">删除</a></li>
+                                                <li><a href="#" id="audit_{{$comment->id}}" data-id="{{$comment->id}}" class="grid-row-action">审核</a></li>
+                                                <li><a href="#" id ="delete_{{$comment->id}}" data-id="{{$comment->id}}" data-title="删除" class="grid-row-action">删除</a></li>
 
                                             </ul>
                                         </div>
 
                                         <!-- 模态框（Modal） -->
-                                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" style="width:100%">
+                                        <div class="modal fade" id="editModal_{{$comment->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" style="width:80%">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -228,5 +266,7 @@
 @section('script')
 
     <script src="{{URL::asset('/js/admin/common.js')}}"></script>
+
+    <script src="{{URL::asset('js/admin/good_comment/index.js')}}"></script>
 
 @endsection

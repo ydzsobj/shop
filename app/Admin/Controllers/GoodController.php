@@ -381,7 +381,7 @@ class GoodController extends BaseController
 
         $comment_image_files = $request->file('comment_image_files');
 
-        $req['type_id'] = GoodComment::TYPE_SHOW;
+        $req['type_id'] = GoodComment::TYPE_SYSTEM;
 
         $mod = GoodComment::create($req);
 

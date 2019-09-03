@@ -14,14 +14,26 @@ class GoodComment extends Model
     protected $page_size = 20;
 
     /**
-     * 展示评价
+     * 系统评价
      */
-    const TYPE_SHOW = 1;
+    const TYPE_SYSTEM = 1;
 
     /**
-     *客户评价
+     * 客户评价
      */
     const TYPE_USER = 2;
+
+    /**
+     * @审核通过
+     */
+    const NO_AUDIT = 1;
+
+    /**
+     * 审核通过
+     */
+    const AUDIT_PASSWED = 2;
+
+
     /**
      * 可以被批量赋值的属性。
      *
@@ -58,22 +70,53 @@ class GoodComment extends Model
         return $this->belongsTo(AdminUser::class)->withDefault();
     }
 
+    /**
+     * @param $request
+     * @return array
+     */
     public function get_data($request){
 
         $good_id = $request->get('good_id');
 
+        $audit_status = $request->get('audit_status');
+
+        $type_id = $request->get('type_id');
+
         $per_page = $request->get('per_page') ?: $this->page_size;
 
-        $search = compact('good_id','per_page');
+        $search = compact('good_id','per_page','type_id', 'audit_status');
 
         $data = self::with(['good','comment_images'])
+
+            //单品筛选
             ->when($good_id, function($query) use($good_id){
                 $query->where('good_id', $good_id);
+            })
+            //审核状态
+            ->when($audit_status, function($query) use ($audit_status){
+                if($audit_status == self::NO_AUDIT){
+                    $query->whereNull('audited_at');
+                }else if($audit_status == self::AUDIT_PASSWED){
+                    $query->whereNotNull('audited_at');
+                }
+            })
+            //评价类型
+            ->when($type_id, function($query) use($type_id){
+                $query->where('type_id', $type_id);
             })
             ->orderBy('id','desc')
             ->paginate($this->page_size);
 
         return [$search, $data];
+    }
+
+    //隐藏手机号显示
+    public function getPhoneAttribute($value){
+       return hidden_mobile($value);
+    }
+
+    public function getShowPhoneAttribute(){
+        return $this->attributes['show_phone'] = $this->attributes['phone'];
     }
 
 }
