@@ -286,7 +286,7 @@
                                             </a>
                                             <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
 
-                                                <li><a href="#" data-toggle="modal" data-target="#editModal" data-remote="{{route('good_orders.edit',['id' => $order->id])}}">编辑</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#editModal_{{$order->id}}" data-remote="{{route('good_orders.edit',['id' => $order->id])}}">编辑</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#auditModal_{{$order->id}}">审核</a></li>
                                                 <li><a href="#" id ="disable_{{$order->id}}" data-id="{{$order->id}}" data-title="删除" data-action="disable" class="grid-row-action">删除</a></li>
 
@@ -294,7 +294,7 @@
                                         </div>
 
                                         <!-- 模态框（Modal） -->
-                                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="editModal_{{$order->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:100%">
                                                 <div class="modal-content">
                                                     <div class="modal-header">

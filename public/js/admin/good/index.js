@@ -111,10 +111,6 @@ $("button[id*=disable_list_], button[id*=enable_list_]").click(function(){
 })
 
 
-$(".grid-per-pager").on('change', function(e){
-    $("#select_per_page").val($(this).val());
-    $("#fm").submit();
-})
 
 //加备注
 $("a[id*='update_sku_price_'], a[id*='update_product_attr_name_'],a[id*='update_product_attr_value_name_']").editable({
@@ -209,3 +205,8 @@ function formatRepo (repo) {
 function formatRepoSelection (repo) {
     return repo.product_name;
 }
+
+$('div[id*=SetSkuModal_]').on('hidden.bs.modal', function () {
+    // 执行一些动作...
+    $.admin.grid.selects = {};
+})
