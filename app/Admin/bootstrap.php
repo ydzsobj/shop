@@ -24,7 +24,7 @@ Encore\Admin\Form::forget(['map', 'editor']);
 
 Admin::disablePjax();
 
-Admin::js('https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js');
+Admin::js('/js/promise.min.js');
 Admin::js('/js/ie-sweetalert2.js');
 
 Form::init(function (Form $form) {
