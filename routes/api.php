@@ -55,6 +55,9 @@ $api->version('v1', function ($api) {
 
             //配置
             $api->get('/configs', 'IndexController@config')->name('user.configs');
+
+            //订单通知
+            $api->get('/order_notice', 'GoodOrderController@order_notice');
         });
     });
 

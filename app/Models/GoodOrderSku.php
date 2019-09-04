@@ -23,4 +23,8 @@ class GoodOrderSku extends Model
     public function good(){
         return $this->belongsTo(Good::class)->withDefault();
     }
+
+    public function good_order(){
+        return $this->belongsTo(GoodOrder::class)->withDefault();
+    }
 }
