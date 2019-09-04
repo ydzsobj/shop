@@ -36,8 +36,6 @@ class GoodController extends BaseController
         $gd = new Good();
         list($goods, $search) = $gd->get_data($request);
 
-        $admin_users = AdminUser::pluck('username','id');
-
         //生成排序链接
         $sort_links = $this->build_sort_links($request);
 
@@ -270,12 +268,43 @@ class GoodController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit_sku(Request $request, $id){
+        $good = Good::find($id);
+        return view('admin.good.edit_sku', compact('good'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit_attr(Request $request, $id){
+        $good = Good::find($id);
+        return view('admin.good.edit_attr', compact('good'));
+    }
+
+
+    /**
+     * @param Request $request
+     * @param $good_id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create_copy(Request $request, $good_id){
+        $admin_users = AdminUser::pluck('username','id');
+        return view('admin.good.create_copy', compact('good_id', 'admin_users'));
+    }
+
+    /**
      * 单品复制
      * @param CopyGood $request
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function copy(CopyGood $request, $id){
+    public function store_copy(CopyGood $request, $id){
 
         $name = $request->post('name');
 

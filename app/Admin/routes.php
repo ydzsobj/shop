@@ -18,7 +18,12 @@ Route::group([
     //商品管理
     $router->resource('/goods','GoodController')->except(['show']);
     //复制商品
-    $router->post('/goods/{id}/copy', 'GoodController@copy')->name('goods.copy');
+    $router->get('/goods/{id}/create_copy', 'GoodController@create_copy')->name('goods.create_copy');
+    $router->post('/goods/{id}/store_copy', 'GoodController@store_copy')->name('goods.store_copy');
+    //sku配置
+    $router->get('/goods/{id}/edit_sku','GoodController@edit_sku')->name('goods.edit_sku');
+    //属性配置
+    $router->get('/goods/{id}/edit_attr', 'GoodController@edit_attr')->name('goods.edit_attr');
     //商品导出
     $router->get('/goods/export', 'GoodController@export')->name('goods.export');
     //更新sku价格
