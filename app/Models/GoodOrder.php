@@ -148,7 +148,7 @@ class GoodOrder extends Model
 
         //当前权限
         $admin_user = Admin::user();
-        if($admin_user->isAdministrator() || $admin_user->isRole('leader')){
+        if($admin_user->isAdministrator() || $admin_user->isRole('leader') || $admin_user->isRole('customer')){
 
         }else{
             $good_order_ids = GoodOrderSku::leftJoin('goods', 'goods.id','good_order_skus.good_id')
