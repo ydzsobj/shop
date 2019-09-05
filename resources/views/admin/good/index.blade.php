@@ -229,7 +229,7 @@
                                             <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
 
                                                 @if(!$good->deleted_at)
-                                                    <li><a target="_blank" href="{{$shop_front_url}}/index.html#/goods?goodsId={{$good->id}}">预览</a></li>
+                                                    <li><a target="_blank" href="{{$shop_front_url}}/goods?goodsId={{$good->id}}">预览</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#editModal_{{$good->id}}" data-remote="{{route('goods.edit',['id' => $good->id])}}">编辑</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#copyModal_{{$good->id}}" data-remote="{{route('goods.create_copy',['id' => $good->id])}}">复制</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#SetSkuModal_{{$good->id}}" data-remote="{{route('goods.edit_sku',['id' => $good->id])}}">SKU配置</a></li>
