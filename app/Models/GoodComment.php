@@ -105,7 +105,7 @@ class GoodComment extends Model
                 $query->where('type_id', $type_id);
             })
             ->orderBy('id','desc')
-            ->paginate($this->page_size);
+            ->paginate($per_page);
 
         return [$search, $data];
     }
