@@ -26,7 +26,10 @@ class GoodOrder extends Model
         'address',
         'short_address',
         'leave_word',
-        'remark'
+        'remark',
+        'province',
+        'city',
+        'area',
 
     ];
 
@@ -202,6 +205,8 @@ class GoodOrder extends Model
         $status = config('order.status');
 
         foreach ($orders as $order){
+            $order->sn = ' '.$order->sn;
+            $order->receiver_phone = ' '.$order->receiver_phone;
             $order_skus = $order->order_skus;
             $sku_str = '';
             foreach ($order_skus as $order_sku){

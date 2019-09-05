@@ -105,13 +105,16 @@ class GoodOrderController extends Controller
             return $item['price'] * $item['sku_nums'];
         });
 
+        //省市区拆分
+        list($province, $city, $area) = explode('/', $request->post('address'));
+
         $insert_data = [
             'price' => $skus_price->sum(),
             'ip' => $ip,
             'sn' => generate_sn(),
         ];
 
-        $go = GoodOrder::create(array_merge($insert_data, $address));
+        $go = GoodOrder::create(array_merge($insert_data, $address, compact('province', 'city', 'area')));
 
         if($go){
 
