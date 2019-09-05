@@ -18,7 +18,12 @@ Route::group([
     //商品管理
     $router->resource('/goods','GoodController')->except(['show']);
     //复制商品
-    $router->post('/goods/{id}/copy', 'GoodController@copy')->name('goods.copy');
+    $router->get('/goods/{id}/create_copy', 'GoodController@create_copy')->name('goods.create_copy');
+    $router->post('/goods/{id}/store_copy', 'GoodController@store_copy')->name('goods.store_copy');
+    //sku配置
+    $router->get('/goods/{id}/edit_sku','GoodController@edit_sku')->name('goods.edit_sku');
+    //属性配置
+    $router->get('/goods/{id}/edit_attr', 'GoodController@edit_attr')->name('goods.edit_attr');
     //商品导出
     $router->get('/goods/export', 'GoodController@export')->name('goods.export');
     //更新sku价格
@@ -55,6 +60,16 @@ Route::group([
     $router->put('/product_attributes/{id}/update_show_name', 'ProductAttributeController@update_show_name');
     //设置产品属性值别名
     $router->put('/product_attribute_values/{id}/update_show_name', 'ProductAttributeValueController@update_show_name');
+
+    //商品评价列表 | 删除
+    $router->resource('/good_comments', 'GoodCommentController');
+    //审核评价
+    $router->put('/good_comments/{id}/update_audited_at', 'GoodCommentController@update_audited_at')
+        ->name('good_comments.update_audited_at');
+    //新增评价
+    $router->get('/goods/{id}/create_comment', 'GoodController@create_comment')->name('goods.create_comment');
+    $router->post('/goods/store_comment', 'GoodController@store_comment')->name('goods.store_comment');
+
 
 
 
