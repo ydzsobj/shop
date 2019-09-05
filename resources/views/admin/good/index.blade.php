@@ -186,11 +186,6 @@
                                 <th>
                                     发布人
                                 </th>
-
-                                {{--<th>--}}
-                                    {{--状态--}}
-                                {{--</th>--}}
-
                                 <th>
                                     操作
                                 </th>
@@ -225,14 +220,6 @@
                                     <td>{{$good->created_at}}</td>
 
                                     <td>{{$good->admin_user->username}}</td>
-
-                                    {{--<td>--}}
-                                        {{--@if($good->deleted_at)--}}
-                                            {{--<span style="color: red">已禁用</span>--}}
-                                        {{--@else--}}
-                                            {{--<span style="color: green">启用</span>--}}
-                                        {{--@endif--}}
-                                    {{--</td>--}}
                                     <td>
 
                                         <div class="grid-dropdown-actions dropdown">
@@ -244,9 +231,11 @@
                                                 @if(!$good->deleted_at)
                                                     <li><a target="_blank" href="{{$shop_front_url}}/index.html#/goods?goodsId={{$good->id}}">预览</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#editModal_{{$good->id}}" data-remote="{{route('goods.edit',['id' => $good->id])}}">编辑</a></li>
-                                                <li><a href="#" data-toggle="modal" data-target="#copyModal_{{$good->id}}">复制</a></li>
-                                                <li><a href="#" data-toggle="modal" data-target="#SetSkuModal_{{$good->id}}">SKU配置</a></li>
-                                                <li><a href="#" data-toggle="modal" data-target="#SetAttributeModal_{{$good->id}}">属性配置</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#copyModal_{{$good->id}}" data-remote="{{route('goods.create_copy',['id' => $good->id])}}">复制</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#SetSkuModal_{{$good->id}}" data-remote="{{route('goods.edit_sku',['id' => $good->id])}}">SKU配置</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#SetAttributeModal_{{$good->id}}" data-remote="{{route('goods.edit_attr',['id' => $good->id])}}" >属性配置</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#AddCommentModal_{{$good->id}}" data-remote="{{route('goods.create_comment',['id' => $good->id])}}">新增评价</a></li>
+                                                <li><a href="{{route('good_comments.index', ['good_id' => $good->id])}}" target="_blank">查看评价</a></li>
                                                 <li><a href="#" id ="disable_{{$good->id}}" data-id="{{$good->id}}" data-title="删除" data-action="disable" class="grid-row-action">删除</a></li>
                                                 @else
                                                     {{--<li><a href="#" id ="enable_{{$good->id}}" data-id="{{$good->id}}" data-title="启用" data-action="enable" class="grid-row-action">启用</a></li>--}}
@@ -259,15 +248,13 @@
                                         <div class="modal fade" id="editModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:100%">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <h4 class="modal-title" id="myModalLabel"></h4>
-                                                    </div>
-                                                    <div class="modal-body"></div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                                        <button type="button" class="btn btn-primary">提交更改</button>
-                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal -->
+                                        </div>
+                                        <div class="modal fade" id="AddCommentModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" style="width:80%">
+                                                <div class="modal-content">
+
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal -->
                                         </div>
@@ -275,59 +262,7 @@
                                         <div class="modal fade" id="copyModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:70%">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <h4 class="modal-title" id="myModalLabel">复制单品</h4>
-                                                    </div>
-                                                    <form action="{{route('goods.copy',['id' => $good->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
 
-                                                    <div class="modal-body">
-                                                            <div class="box-body">
-
-                                                                <div class="fields-group">
-
-                                                                    <div class="form-group  ">
-
-                                                                        <label for="name" class="col-sm-2 asterisk control-label">单品名</label>
-
-                                                                        <div class="col-sm-6">
-
-                                                                            <div class="input-group">
-
-                                                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-
-                                                                                <input type="text" id="name" name="name" class="form-control name" placeholder="输入 单品名" required="1" />
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group  ">
-
-                                                                        <label for="admin_user_id" class="col-sm-2 asterisk control-label">所属人</label>
-
-                                                                        <div class="col-sm-8">
-
-                                                                            <div class="input-group">
-                                                                                 <select class="form-control status" name="admin_user_id" required="1">
-                                                                                     <option></option>
-                                                                                     @foreach($admin_users as $key=>$admin_user)
-                                                                                        <option value="{{$key}}">{{$admin_user}}</option>
-                                                                                     @endforeach
-                                                                                 </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="hidden" name="_token" value="{{csrf_token()}}" />
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                                        <button type="submit" class="btn btn-primary">提交</button>
-                                                    </div>
-                                                    </form>
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal -->
                                         </div>
@@ -336,73 +271,6 @@
                                         <div class="modal fade" id="SetSkuModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:80%;">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <h4 class="modal-title" id="myModalLabel">配置SKU（共{{$good->skus->count()}}个）</h4>
-                                                    </div>
-
-                                                    @if($good->skus->count() >0)
-                                                    <div class="modal-body">
-
-                                                        <table class="table">
-                                                            <tr>
-                                                                <th class="column-__row_selector__">
-                                                                    <input type="checkbox" class="grid-select-all" />&nbsp;</th>
-                                                                <th>SKUID</th><th>单品名称</th><th>属性规格</th><th>价格（{{$money_sign}}）</th><th>启用状态</th>
-                                                            </tr>
-
-                                                        @foreach($good->skus as $sku)
-                                                            <tr>
-                                                                <td class="column-__row_selector__">
-                                                                    <input type="checkbox" class="grid-row-checkbox" data-id="{{$sku->id}}" />
-                                                                </td>
-                                                                <td>
-                                                                    {{'['. $sku->sku_id .']'}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$good->name}}
-                                                                </td>
-                                                                <td>
-                                                                    @if($sku->s1_name)
-                                                                        {{$sku->s1_name}}
-                                                                    @endif
-                                                                    @if($sku->s2_name)
-                                                                        /{{$sku->s2_name}}
-                                                                    @endif
-                                                                    @if($sku->s3_name)
-                                                                        /{{$sku->s3_name}}
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <a href="#"
-                                                                       title="设置价格"
-                                                                       id="update_sku_price_{{$sku->id}}"
-                                                                       data-type="text"
-                                                                       data-pk="{{$sku->id}}"
-                                                                       data-value="{{$sku->price}}"
-                                                                       data-url="/admin/good_skus/{{$sku->id}}/update_price"
-                                                                       data-title="设置价格">{{$sku->price}}
-                                                                    </a>
-
-                                                                </td>
-                                                                <td>
-                                                                    @if($sku->disabled_at)
-                                                                        <span style="color: red">已停用</span>
-                                                                    @else
-                                                                        <span style="color: green">启用中</span>
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-
-                                                        </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" id="disable_list_{{$sku->id}}" data-action="disable">禁用</button>
-                                                        <button type="button" class="btn btn-primary" id="enable_list_{{$sku->id}}" data-action="enable">启用</button>
-                                                    </div>
-                                                    @endif
-
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal -->
                                         </div>
@@ -410,61 +278,6 @@
                                         <div class="modal fade" id="SetAttributeModal_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:80%;">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <h4 class="modal-title" id="myModalLabel">配置属性</h4>
-                                                    </div>
-
-                                                    @if($good->product_attributes->count() >0)
-                                                        <div class="modal-body">
-
-                                                            <table class="table">
-                                                                <tr>
-                                                                    <th colspan="2">属性</th>
-                                                                    <th colspan="1">属性值</th>
-                                                                </tr>
-
-                                                                @foreach($good->product_attributes as $attribute)
-                                                                    <tr>
-                                                                        <td>
-                                                                            {{$attribute->attr_name}}
-                                                                        </td>
-                                                                        <td>展示名称：<a href="#"
-                                                                                    title="设置展示名"
-                                                                                    id="update_product_attr_name_{{$attribute->id}}"
-                                                                                    data-type="text"
-                                                                                    data-pk="{{$attribute->id}}"
-                                                                                    data-value="{{$attribute->show_name}}"
-                                                                                    data-url="/admin/product_attributes/{{$attribute->id}}/update_show_name"
-                                                                                    data-title="设置展示名">{{$attribute->show_name}}
-                                                                            </a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <table class="table">
-                                                                                @foreach($attribute->attribute_values as $attribute_value)
-                                                                                <tr>
-                                                                                    <td>{{$attribute_value->attr_value_name}}</td>
-                                                                                    <td>展示名称：<a href="#"
-                                                                                                title="设置展示名"
-                                                                                                id="update_product_attr_value_name_{{$attribute_value->id}}"
-                                                                                                data-type="text"
-                                                                                                data-pk="{{$attribute_value->id}}"
-                                                                                                data-value="{{$attribute_value->show_name}}"
-                                                                                                data-url="/admin/product_attribute_values/{{$attribute_value->id}}/update_show_name"
-                                                                                                data-title="设置展示名">{{$attribute_value->show_name}}
-                                                                                        </a>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                @endforeach
-                                                                            </table>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endforeach
-
-                                                            </table>
-                                                        </div>
-
-                                                    @endif
 
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal -->

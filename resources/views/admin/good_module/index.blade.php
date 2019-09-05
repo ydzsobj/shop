@@ -96,7 +96,7 @@
                                              data-html="true"
                                              data-content="<img src='{{$good_module_image->image_url}}' class='img-thumbnail'  />"
                                         >
-                                            <img src='{{$good_module_image->image_url}}' class='img-thumbnail'  style="width:60px;height: 60x;"/>
+                                            <img src='{{$good_module_image->image_url}}' class='img-thumbnail'  style="width:60px;height: 60px;"/>
                                         </div>
                                        @endforeach
                                     </td>

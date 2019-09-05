@@ -36,7 +36,7 @@ class BaseController extends Controller
     protected function upload($file){
 
         # 允许上传的扩展名
-        $allow_extensions = ['jpg','jpeg','png','gif'];
+        $allow_extensions = ['jpg','jpeg','png','gif','mp4','avi'];
 
 //        if(!$file->isValid())
 //        {

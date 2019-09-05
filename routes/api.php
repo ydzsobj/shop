@@ -40,6 +40,8 @@ $api->version('v1', function ($api) {
             $api->get('/goods/{id}', 'GoodController@show')->name('user.good.show');
             //商品列表
             $api->get('/goods', 'GoodController@index')->name('user.good.index');
+            //提交评价
+            $api->post('/good_comments', 'GoodCommentController@store')->name('user.good_comment.store');
 
             //订单相关
             $api->post('/good_orders', 'GoodOrderController@store')->name('user.order.store');
