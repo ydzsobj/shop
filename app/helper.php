@@ -76,4 +76,11 @@ if(!function_exists('get_api_data')){
     }
 }
 
+//隐藏部分手机号数字
+if(!function_exists('hidden_mobile')){
+    function hidden_mobile($mobile){
+        return  $mobile ? substr($mobile,0,3) .'****' . substr($mobile,-4) : '';
+    }
+}
+
 ?>

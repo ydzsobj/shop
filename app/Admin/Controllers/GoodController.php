@@ -12,6 +12,7 @@ use App\Models\AdminUser;
 use App\Models\Good;
 use App\Models\GoodAttribute;
 use App\Models\GoodCategory;
+use App\Models\GoodComment;
 use App\Models\GoodImage;
 use App\Models\GoodModule;
 use Illuminate\Http\Request;
@@ -34,8 +35,6 @@ class GoodController extends BaseController
 
         $gd = new Good();
         list($goods, $search) = $gd->get_data($request);
-
-        $admin_users = AdminUser::pluck('username','id');
 
         //生成排序链接
         $sort_links = $this->build_sort_links($request);
@@ -252,47 +251,6 @@ class GoodController extends BaseController
         return Excel::download(new GoodsExport($data), '商品导出'.date('y-m-d H_i_s').'.xlsx');
     }
 
-    //do upload
-    protected function upload($file){
-
-        # 允许上传的扩展名
-        $allow_extensions = ['jpg','jpeg','png','gif','mp4','avi'];
-
-//        if(!$file->isValid())
-//        {
-//            admin_error('文件无效,附件上传失败,请联系管理员');
-//        }
-
-        # 扩展名
-        $extension = strtolower($file->extension());
-
-        if(!in_array(strtolower($extension), $allow_extensions))
-        {
-            session()->flash('error','文件类型不正确,当前文件后缀:'.$extension);
-            return false;
-        }
-
-        # 文件大小
-        $file_size = $file->getClientSize();
-
-        if($file_size > AttachmentController::FILE_LIMIT)
-        {
-            session()->flash('error','超过文件大小限制10MB');
-            return false;
-        }
-
-        $doc_path = AttachmentController::ATTACHMENT_PATH.date('Y').'/'.date('m').'/'.date('d');
-
-        $filename = md5(time().rand(0,100)).'.'.$extension;
-
-        Storage::makeDirectory($doc_path);
-
-        $result = Storage::disk('public')->putFileAs($doc_path, $file, $filename);
-
-        # 保存文件并, 路径,
-        return $result ? asset('storage/'.$result) : false;
-    }
-
     public function search(Request $request){
 
         $keywords = $request->get('keywords');
@@ -310,12 +268,43 @@ class GoodController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit_sku(Request $request, $id){
+        $good = Good::find($id);
+        return view('admin.good.edit_sku', compact('good'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit_attr(Request $request, $id){
+        $good = Good::find($id);
+        return view('admin.good.edit_attr', compact('good'));
+    }
+
+
+    /**
+     * @param Request $request
+     * @param $good_id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create_copy(Request $request, $good_id){
+        $admin_users = AdminUser::pluck('username','id');
+        return view('admin.good.create_copy', compact('good_id', 'admin_users'));
+    }
+
+    /**
      * 单品复制
      * @param CopyGood $request
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function copy(CopyGood $request, $id){
+    public function store_copy(CopyGood $request, $id){
 
         $name = $request->post('name');
 
@@ -398,5 +387,51 @@ class GoodController extends BaseController
 
         return $sort_links;
     }
+
+
+    /**
+     * @param Request $request
+     * @param $good_id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create_comment(Request $request, $good_id){
+        $star_scores = config('comment.star_scores');
+        return view('admin.good.create_comment',compact('good_id','star_scores'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $good_id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function store_comment(Request $request){
+
+        $req = $request->only('good_id','comment','name','phone','star_scores');
+
+        $comment_image_files = $request->file('comment_image_files');
+
+        $req['type_id'] = GoodComment::TYPE_SYSTEM;
+
+        $mod = GoodComment::create($req);
+
+        if($mod){
+            //保存晒图
+            $image_urls = [];
+            if($comment_image_files && count($comment_image_files) > 0){
+                foreach ($comment_image_files as $comment_image_file){
+                    $url = $this->upload($comment_image_file);
+                    if($url){
+                        array_push($image_urls,['image_url' => $url]);
+                    }
+                }
+            }
+            $mod->comment_images()->createMany($image_urls);
+            return redirect(route('goods.index'))->with('success', trans('common.create.success'));
+        }else{
+            return redirect(route('goods.index'))->with('error', trans('common.create.fail'));
+        }
+
+    }
+
 
 }

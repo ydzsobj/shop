@@ -106,6 +106,7 @@ class GoodController extends Controller
      * @apiSuccess {array} list_images 轮播图地址
      * @apiSuccess {array} tree 商品属性规格
      * @apiSuccess {array} list 商品skus
+     * @apiSuccess {array} comments 商品评价
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
@@ -212,13 +213,41 @@ class GoodController extends Controller
      *          "http://192.168.1.133:8081/storage/uploads/image/2019/08/09/mWZochSAnK8rYYfJSWKacflJcBQ5k8TZYvJd4KW7.jpeg",
      *          "http://192.168.1.133:8081/storage/uploads/image/2019/08/09/ILNWt6a2RJfG2hxS3y7KMGupixiM6x6EVRydzCdO.jpeg"
      *      ],
+     *      "comments": [
+     *            {
+     *                "id": 1,
+     *                "good_id": 98,
+     *                "type_id": 1,
+     *                "comment": "这是测试。。。。。12321",
+     *                "name": "makete jsons",
+     *                "phone": "188****1111",
+     *                "star_scores": 5,
+     *                "audited_at": "2019-09-03 16:47:28",
+     *                "admin_user_id": 1,
+     *                "deleted_at": null,
+     *                "created_at": "2019-09-03 06:41:10",
+     *                "updated_at": "2019-09-03 08:19:47",
+     *                "comment_images": [
+     *                    {
+     *                        "id": 4,
+     *                        "good_comment_id": 1,
+     *                        "image_url": "http://192.168.1.132:8081/storage/uploads/image/2019/09/03/0d9b3b5fa25773bb9bf6a49ff44019c6.jpeg",
+     *                        "created_at": "2019-09-03 06:46:52",
+     *                        "updated_at": "2019-09-03 06:46:52"
+     *                    }
+     *                ]
+     *            }
+     *        ],
+     *
      *    }
      *}
      */
 
     public function show(Request $request, $id){
 
-        $good = Good::find($id);
+        $good = Good::with(['comments' => function($query){
+            $query->whereNotNull('audited_at')->orderBy('id', 'desc');
+        },'comments.comment_images'])->where('id', $id)->first();
 
         //轮播图列表
         $list_images = $good->list_images()->pluck('image_url');
