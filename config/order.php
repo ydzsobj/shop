@@ -23,6 +23,11 @@ return [
         GoodOrder::SEARCH_ITEM_GOOD_NAME_CODE => GoodOrder::SEARCH_ITEM_GOOD_NAME,
         GoodOrder::SEARCH_ITEM_SKUID_CODE => GoodOrder::SEARCH_ITEM_SKUID
     ],
+
+    'date_search_items' => [
+        GoodOrder::ORDER_DATE_SEARCH_ITEM_CODE => GoodOrder::ORDER_DATE_SEARCH_ITEM,
+        GoodOrder::AUDIT_DATE_SEARCH_ITEM_CODE => GoodOrder::AUDIT_DATE_SEARCH_ITEM,
+    ],
 ];
 
 

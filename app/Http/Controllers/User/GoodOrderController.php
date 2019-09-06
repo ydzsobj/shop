@@ -22,6 +22,7 @@ class GoodOrderController extends Controller
      * @apiParam {string} address 收货地址
      * @apiParam {string} short_address 短地址
      * @apiParam {string} [leave_word] 留言
+     * @apiParam {string} [postcode] 邮编
      *
      * @apiParamExample {json} Request-Example:
      *{
@@ -35,7 +36,8 @@ class GoodOrderController extends Controller
      *  	"receiver_email" : "qqqqqq8888@gmail.com",
      *  	"address" : "北京海淀区上地三街",
      *  	"short_address":"清河大街888号小米大厦",
-     *  	"leave_word":"尽快发货~~~~~"
+     *  	"leave_word":"尽快发货~~~~~",
+     *  	"postcode":"470000",
      *}
      *
      * @apiSuccessExample Success-Response:
@@ -93,6 +95,7 @@ class GoodOrderController extends Controller
             'address' => $request->post('address'),
             'short_address' => $request->post('short_address'),
             'leave_word' => $request->post('leave_word'),
+            'postcode' => $request->post('postcode'),
         ];
 
         $cart_data = $cart_data->map(function($item){
@@ -106,7 +109,10 @@ class GoodOrderController extends Controller
         });
 
         //省市区拆分
-        list($province, $city, $area) = explode('/', $request->post('address'));
+        if(strpos($request->post('address'), '/') !== false){
+            list($province, $city, $area) = explode('/', $request->post('address'));
+        }
+
 
         $insert_data = [
             'price' => $skus_price->sum(),

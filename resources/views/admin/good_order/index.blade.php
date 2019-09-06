@@ -40,9 +40,14 @@
                                         <div class="fields-group">
                                             <div class="form-group">
 
-                                                <label class="col-sm-1 control-label">
-                                                    下单时间
-                                                </label>
+                                                <div class="col-md-2">
+                                                    <select class="form-control status" name="date_search_item">
+                                                        <option></option>
+                                                        @foreach($date_search_items as $key=>$item)
+                                                            <option value="{{$key}}" @if($search['date_search_item'] == $key)selected @endif>{{$item}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
                                                 <div class="col-sm-3 date_type_start_end">
                                                     <div class="input-group input-group-sm">
@@ -65,8 +70,17 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="col-md-1"></div>
+                                            </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div>
+                                    <div class="box-body">
+                                        <div class="fields-group">
+                                            <div class="form-group">
                                                 <div class="col-md-1">
                                                     <select class="form-control status" name="search_item">
                                                         <option></option>
@@ -75,7 +89,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     <div class="input-group input-group-sm">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-pencil"></i>
@@ -252,7 +266,7 @@
                                         {{$order->receiver_phone}}<br />
                                         {{$order->receiver_email}}
                                     </td>
-                                    <td style="width:15%; word-break:break-all; word-wrap:break-word; white-space:inherit">
+                                    <td style="width:18%; word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         {{$order->address}}<br />
                                         {{$order->short_address}}
                                     </td>

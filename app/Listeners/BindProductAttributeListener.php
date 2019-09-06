@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\BindProductAttributeEvent;
+use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -129,6 +130,14 @@ class BindProductAttributeListener
         }
         $result_data = $result->data;
         $attr_data = unserialize($result_data->spec_value);
+
+        //添加产品名称
+        Product::updateOrCreate([
+            'id' => $good->product_id
+        ],[
+            'name' => $result_data->product_name,
+            'english_name' => $result_data->product_english,
+        ]);
 
         if($attr_data){
             foreach ($attr_data as $data){

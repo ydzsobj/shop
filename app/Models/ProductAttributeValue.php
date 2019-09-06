@@ -22,4 +22,22 @@ class ProductAttributeValue extends Model
         'show_name',
     ];
 
+    /**
+     * @param null $attr_value_id
+     * @return string
+     */
+    static function get_show_name($attr_value_ids=[]){
+
+        $show_name_str = '';
+
+        foreach ($attr_value_ids as $attr_value_id){
+            if($attr_value_id){
+                $first =  self::where('attr_value_id', $attr_value_id)->first();
+                $show_name_str .= $first->show_name;
+            }
+        }
+
+        return $show_name_str;
+    }
+
 }

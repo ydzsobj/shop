@@ -77,6 +77,10 @@ class Good extends Model
         return $this->hasMany(GoodSku::class);
     }
 
+    public function product(){
+        return $this->belongsTo(Product::class)->withDefault();
+    }
+
     /**
      * 列表数据
      * @param $request

@@ -34,7 +34,10 @@ class GoodOrderController extends BaseController
         //搜索项
         $search_items = config('order.search_items');
 
-        return view('admin.good_order.index', compact('orders', 'search', 'status','search_items'));
+        //时间搜索项
+        $date_search_items = config('order.date_search_items');
+
+        return view('admin.good_order.index', compact('orders', 'search', 'status','search_items','date_search_items'));
     }
 
     /**
@@ -101,12 +104,14 @@ class GoodOrderController extends BaseController
      */
     public function update(Request $request, $id){
 
-        $rq = $request->only('receiver_name','receiver_phone','address','short_address');
+        $rq = $request->only('receiver_name','receiver_phone' ,'short_address','province', 'city', 'area','postcode');
 
         $go = GoodOrder::find($id);
         if(!$go){
             return redirect()->route('good_orders.index')->with('error',trans('order.not_exist'));
         }
+
+        $rq['address'] = $rq['province'] . '/' .$rq['city']. '/'. $rq['area'];
 
         $res = GoodOrder::where('id',$id)->update($rq);
         $msg = $res ? trans('common.update.success') : trans('common.update.fail');

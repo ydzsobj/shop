@@ -30,6 +30,7 @@ class GoodOrder extends Model
         'province',
         'city',
         'area',
+        'postcode',
 
     ];
 
@@ -58,6 +59,12 @@ class GoodOrder extends Model
 
     const SEARCH_ITEM_SKUID_CODE = 'sku_id';
     const SEARCH_ITEM_SKUID = 'SKUID';
+
+    const ORDER_DATE_SEARCH_ITEM_CODE = 'order';
+    const ORDER_DATE_SEARCH_ITEM = '下单时间';
+
+    const AUDIT_DATE_SEARCH_ITEM_CODE = 'audit';
+    const AUDIT_DATE_SEARCH_ITEM = '审核时间';
 
 
     public function order_skus(){
@@ -104,10 +111,15 @@ class GoodOrder extends Model
         //默认30天数据
         list($start_date, $end_date) = recent_thirty_days();
 
+        //时间筛选项
+        $date_search_item = $request->post('date_search_item');
         //筛选时间
         $start_date = $request->get('start_date') ?: $start_date;
         $end_date = $request->get('end_date') ?: $end_date;
-        if($start_date && $end_date){
+
+        if($date_search_item == self::AUDIT_DATE_SEARCH_ITEM_CODE){
+            $base_query->whereBetween('good_orders.last_audited_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
+        }else{
             $base_query->whereBetween('good_orders.created_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
         }
 
@@ -120,33 +132,35 @@ class GoodOrder extends Model
         //关键词
         $keywords = $request->get('keywords');
         $search_item = $request->get('search_item');
-        switch ($search_item){
-            case self::SEARCH_ITEM_ORDER_SN_CODE:
-                $base_query->where('good_orders.sn', $keywords);
-                break;
+        if($keywords && $search_item){
+            switch ($search_item){
+                case self::SEARCH_ITEM_ORDER_SN_CODE:
+                    $base_query->where('good_orders.sn', $keywords);
+                    break;
 
-            case self::SEARCH_ITEM_GOOD_NAME_CODE://筛选单品名
-                $good = Good::where('name', $keywords)->first();
+                case self::SEARCH_ITEM_GOOD_NAME_CODE://筛选单品名
+                    $good = Good::where('name', $keywords)->first();
 
-               $good_order_ids =  GoodOrderSku::where('good_id',$good ? $good->id:null)
-                    ->whereBetween('created_at', [$start_date, Carbon::parse($end_date)->endOfDay()])
-                    ->pluck('good_order_id')
-                    ->unique();
+                    $good_order_ids =  GoodOrderSku::where('good_id',$good ? $good->id:null)
+                        ->whereBetween('created_at', [$start_date, Carbon::parse($end_date)->endOfDay()])
+                        ->pluck('good_order_id')
+                        ->unique();
 
-               $base_query->whereIn('good_orders.id', $good_order_ids);
+                    $base_query->whereIn('good_orders.id', $good_order_ids);
 
-                break;
-            case self::SEARCH_ITEM_SKUID_CODE://筛选skuid
-                $good_order_ids = GoodOrderSku::where('sku_id', $keywords)
-                    ->whereBetween('created_at', [$start_date, Carbon::parse($end_date)->endOfDay()])
-                    ->pluck('good_order_id')
-                    ->unique();
+                    break;
+                case self::SEARCH_ITEM_SKUID_CODE://筛选skuid
+                    $good_order_ids = GoodOrderSku::where('sku_id', $keywords)
+                        ->whereBetween('created_at', [$start_date, Carbon::parse($end_date)->endOfDay()])
+                        ->pluck('good_order_id')
+                        ->unique();
 
-                $base_query->whereIn('good_orders.id', $good_order_ids);
+                    $base_query->whereIn('good_orders.id', $good_order_ids);
 
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
 
         //当前权限
@@ -168,35 +182,32 @@ class GoodOrder extends Model
         $this->page_size = $per_page;
 
 
-        $search = compact('start_date','end_date','status','keywords','per_page','search_item');
+        $search = compact('start_date','end_date','status','keywords','per_page','search_item','date_search_item');
 
         return [$base_query, $search];
     }
 
     public function export($request){
 
-        $base_query =  GoodOrder::with(['order_skus' => function($query){
-        },'admin_user']);
+        $base_query =  GoodOrder::with(['order_skus','admin_user']);
 
         list($query, $search) = $this->query_conditions($base_query, $request);
 
         $orders = $query->select(
             'good_orders.id',
-            'good_orders.created_at',
-            'good_orders.last_audited_at',
             'good_orders.sn',
-            'good_orders.price',
-            'good_orders.status',
-            'good_orders.pay_type_id',
-
-
             'good_orders.receiver_name',
+            'good_orders.postcode',
             'good_orders.receiver_phone',
-            'good_orders.receiver_email',
-            'good_orders.address',
+            'good_orders.province',
+            'good_orders.city',
+            'good_orders.area',
             'good_orders.short_address',
-            'good_orders.leave_word',
-            'good_orders.remark'
+            'good_orders.price',
+
+            'good_orders.status',
+            'good_orders.pay_type_id'
+
         )
             ->orderBy('good_orders.id', 'desc')
             ->get();
@@ -209,20 +220,42 @@ class GoodOrder extends Model
             $order->receiver_phone = ' '.$order->receiver_phone;
             $order_skus = $order->order_skus;
             $sku_str = '';
+            $sku_desc_str = '';
+            $product_name_str = '';
+            $product_english_name_str = '';
+            $total_nums = 0;
             foreach ($order_skus as $order_sku){
                 $sku = $order_sku->sku_info;
-                $sku_str .= $sku->good->name .'-'. $sku->s1_name . $sku->s2_name. $sku->s3_name. 'x'. $order_sku->sku_nums;
-                $sku_str .= " \r\n ";
+                $sku_str .= "[$sku->sku_id] ".$sku->good->name .' '. $sku->s1_name . $sku->s2_name. $sku->s3_name. ' x'. $order_sku->sku_nums;
+                $sku_str .= "\r\n";
+
+                $sku_desc_str .= "[$sku->sku_id] ". $sku->good->title .' '. ProductAttributeValue::get_show_name([$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums;
+                $sku_desc_str .= "\r\n";
+
+                //产品名称
+                $product_name_str .= $sku->good->product->name;
+                $product_name_str .= "\r\n";
+
+                $product_english_name_str .= $sku->good->product->english_name;
+                $product_english_name_str .= "\r\n";
+
+                $total_nums += $order_sku->sku_nums;
             }
             $order->status_str = array_get($status, $order->status, '');
             $order->pay_type_str = array_get($pay_types, $order->pay_type_id, '');
-            $order->sku = $sku_str;
+            $order->product_name_str = $product_name_str;
+            $order->product_english_name_str = $product_english_name_str;
+            $order->sku_str = $sku_str;
+            $order->sku_desc_str = $sku_desc_str;
+            $order->total_nums = $total_nums;
             unset(
                 $order->id,
                 $order->pay_type_id,
                 $order->status
             );
         }
+
+//        dd($orders->toArray());
 
         return $orders;
 

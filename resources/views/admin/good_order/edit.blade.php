@@ -63,17 +63,20 @@
 
             <div class="form-group">
 
-                <label for="address" class="col-sm-2 asterisk control-label">省市区</label>
+                <label for="province" class="col-sm-2 asterisk control-label">省/市/区</label>
 
-                <div class="col-sm-8">
+                <div class="col-sm-2">
+                    <input type="text" id="province" name="province" value="{{$detail->province}}" class="form-control province" placeholder="" required="1" />
+                </div>
 
-                    <div class="input-group">
+                <div class="col-sm-2">
+                    <input type="text" id="city" name="city" value="{{$detail->city}}" class="form-control city" placeholder="" required="1" />
 
-                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+                </div>
 
-                        <input type="text" id="address" name="address" value="{{$detail->address}}" class="form-control address" placeholder="" required="1" />
+                <div class="col-sm-2">
+                    <input type="text" id="area" name="area" value="{{$detail->area}}" class="form-control area" placeholder=""  required="1" />
 
-                    </div>
                 </div>
             </div>
 
@@ -92,6 +95,23 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group">
+
+                <label for="postcode" class="col-sm-2 asterisk control-label">邮编</label>
+
+                <div class="col-sm-8">
+
+                    <div class="input-group">
+
+                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                        <input type="text" id="postcode" name="postcode" value="{{$detail->postcode}}" class="form-control postcode" placeholder="" required="1" />
+
+                    </div>
+                </div>
+            </div>
+
 
 
         </div>
