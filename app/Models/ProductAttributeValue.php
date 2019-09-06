@@ -26,13 +26,18 @@ class ProductAttributeValue extends Model
      * @param null $attr_value_id
      * @return string
      */
-    static function get_show_name($attr_value_ids=[]){
+    static function get_show_name($good_id, $attr_value_ids=[]){
+
+        $gd = Good::find($good_id);
+        $product_attr_ids = ProductAttribute::where('product_id', $gd->product_id)->pluck('id');
 
         $show_name_str = '';
 
         foreach ($attr_value_ids as $attr_value_id){
             if($attr_value_id){
-                $first =  self::where('attr_value_id', $attr_value_id)->first();
+                $first =  self::where('attr_value_id', $attr_value_id)
+                    ->whereIn('product_attribute_id', $product_attr_ids)
+                    ->first();
                 $show_name_str .= $first->show_name;
             }
         }

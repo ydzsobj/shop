@@ -59,7 +59,7 @@ class ImportProductInfo extends Command
                 ]);
 
                 if($res){
-                    echo '产品id='.$product_id.'信息保存成功';
+                    echo '产品id='.$product_id."信息保存成功\n";
                 }
             }
         }

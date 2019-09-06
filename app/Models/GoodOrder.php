@@ -229,7 +229,7 @@ class GoodOrder extends Model
                 $sku_str .= "[$sku->sku_id] ".$sku->good->name .' '. $sku->s1_name . $sku->s2_name. $sku->s3_name. ' x'. $order_sku->sku_nums;
                 $sku_str .= "\r\n";
 
-                $sku_desc_str .= "[$sku->sku_id] ". $sku->good->title .' '. ProductAttributeValue::get_show_name([$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums;
+                $sku_desc_str .= "[$sku->sku_id] ". $sku->good->title .' '. ProductAttributeValue::get_show_name($sku->good_id, [$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums;
                 $sku_desc_str .= "\r\n";
 
                 //产品名称
