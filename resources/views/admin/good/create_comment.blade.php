@@ -35,7 +35,7 @@
 
                         <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
-                        <input type="text" id="phone" name="phone" class="form-control phone" placeholder="输入联系电话" required="1" />
+                        <input type="text" id="phone" name="phone" value="{{$rand_mobile}}" class="form-control phone" placeholder="输入联系电话" required="1" />
 
                     </div>
                 </div>
