@@ -79,7 +79,14 @@ if(!function_exists('get_api_data')){
 //隐藏部分手机号数字
 if(!function_exists('hidden_mobile')){
     function hidden_mobile($mobile){
-        return  $mobile ? substr($mobile,0,3) .'****' . substr($mobile,-4) : '';
+        return  str_repeat('*',strlen($mobile)-4).substr($mobile,-4);
+    }
+}
+
+//随机四位数字
+if(!function_exists('rand_mobile')){
+    function rand_mobile($len = 4){
+        return str_repeat('*',7).rand(1000, 9999);
     }
 }
 

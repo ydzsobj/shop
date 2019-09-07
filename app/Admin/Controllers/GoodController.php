@@ -396,7 +396,8 @@ class GoodController extends BaseController
      */
     public function create_comment(Request $request, $good_id){
         $star_scores = config('comment.star_scores');
-        return view('admin.good.create_comment',compact('good_id','star_scores'));
+        $rand_mobile = rand_mobile();
+        return view('admin.good.create_comment',compact('good_id','star_scores','rand_mobile'));
     }
 
     /**
