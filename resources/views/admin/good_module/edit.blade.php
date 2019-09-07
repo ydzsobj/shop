@@ -108,7 +108,7 @@
                                     <td style="width:30%;">
 
                                         <span>已绑单品:{{$good_module_image->good->name}}</span><br />
-                                        <select class="form-control good_id_{{$good_module_image->good->id}}" name="list[{{$key}}][good_id]" required="1">
+                                        <select style="width:280px;" class="form-control good_id_{{$good_module_image->good->id}}" name="list[{{$key}}][good_id]" required="1">
                                             <option value="{{$good_module_image->good->id}}" selected="selected">{{$good_module_image->good->name}}</option>
                                         </select>
 
