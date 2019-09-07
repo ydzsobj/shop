@@ -39,10 +39,9 @@
 
             <div class="form-group ">
 
-                <label for="good_id" class="col-sm-2 asterisk control-label">绑定商品</label>
-
+                <label for="good_id" class="col-sm-2 asterisk control-label">绑定商品 @if($detail->good->name)(已绑定单品：{{$detail->good->name}}) @endif</label>
                 <div class="col-sm-8">
-                    <span>已绑定单品：{{$detail->good->name}}</span>
+
                     <select class="form-control good_id" name="good_id" value="{{$detail->good_id}}"  required="1">
 
                     </select>
