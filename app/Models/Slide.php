@@ -12,5 +12,13 @@ class Slide extends Model
     protected $fillable = [
         'image_url',
         'sort',
+        'good_id',
     ];
+
+    /**
+     * @return $this
+     */
+    public function good(){
+        return $this->belongsTo(Good::class)->withDefault();
+    }
 }

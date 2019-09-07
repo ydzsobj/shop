@@ -32,11 +32,13 @@ class IndexController extends Controller
      *        "category": [
      *            {
      *                "mallCategoryId": 1,
-     *                "mallCategoryName": "数码科技"
+     *                "mallCategoryName": "数码科技"，
+     *                "image_url": "http://192.168.1.132:8081/uploads/admin/images/47a2e200a6eb3b83e27695587e263856.jpeg"
      *            },
      *            {
      *                "mallCategoryId": 2,
      *                "mallCategoryName": "美妆"
+     *                "image_url": "http://192.168.1.132:8081/uploads/admin/images/47a2e200a6eb3b83e27695587e263856.jpeg"
      *            },
      *            {
      *                "mallCategoryId": 3,
@@ -45,10 +47,12 @@ class IndexController extends Controller
      *        ],
      *        "slides": [
      *            {
+     *                "good_id": 48
      *                "slide_id": 4,
      *                "image": "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/f4799862d9401afa6e6fbfbfcd5a5b50.png"
      *            },
      *            {
+     *                "good_id": 48
      *                "slide_id": 3,
      *                "image": "http://192.168.1.132:8081/storage/uploads/image/2019/08/10/ea3c55fe710f506c72797b8f36452a5d.png"
      *            }
@@ -140,7 +144,7 @@ class IndexController extends Controller
             ->get();
 
         //轮播图
-        $slides = Slide::select('id as slide_id','image_url as image')
+        $slides = Slide::select('id as slide_id','image_url as image','good_id')
             ->orderBy('sort','desc')
             ->get();
 
