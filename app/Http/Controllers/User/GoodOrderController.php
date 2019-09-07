@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\StoreGoodOrder;
 use App\Models\GoodOrder;
+use App\Models\GoodOrderSku;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -129,5 +130,63 @@ class GoodOrderController extends Controller
         }else{
             return returned(false, '提交订单失败');
         }
+    }
+
+    /**
+     * @api {get} /api/user/order_notice  1.8 获取下单数据
+     * @apiName getOrderNotice
+     * @apiGroup User
+     *
+     * @apiParam {string} receiver_name 收货人姓名
+     * @apiParam {float} price 单价
+     * @apiParam {Number} sku_nums 单品数量
+     * @apiParam {string} title 商品展示名称
+     * @apiParam {datetime} created_at 下单时间
+     *
+     * @apiParamExample {json} Request-Example:
+     *    "success": true,
+     *    "msg": "",
+     *    "data": [
+     *        {
+     *            "sku_nums": 1,
+     *            "price": "1.00",
+     *            "title": "new-1603",
+     *            "receiver_name": "skyfee",
+     *            "created_at": "2019-09-04 08:49:31"
+     *        },
+     *        {
+     *            "sku_nums": 1,
+     *            "price": "18.00",
+     *            "title": "111",
+     *            "receiver_name": "测试",
+     *            "created_at": "2019-09-04 07:48:22"
+     *        },
+     *        {
+     *            "sku_nums": 1,
+     *            "price": "1.00",
+     *            "title": "111",
+     *            "receiver_name": null,
+     *            "created_at": null
+     *        }
+     *    ]
+     *}
+     *
+     */
+    public function order_notice(Request $request){
+
+         $data = GoodOrderSku::leftJoin('good_orders','good_orders.id','good_order_skus.good_order_id')
+            ->leftJoin('goods','goods.id','good_order_skus.good_id')
+            ->select(
+                'good_order_skus.sku_nums',
+                'good_order_skus.price',
+                'goods.title',
+                'good_orders.receiver_name',
+                'good_orders.created_at'
+            )
+            ->orderBy('good_order_skus.id', 'desc')
+            ->take(3)
+            ->get();
+
+         return returned(true,'', $data);
     }
 }
