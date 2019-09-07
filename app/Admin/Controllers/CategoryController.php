@@ -78,6 +78,9 @@ class CategoryController
         $grid->id('ID');
         $grid->name('类别名称');
         $grid->show_name('展示名称');
+
+        $grid->column('image_url','图标')->image(env('APP_URL').'/uploads/admin/', 100, 100);
+
         $grid->sort('排序');
 
         $grid->created_at('创建时间');
@@ -110,6 +113,8 @@ class CategoryController
             'regex' => '范围0-99',
             'min'   => '不能少于1个字符',
         ]);
+
+        $form->image('image_url', '图标')->uniqueName()->rules('required');
 
 //        $form->display('created_at');
 //        $form->display('updated_at');

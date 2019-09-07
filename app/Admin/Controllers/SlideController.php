@@ -22,7 +22,7 @@ class SlideController extends BaseController
      */
     public function store(Request $request){
 
-        $req = $request->only('sort');
+        $req = $request->only('sort', 'good_id');
 
         $module_image_file = $request->file('slide_image_file');
 
@@ -54,6 +54,7 @@ class SlideController extends BaseController
 
         $update_data = $request->only([
             'sort',
+            'good_id'
         ]);
 
         $update_data = collect($update_data);

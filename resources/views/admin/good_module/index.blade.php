@@ -187,6 +187,10 @@
                                 </th>
 
                                 <th>
+                                    绑定单品名
+                                </th>
+
+                                <th>
                                     排序
                                 </th>
 
@@ -218,6 +222,7 @@
                                             <img src='{{$slide->image_url}}' class='img-thumbnail' />
                                         </div>
                                     </td>
+                                    <td>{{$slide->good->name}}</td>
                                     <td>{{$slide->sort}}</td>
                                     <td>{{$slide->created_at}}</td>
                                     <td>
@@ -235,7 +240,7 @@
                                         </div>
 
                                         <!-- 模态框（Modal） -->
-                                        <div class="modal fade" id="editModalSlide_{{$slide->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="editModalSlide_{{$slide->id}}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" style="width:60%">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
