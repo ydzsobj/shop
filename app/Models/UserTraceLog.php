@@ -40,6 +40,9 @@ class UserTraceLog extends Model
 
         list($start_date, $end_date) = recent_thirty_days();
 
+        $start_date = $request->get('start_date') ?: $start_date;
+        $end_date = $request->get('end_date') ?: $end_date;
+
         $per_page = $request->get('per_page') ?: $this->page_size;
 
         $search = compact('start_date','end_date','per_page');
