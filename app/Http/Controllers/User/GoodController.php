@@ -96,6 +96,7 @@ class GoodController extends Controller
      * @apiParam {Number} id 商品id
      *
      * @apiSuccess {String} title 商品标题
+     * @apiSuccess {String} about 商品简介
      * @apiSuccess {String} price 实际价格
      * @apiSuccess {Array} pay_types 付款方式
      * @apiSuccess {Number} show_comment 是否显示评论模块
@@ -115,6 +116,7 @@ class GoodController extends Controller
      *        "id": 24,
      *        "title": "乔丹男鞋2019夏新款跑鞋男网面透气休闲鞋子轻便时尚跑步鞋运动鞋男 曜石黑231 44.5",
      *        "name": "08020937-运动鞋",
+     *        "about": "这是一条简介。。。",
      *        "original_price": "111.00",
      *        "price": "99.00",
      *        "product_id": 1,
