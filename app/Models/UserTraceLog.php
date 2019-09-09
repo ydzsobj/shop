@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class UserTraceLog extends Model
 {
     protected $table = 'user_trace_logs';
+
+    public $page_size = 20;
 
     /**
      * 可以被批量赋值的属性。
@@ -24,4 +27,29 @@ class UserTraceLog extends Model
         'area'
 
     ];
+
+    public function good(){
+        return $this->belongsTo(Good::class)->withDefault();
+    }
+
+    /**
+     * @param $request
+     * @return array
+     */
+    public function get_data($request){
+
+        list($start_date, $end_date) = recent_thirty_days();
+
+        $per_page = $request->get('per_page') ?: $this->page_size;
+
+        $search = compact('start_date','end_date','per_page');
+
+        $data =  UserTraceLog::with('good')
+            ->whereBetween('created_at', [$start_date, Carbon::parse($end_date)->endOfDay()])
+            ->orderBy('id', 'desc')
+            ->select('*')
+            ->paginate($per_page);
+
+        return [$data, $search];
+    }
 }
