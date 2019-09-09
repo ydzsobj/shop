@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\StoreTraceLogRequest;
 use App\Models\UserTraceLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,10 +16,10 @@ class UserTraceLogController extends Controller
      * @apiName post_trace_logs
      * @apiGroup User
      *
-     * @apiParam {String} [device] 用户设备信息
+     * @apiParam {String} device 用户设备信息
      * @apiParam {String} [lang] 设备语言
-     * @apiParam {String} [referer_url] 来源地址
-     * @apiParam {String} [access_url] 访问地址
+     * @apiParam {String} referer_url 来源地址
+     * @apiParam {String} access_url 访问地址
      * @apiParam {Number} [good_id] 商品ID
      *
      *
@@ -30,7 +31,7 @@ class UserTraceLogController extends Controller
      *    "data": []
      *}
      */
-    public function store(Request $request){
+    public function store(StoreTraceLogRequest $request){
 
         $req = $request->only('device','lang', 'referer_url','access_url', 'good_id');
 
