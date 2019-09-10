@@ -239,7 +239,7 @@
                                         </a>
 
                                     </td>
-                                    <td>{{$order->ip}}</td>
+                                    <td>{{$order->ip}}{{$order->ip_country_area}}</td>
                                     <td>{{$order->price}}</td>
                                     <td>
                                         <span style="color: @if($order->status == 1)green @else red @endif "
