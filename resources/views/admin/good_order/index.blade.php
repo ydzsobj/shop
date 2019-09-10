@@ -239,8 +239,12 @@
                                         </a>
 
                                     </td>
-                                    <td>{{$order->ip}}{{$order->ip_country_area}}</td>
-                                    <td>{{$order->price}}</td>
+                                    <td>
+                                        {{$order->ip}}<br />
+                                        {{$order->ip_country}}</td>
+                                    <td>
+                                        {{$order->price}}
+                                    </td>
                                     <td>
                                         <span style="color: @if($order->status == 1)green @else red @endif "
                                               title="审核记录"

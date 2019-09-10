@@ -286,15 +286,14 @@ class GoodOrder extends Model
     /**
      * @return string
      */
-    public function getIpCountryAreaAttribute(){
+    public function getIpCountryAttribute(){
         $ip = long2ip($this->attributes['ip']);
         $ip_info = IpLocation::getLocation($ip);
         if(isset($ip_info['error'])){
             return '(' .$ip_info['error'] . ')';
         }
         $country = $ip_info['country'] ?? '';
-        $area = $ip_info['area'] ?? '';
-        return $country ? '('.$country. $area . ')' : '';
+        return $country ? '('.$country . ')' : '';
     }
 
 //    public function getPriceAttribute($value){
