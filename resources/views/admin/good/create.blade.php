@@ -222,7 +222,7 @@
 
                                 <div class="form-group  ">
 
-                                    <label for="list_image_files" class="col-sm-2 control-label">轮播图(可选择多张,{!! $upload_config['image_tips'] !!})</label>
+                                    <label for="list_image_files" class="col-sm-2 control-label">轮播图(可选择多张,{!! $upload_config['image_tips'] !!},<span style="color: red;">请保持每张图片尺寸一致</span>)</label>
 
                                     <div class="col-sm-8">
 
