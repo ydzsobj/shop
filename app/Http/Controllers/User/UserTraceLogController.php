@@ -7,6 +7,7 @@ use App\Models\UserTraceLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use itbdw\Ip\IpLocation;
+use App\Jobs\SaveTraceLog;
 
 class UserTraceLogController extends Controller
 {
@@ -39,21 +40,8 @@ class UserTraceLogController extends Controller
 
         $req['ip'] = ip2long($ip);
 
-        $ip_info = IpLocation::getLocation($ip);
+        //加入队列
+        SaveTraceLog::dispatch($req,$ip);
 
-        if($ip_info){
-            $country = $ip_info['country'] ?? '';
-            $area = $ip_info['area'] ?? '';
-            $province = $ip_info['province'] ?? '';
-            $city = $ip_info['city'] ?? '';
-        }
-
-        $res = UserTraceLog::create(array_merge($req, compact('country','area','province','city')));
-
-        $success = $res ? true : false;
-
-        $msg = $res ? '添加成功': '添加失败';
-
-        return returned($success, $msg);
     }
 }
