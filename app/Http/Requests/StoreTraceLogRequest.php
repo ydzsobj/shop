@@ -25,7 +25,7 @@ class StoreTraceLogRequest extends FormRequest
     {
         return [
             'device' => 'required',
-            'referer_url' => 'required',
+//            'referer_url' => 'required',
             'access_url' => 'required',
         ];
     }
@@ -33,7 +33,7 @@ class StoreTraceLogRequest extends FormRequest
     public function messages(){
         return [
             'device.required' => '设备信息必须',
-            'referer_url.required' => '来源地址必须',
+//            'referer_url.required' => '来源地址必须',
             'access_url.required' => '访问地址必须',
         ];
     }
