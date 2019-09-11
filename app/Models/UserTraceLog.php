@@ -49,7 +49,7 @@ class UserTraceLog extends Model
         $search = compact('start_date','end_date','per_page');
 
         $data =  UserTraceLog::with('good')
-            ->whereBetween('created_at', [$start_date, Carbon::parse($end_date)->endOfDay()])
+            ->whereBetween('access_time', [$start_date, $end_date])
             ->orderBy('id', 'desc')
             ->select('*')
             ->paginate($per_page);

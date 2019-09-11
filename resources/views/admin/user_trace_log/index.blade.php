@@ -127,7 +127,7 @@
                                 @foreach($user_trace_logs as $user_trace_log)
                                 <tr>
                                     <td>{{$user_trace_log->id}}</td>
-                                    <td>{{$user_trace_log->created_at}}</td>
+                                    <td>{{$user_trace_log->access_time}}</td>
                                     <td>{{long2ip($user_trace_log->ip)}}</td>
                                     <td>{{$user_trace_log->country}}</td>
                                     <td>{{$user_trace_log->area}}</td>
@@ -181,8 +181,8 @@
     <script>
 
         $(function () {
-            $('#created_at_start').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN"});
-            $('#created_at_end').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN","useCurrent":false});
+            $('#created_at_start').datetimepicker({"format":"YYYY-MM-DD HH:mm:ss","locale":"zh-CN"});
+            $('#created_at_end').datetimepicker({"format":"YYYY-MM-DD HH:mm:ss","locale":"zh-CN","useCurrent":false});
             $("#created_at_start").on("dp.change", function (e) {
                 $('#created_at_end').data("DateTimePicker").minDate(e.date);
             });
