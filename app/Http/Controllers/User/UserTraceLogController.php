@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\StoreTraceLogRequest;
 use App\Models\UserTraceLog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use itbdw\Ip\IpLocation;
@@ -21,7 +22,6 @@ class UserTraceLogController extends Controller
      * @apiParam {String} [lang] 设备语言
      * @apiParam {String} referer_url 来源地址
      * @apiParam {String} access_url 访问地址
-     * @apiParam {datetime} access_time 访问时间
      * @apiParam {Number} [good_id] 商品ID
      *
      *
@@ -35,7 +35,9 @@ class UserTraceLogController extends Controller
      */
     public function store(StoreTraceLogRequest $request){
 
-        $req = $request->only('device','lang', 'referer_url','access_url', 'good_id', 'access_time');
+        $req = $request->only('device','lang', 'referer_url','access_url', 'good_id');
+
+        $req['access_time'] = Carbon::now();
 
         $ip = $request->getClientIp();
 

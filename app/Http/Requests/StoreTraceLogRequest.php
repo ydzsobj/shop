@@ -27,7 +27,6 @@ class StoreTraceLogRequest extends FormRequest
             'device' => 'required',
             'referer_url' => 'required',
             'access_url' => 'required',
-            'access_time' => 'required',
         ];
     }
 
@@ -36,7 +35,6 @@ class StoreTraceLogRequest extends FormRequest
             'device.required' => '设备信息必须',
             'referer_url.required' => '来源地址必须',
             'access_url.required' => '访问地址必须',
-            'access_time.required' => '访问时间必须',
         ];
     }
 }
