@@ -24,7 +24,8 @@ class UserTraceLog extends Model
         'access_url',
         'good_id',
         'country',
-        'area'
+        'area',
+        'access_time'
 
     ];
 

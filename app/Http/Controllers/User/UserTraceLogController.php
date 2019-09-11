@@ -21,6 +21,7 @@ class UserTraceLogController extends Controller
      * @apiParam {String} [lang] 设备语言
      * @apiParam {String} referer_url 来源地址
      * @apiParam {String} access_url 访问地址
+     * @apiParam {datetime} access_time 访问地址
      * @apiParam {Number} [good_id] 商品ID
      *
      *
@@ -34,7 +35,7 @@ class UserTraceLogController extends Controller
      */
     public function store(StoreTraceLogRequest $request){
 
-        $req = $request->only('device','lang', 'referer_url','access_url', 'good_id');
+        $req = $request->only('device','lang', 'referer_url','access_url', 'good_id', 'access_time');
 
         $ip = $request->getClientIp();
 
