@@ -44,7 +44,7 @@ class UserTraceLogController extends Controller
         $req['ip'] = ip2long($ip);
 
         //加入队列
-        SaveTraceLog::dispatch($req,$ip)->delay(Carbon::now()->subSeconds(10));
+        SaveTraceLog::dispatch($req,$ip)->delay(Carbon::now()->addSeconds(10));
 
     }
 }
