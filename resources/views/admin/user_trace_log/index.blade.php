@@ -115,7 +115,9 @@
                                 <th>
                                     地区
                                 </th>
-                                <th>设备</th>
+                                <th>
+                                    设备信息
+                                </th>
                                 <th>语言</th>
                                 <th>来源URL</th>
                                 <th>访问URL</th>
@@ -131,7 +133,9 @@
                                     <td>{{long2ip($user_trace_log->ip)}}</td>
                                     <td>{{$user_trace_log->country}}</td>
                                     <td>{{$user_trace_log->area}}</td>
-                                    <td>{{$user_trace_log->device}}</td>
+                                    <td style="width:300px; word-break:break-all; word-wrap:break-word; white-space:inherit">
+                                        {{$user_trace_log->device}}
+                                    </td>
                                     <td>{{$user_trace_log->lang}}</td>
                                     <td>{{$user_trace_log->referer_url}}</td>
                                     <td>{{$user_trace_log->access_url}}</td>
