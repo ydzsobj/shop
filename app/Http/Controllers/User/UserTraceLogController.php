@@ -21,7 +21,7 @@ class UserTraceLogController extends Controller
      * @apiParam {String} [lang] 设备语言
      * @apiParam {String} referer_url 来源地址
      * @apiParam {String} access_url 访问地址
-     * @apiParam {datetime} access_time 访问地址
+     * @apiParam {datetime} access_time 访问时间
      * @apiParam {Number} [good_id] 商品ID
      *
      *
