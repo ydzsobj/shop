@@ -34,6 +34,7 @@ Route::group([
     //订单管理
     $router->resource('/good_orders', 'GoodOrderController')->except(['store','show']);
     //审核订单
+    $router->get('/good_orders/{id}/create_audit','GoodOrderController@create_audit')->name('good_orders.create_audit');
     $router->put('/good_orders/{id}/audit','GoodOrderController@audit')->name('good_orders.audit');
     //加客服备注
     $router->put('good_orders/{id}/update_remark', 'GoodOrderController@update_remark');

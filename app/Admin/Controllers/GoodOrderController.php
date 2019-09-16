@@ -42,6 +42,19 @@ class GoodOrderController extends BaseController
         return view('admin.good_order.index', compact('orders', 'search', 'status','search_items','date_search_items','group_orders'));
     }
 
+
+    /**
+     * @param Request $request
+     * @param $good_order_id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create_audit(Request $request, $good_order_id){
+        //状态
+        $status = config('order.status');
+
+        return view('admin.good_order.create_audit', compact('good_order_id','status'));
+    }
+
     /**
      * 审核订单
      * @param Request $request

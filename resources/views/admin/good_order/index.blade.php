@@ -301,7 +301,7 @@
                                             <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
 
                                                 <li><a href="#" data-toggle="modal" data-target="#editModal_{{$order->id}}" data-remote="{{route('good_orders.edit',['id' => $order->id])}}">编辑</a></li>
-                                                <li><a href="#" data-toggle="modal" data-target="#auditModal_{{$order->id}}">审核</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#auditModal_{{$order->id}}" data-remote="{{route('good_orders.create_audit',['id' => $order->id])}}">审核</a></li>
                                                 <li><a href="#" id ="disable_{{$order->id}}" data-id="{{$order->id}}" data-title="删除" data-action="disable" class="grid-row-action">删除</a></li>
 
                                             </ul>
@@ -334,36 +334,6 @@
                                                             <h4 class="modal-title" id="myModalLabel">审核订单</h4>
                                                         </div>
                                                         <div class="modal-body">
-
-                                                            <div class="row">
-                                                                <div class="form-group">
-                                                                    <label for="title" class="col-sm-2 asterisk control-label">选择状态</label>
-                                                                    <div class="col-sm-6">
-                                                                        <select class="status" name="status" style="width: 200px;" required="1">
-                                                                            <option></option>
-                                                                            @foreach($status as $key=>$s)
-                                                                                <option value="{{$key}}">{{$s}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <br />
-                                                            <div class="row">
-                                                                <div class="form-group">
-                                                                    <label for="title" class="col-sm-2 asterisk control-label">填写审核信息</label>
-                                                                    <div class="col-sm-6">
-                                                                        <div><textarea cols="30" rows="3" name="remark" required="1"></textarea></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="_method" value="put" />
-                                                            <input type="hidden" name="_token" value="{{csrf_token()}}" />
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                                            <button type="submit" class="btn btn-primary">提交</button>
                                                         </div>
                                                     </div><!-- /.modal-content -->
                                                 </form>
