@@ -119,9 +119,9 @@ class GoodOrder extends Model
 
         if($start_date && $end_date){
             if($date_search_item == self::AUDIT_DATE_SEARCH_ITEM_CODE){
-                $base_query->whereBetween('good_orders.last_audited_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
+                $base_query->whereBetween('good_orders.last_audited_at', [$start_date, $end_date]);
             }else{
-                $base_query->whereBetween('good_orders.created_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
+                $base_query->whereBetween('good_orders.created_at', [$start_date, $end_date]);
             }
         }
 
