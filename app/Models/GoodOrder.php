@@ -109,18 +109,20 @@ class GoodOrder extends Model
     protected function query_conditions($base_query, $request){
 
         //默认30天数据
-        list($start_date, $end_date) = recent_thirty_days();
+//        list($start_date, $end_date) = recent_thirty_days();
 
         //时间筛选项
         $date_search_item = $request->post('date_search_item');
         //筛选时间
-        $start_date = $request->get('start_date') ?: $start_date;
-        $end_date = $request->get('end_date') ?: $end_date;
+        $start_date = $request->get('start_date') ?: '';
+        $end_date = $request->get('end_date') ?: '';
 
-        if($date_search_item == self::AUDIT_DATE_SEARCH_ITEM_CODE){
-            $base_query->whereBetween('good_orders.last_audited_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
-        }else{
-            $base_query->whereBetween('good_orders.created_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
+        if($start_date && $end_date){
+            if($date_search_item == self::AUDIT_DATE_SEARCH_ITEM_CODE){
+                $base_query->whereBetween('good_orders.last_audited_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
+            }else{
+                $base_query->whereBetween('good_orders.created_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
+            }
         }
 
         //审核状态筛选
@@ -195,6 +197,7 @@ class GoodOrder extends Model
 
         $orders = $query->select(
             'good_orders.id',
+            'good_orders.remark',
             'good_orders.sn',
             'good_orders.receiver_name',
             'good_orders.postcode',

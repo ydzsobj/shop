@@ -11,8 +11,10 @@ $(function () {
 
 
     //时间日期
-    $('#created_at_start').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN"});
-    $('#created_at_end').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN","useCurrent":false});
+    var date = new Date();
+    console.log(date);
+    $('#created_at_start').datetimepicker({"format":"YYYY-MM-DD HH:mm:ss","locale":"zh-CN","maxDate" :date});
+    $('#created_at_end').datetimepicker({"format":"YYYY-MM-DD HH:mm:ss","locale":"zh-CN","useCurrent":true,"maxDate" :date});
     $("#created_at_start").on("dp.change", function (e) {
         $('#created_at_end').data("DateTimePicker").minDate(e.date);
     });

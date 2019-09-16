@@ -29,6 +29,7 @@ class GoodOrdersExport implements FromCollection,WithHeadings,withEvents
     public function headings(): array
     {
         return [
+            '客服备注',
             '订单sn',
             '收件人',
             '收货地邮编',

@@ -37,7 +37,9 @@ class GoodOrderController extends BaseController
         //时间搜索项
         $date_search_items = config('order.date_search_items');
 
-        return view('admin.good_order.index', compact('orders', 'search', 'status','search_items','date_search_items'));
+        $group_orders = $orders->groupBy('receiver_phone');
+
+        return view('admin.good_order.index', compact('orders', 'search', 'status','search_items','date_search_items','group_orders'));
     }
 
     /**

@@ -38,11 +38,11 @@ class ProductAttributeValue extends Model
                 $first =  self::where('attr_value_id', $attr_value_id)
                     ->whereIn('product_attribute_id', $product_attr_ids)
                     ->first();
-                $show_name_str .= $first->show_name;
+                $show_name_str .= $first ? $first->show_name.'-' : '';
             }
         }
 
-        return $show_name_str;
+        return rtrim($show_name_str, '-');
     }
 
 }

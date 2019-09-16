@@ -54,9 +54,9 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control" id="created_at_start" placeholder="发布时间" name="start_date" value="{{$search['start_date']}}">
+                                                        <input type="text" class="form-control" id="created_at_start" placeholder="开始时间" name="start_date" value="{{$search['start_date']}}">
                                                         <span class="input-group-addon" style="border-left: 0; border-right: 0;">-</span>
-                                                        <input type="text" class="form-control" id="created_at_end" placeholder="发布时间" name="end_date" value="{{$search['end_date']}}">
+                                                        <input type="text" class="form-control" id="created_at_end" placeholder="结束时间" name="end_date" value="{{$search['end_date']}}">
                                                     </div>
                                                 </div>
 
@@ -242,7 +242,7 @@
                                     <td>{{$order->ip}}</td>
                                     <td>{{$order->price}}</td>
                                     <td>
-                                        <span style="color: @if($order->status == 1)green @else red @endif "
+                                        <span style="color: @if($order->status == 1)green @elseif($order->status == 2) red @else orange @endif "
                                               title="审核记录"
                                               data-container="body"
                                               data-toggle="popover"
@@ -263,7 +263,7 @@
                                     </td>
                                     <td>
                                         {{$order->receiver_name}}<br />
-                                        {{$order->receiver_phone}}<br />
+                                        <span class="receiver_phone_{{$order->id}}">{{$order->receiver_phone}}</span><br />
                                         {{$order->receiver_email}}
                                     </td>
                                     <td style="width:18%; word-break:break-all; word-wrap:break-word; white-space:inherit">
@@ -286,7 +286,7 @@
                                     <td style="width:20%; word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         @foreach($order->order_skus as $order_sku)
                                             @php($sku = $order_sku->sku_info)
-                                            <span>{{$sku->good->name. '【' .$sku->sku_id. '】 ' .$sku->s1_name.' '.$sku->s2_name.' '.$sku->s3_name. ' x'. $order_sku->sku_nums }}</span><br>
+                                            <span>{{$sku->good->name. '【' .$sku->sku_id. '】 ' .\App\Models\ProductAttributeValue::get_show_name($sku->good_id, [$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums }}</span><br>
                                         @endforeach
                                     </td>
                                     <td style="width:6%; word-break:break-all; word-wrap:break-word; white-space:inherit">
@@ -464,5 +464,19 @@
 
     <script src="{{URL::asset('/js/admin/common.js')}}"></script>
     <script src="{{URL::asset('/js/admin/good_order/index.js')}}"></script>
+
+    <script>
+
+        @foreach($group_orders as $orders)
+            @if(count($orders) > 1)
+                var ids = JSON.parse("{{$orders->pluck('id')}}");
+                console.log(ids,ids.length);
+                for(var i=0;i<ids.length;i++){
+                    $(".receiver_phone_" + ids[i]).css('color','red');
+                }
+            @endif
+        @endforeach
+
+    </script>
 
 @endsection
