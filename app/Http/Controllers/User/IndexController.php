@@ -199,7 +199,8 @@ class IndexController extends Controller
      *        "config": {
      *            "area": "中国台湾",
      *            "lang": "zh_CN",
-     *            "money_sign": "$"
+     *            "money_sign": "$",
+     *            "email": "123@qq.com"
      *        }
      *    }
      *}
@@ -209,7 +210,8 @@ class IndexController extends Controller
         $config = [
             'area' => config('global_area'),
             'lang' => config('global_lang'),
-            'money_sign' => config('money_sign')
+            'money_sign' => config('money_sign'),
+            'email' => config('global_email')
         ];
 
         return returned(true, '', compact('config'));
