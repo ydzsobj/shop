@@ -189,6 +189,7 @@ class IndexController extends Controller
      * @apiSuccess {string} area 地区
      * @apiSuccess {string} lang 语言
      * @apiSuccess {string} money_sign 货币符号
+     * @apiSuccess {string} email 展示邮箱
      *
      * @apiSuccessExample Success-Response:
      * HTTP/1.1 200 OK
@@ -199,7 +200,8 @@ class IndexController extends Controller
      *        "config": {
      *            "area": "中国台湾",
      *            "lang": "zh_CN",
-     *            "money_sign": "$"
+     *            "money_sign": "$",
+     *            "email": "123@qq.com"
      *        }
      *    }
      *}
@@ -209,7 +211,8 @@ class IndexController extends Controller
         $config = [
             'area' => config('global_area'),
             'lang' => config('global_lang'),
-            'money_sign' => config('money_sign')
+            'money_sign' => config('money_sign'),
+            'email' => config('global_email')
         ];
 
         return returned(true, '', compact('config'));

@@ -118,7 +118,7 @@ class Good extends Model
         $start_date = $request->get('start_date');
         $end_date = $request->get('end_date');
         if($start_date && $end_date){
-            $base_query->whereBetween('goods.created_at', [$start_date, Carbon::parse($end_date)->endOfDay()]);
+            $base_query->whereBetween('goods.created_at', [$start_date, $end_date]);
         }
 
         //单品类型
