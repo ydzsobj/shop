@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Encore\Admin\Facades\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use itbdw\Ip\IpLocation;
 
 class GoodOrder extends Model
 {
@@ -283,6 +284,19 @@ class GoodOrder extends Model
      */
     public function getIpAttribute($value){
         return long2ip($value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpCountryAttribute(){
+        $ip = long2ip($this->attributes['ip']);
+        $ip_info = IpLocation::getLocation($ip);
+        if(isset($ip_info['error'])){
+            return '(' .$ip_info['error'] . ')';
+        }
+        $country = $ip_info['country'] ?? '';
+        return $country ? '('.$country . ')' : '';
     }
 
 //    public function getPriceAttribute($value){

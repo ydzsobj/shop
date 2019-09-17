@@ -71,6 +71,8 @@ Route::group([
     $router->get('/goods/{id}/create_comment', 'GoodController@create_comment')->name('goods.create_comment');
     $router->post('/goods/store_comment', 'GoodController@store_comment')->name('goods.store_comment');
 
+    //访问记录
+    $router->resource('/user_trace_logs','UserTraceLogController');
 
 
 
