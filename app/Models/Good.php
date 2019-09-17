@@ -24,6 +24,7 @@ class Good extends Model
     protected $fillable = [
         'title',
         'name',
+        'about',
         'original_price',
         'price',
         'product_id',
