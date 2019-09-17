@@ -189,6 +189,7 @@ class IndexController extends Controller
      * @apiSuccess {string} area 地区
      * @apiSuccess {string} lang 语言
      * @apiSuccess {string} money_sign 货币符号
+     * @apiSuccess {string} email 展示邮箱
      *
      * @apiSuccessExample Success-Response:
      * HTTP/1.1 200 OK
