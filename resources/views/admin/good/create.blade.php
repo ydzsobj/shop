@@ -84,6 +84,22 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group  ">
+
+                                    <label for="about" class="col-sm-2 control-label">商品简介(<span style="color: red;">最大255个字符</span>)</label>
+
+                                    <div class="col-sm-8">
+
+                                        <div class="input-group">
+
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                                            <textarea type="text" id="about" name="about" value="" class="form-control about" placeholder="输入 商品简介"></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group  ">
 
                                     <label for="original_price" class="col-sm-2 asterisk control-label">原价</label>
@@ -206,7 +222,7 @@
 
                                 <div class="form-group  ">
 
-                                    <label for="list_image_files" class="col-sm-2 control-label">轮播图(可选择多张,{!! $upload_config['image_tips'] !!})</label>
+                                    <label for="list_image_files" class="col-sm-2 control-label">轮播图(可选择多张,{!! $upload_config['image_tips'] !!},<span style="color: red;">请保持每张图片大小一致</span>)</label>
 
                                     <div class="col-sm-8">
 

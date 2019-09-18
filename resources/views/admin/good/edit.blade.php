@@ -41,6 +41,23 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group  ">
+
+                <label for="about" class="col-sm-2 control-label">商品简介(<span style="color: red;">最大255个字符</span>)</label>
+
+                <div class="col-sm-8">
+
+                    <div class="input-group">
+
+                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                        <textarea type="text" id="about" name="about" class="form-control about" placeholder="输入 商品简介" >{{$detail->about}}</textarea>
+
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group  ">
 
                 <label for="original_price" class="col-sm-2 asterisk control-label">原价</label>
