@@ -29,7 +29,8 @@ class GoodOrdersExport implements FromCollection,WithHeadings,withEvents
     public function headings(): array
     {
         return [
-            '客服备注',
+            '下单时间',
+            '审核时间',
             '订单sn',
             '收件人',
             '收货地邮编',
@@ -39,13 +40,15 @@ class GoodOrdersExport implements FromCollection,WithHeadings,withEvents
             '收件地区',
             '收件详细地址',
             '代收货款',
-            '审核状态',
-            '付款方式',
+            'SKUID',
+            '备注',
             '中文品名',
             '英文品名',
-            '备注',
+            '件数',
             '物品描述',
-            '件数'
+            '审核状态',
+            '付款方式',
+            '客服备注',
         ];
     }
 

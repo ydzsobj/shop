@@ -197,7 +197,8 @@ class GoodOrder extends Model
 
         $orders = $query->select(
             'good_orders.id',
-            'good_orders.remark',
+            'good_orders.created_at',
+            'good_orders.last_audited_at',
             'good_orders.sn',
             'good_orders.receiver_name',
             'good_orders.postcode',
@@ -209,7 +210,8 @@ class GoodOrder extends Model
             'good_orders.price',
 
             'good_orders.status',
-            'good_orders.pay_type_id'
+            'good_orders.pay_type_id',
+            'good_orders.remark'
 
         )
             ->orderBy('good_orders.id', 'desc')
@@ -222,6 +224,7 @@ class GoodOrder extends Model
             $order->sn = ' '.$order->sn;
             $order->receiver_phone = ' '.$order->receiver_phone;
             $order_skus = $order->order_skus;
+            $sku_ids = '';
             $sku_str = '';
             $sku_desc_str = '';
             $product_name_str = '';
@@ -229,10 +232,14 @@ class GoodOrder extends Model
             $total_nums = 0;
             foreach ($order_skus as $order_sku){
                 $sku = $order_sku->sku_info;
-                $sku_str .= "[$sku->sku_id] ".$sku->good->name .' '. $sku->s1_name . $sku->s2_name. $sku->s3_name. ' x'. $order_sku->sku_nums;
+
+                $sku_ids .= $sku->sku_id;
+                $sku_ids .= "\r\n";
+
+                $sku_str .= $sku->good->name .' '. $sku->s1_name . $sku->s2_name. $sku->s3_name. ' x'. $order_sku->sku_nums;
                 $sku_str .= "\r\n";
 
-                $sku_desc_str .= "[$sku->sku_id] ". $sku->good->title .' '. ProductAttributeValue::get_show_name($sku->good_id, [$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums;
+                $sku_desc_str .= $sku->good->title .' '. ProductAttributeValue::get_show_name($sku->good_id, [$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums;
                 $sku_desc_str .= "\r\n";
 
                 //产品名称
@@ -244,17 +251,23 @@ class GoodOrder extends Model
 
                 $total_nums += $order_sku->sku_nums;
             }
-            $order->status_str = array_get($status, $order->status, '');
-            $order->pay_type_str = array_get($pay_types, $order->pay_type_id, '');
+
+            $order->sku_ids = $sku_ids;
+            $order->sku_str = $sku_str;
             $order->product_name_str = $product_name_str;
             $order->product_english_name_str = $product_english_name_str;
-            $order->sku_str = $sku_str;
-            $order->sku_desc_str = $sku_desc_str;
             $order->total_nums = $total_nums;
+            $order->sku_desc_str = $sku_desc_str;
+
+            $order->status_str = array_get($status, $order->status, '');
+            $order->pay_type_str = array_get($pay_types, $order->pay_type_id, '');
+            $order->service_remark = $order->remark;
+
             unset(
                 $order->id,
                 $order->pay_type_id,
-                $order->status
+                $order->status,
+                $order->remark
             );
         }
 
