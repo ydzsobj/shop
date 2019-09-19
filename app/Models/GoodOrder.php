@@ -192,7 +192,7 @@ class GoodOrder extends Model
 
     public function export($request){
 
-        $base_query =  GoodOrder::with(['order_skus','admin_user']);
+        $base_query =  GoodOrder::with(['order_skus']);
 
         list($query, $search) = $this->query_conditions($base_query, $request);
 
@@ -231,26 +231,39 @@ class GoodOrder extends Model
             $product_name_str = '';
             $product_english_name_str = '';
             $total_nums = 0;
+            $admin_user_str = '';
+
             foreach ($order_skus as $order_sku){
                 $sku = $order_sku->sku_info;
 
+                //skuid
                 $sku_ids .= $sku->sku_id;
                 $sku_ids .= "\r\n";
 
+                //备注-中文
                 $sku_str .= $sku->good->name .' '. $sku->s1_name . $sku->s2_name. $sku->s3_name. ' x'. $order_sku->sku_nums;
                 $sku_str .= "\r\n";
 
-                $sku_desc_str .= $sku->good->title .' '. ProductAttributeValue::get_show_name($sku->good_id, [$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums;
+                //物品描述-英文
+                $sku_desc_str .= $sku->good->product->english_name .' '. ProductAttributeValue::get_english_name($sku->good_id, [$sku->s1,$sku->s2,$sku->s3]). ' x'. $order_sku->sku_nums;
                 $sku_desc_str .= "\r\n";
 
-                //产品名称
+                //产品中文名称
                 $product_name_str .= $sku->good->product->name;
                 $product_name_str .= "\r\n";
 
+                //产品英文名称
                 $product_english_name_str .= $sku->good->product->english_name;
                 $product_english_name_str .= "\r\n";
 
+                //件数
                 $total_nums += $order_sku->sku_nums;
+
+                //所属人
+                $admin_user_str .= $sku->good->admin_user->name;
+                $admin_user_str .= "\r\n";
+
+
             }
 
             $order->sku_ids = $sku_ids;
@@ -259,10 +272,12 @@ class GoodOrder extends Model
             $order->product_english_name_str = $product_english_name_str;
             $order->total_nums = $total_nums;
             $order->sku_desc_str = $sku_desc_str;
+            $order->admin_user_str = $admin_user_str;
 
             $order->status_str = array_get($status, $order->status, '');
             $order->pay_type_str = array_get($pay_types, $order->pay_type_id, '');
             $order->service_remark = $order->remark;
+
 
             unset(
                 $order->id,

@@ -26,7 +26,7 @@ class StoreGood extends FormRequest
         return [
             'name' => 'required|unique:goods|max:255',
             'title' => 'required',
-            'about' => 'required|max:255',
+            'about' => 'nullable|max:255',
             'detail_desc' => 'required',
 //            'size_desc' => 'required',
         ];

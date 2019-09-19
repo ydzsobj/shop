@@ -46,9 +46,11 @@ class GoodOrdersExport implements FromCollection,WithHeadings,withEvents
             '英文品名',
             '件数',
             '物品描述',
+            '所属人',
             '审核状态',
             '付款方式',
             '客服备注',
+
         ];
     }
 
