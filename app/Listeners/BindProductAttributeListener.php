@@ -157,7 +157,7 @@ class BindProductAttributeListener
                         'attr_value_id' => $item['attr_value_id']
                     ],[
                         'attr_value_name' => $item['attr_value_name'],
-                        'english_name' => $data['attr_value_english'] ?? '',
+                        'english_name' => $item['attr_value_english'] ?? '',
                         'show_name' => $item['attr_value_name'],
                         'thumb_url' => isset($item['attr_value_image']) ? env('ERP_API_DOMAIN').$item['attr_value_image'] : null,
                     ]);
