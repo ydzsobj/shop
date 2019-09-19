@@ -52,7 +52,7 @@
 
                         <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
-                        <textarea type="text" id="about" name="about" class="form-control about" placeholder="输入 商品简介" required="1" >{{$detail->about}}</textarea>
+                        <textarea type="text" id="about" name="about" class="form-control about" placeholder="输入 商品简介" >{{$detail->about}}</textarea>
 
                     </div>
                 </div>
