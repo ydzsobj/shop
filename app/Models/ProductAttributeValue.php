@@ -20,6 +20,7 @@ class ProductAttributeValue extends Model
         'attr_value_name',
         'thumb_url',
         'show_name',
+        'english_name',
     ];
 
     /**
