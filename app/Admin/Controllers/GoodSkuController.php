@@ -56,9 +56,31 @@ class GoodSkuController extends Controller
 
         $res = GoodSku::whereIn('id',$sku_ids)->update(['disabled_at' => $disabled_at]);
 
-        $msg = $res ? '设置成功':'设置失败';
+        $msg = $res ? trans('common.set.success') : trans('common.set.fail');
 
         return response()->json(['success' => $res, 'msg' => $msg]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function batch_update_price(Request $request){
+
+        $sku_ids = $request->post('sku_ids');
+        $price = $request->post('price');
+
+        $sku_ids = explode(',', $sku_ids);
+
+        $res = GoodSku::whereIn('id',$sku_ids)->update(['price' => $price]);
+
+        $msg = $res ? trans('common.set.success') : trans('common.set.fail');
+
+        $alert = $res ? 'success' : 'error';
+
+        return redirect()->route('goods.index')->with($alert, $msg);
 
     }
 }
