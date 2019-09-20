@@ -177,6 +177,7 @@ class GoodOrderController extends Controller
          $data = GoodOrderSku::leftJoin('good_orders','good_orders.id','good_order_skus.good_order_id')
             ->leftJoin('goods','goods.id','good_order_skus.good_id')
             ->whereNull('good_orders.deleted_at')
+            ->whereNotNull('good_orders.last_audited_at')
             ->select(
                 'good_order_skus.sku_nums',
                 'good_order_skus.price',
