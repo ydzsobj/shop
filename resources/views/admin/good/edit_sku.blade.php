@@ -96,12 +96,13 @@
 </div>
 </div>
 </div>
-<div class="modal-footer">
-<input type="hidden" name="_method" value="put" />
-<input type="hidden" name="sku_ids" id="sku_ids" />
-<input type="hidden" name="_token" value="{{csrf_token()}}" />
-<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-<button type="button" class="btn btn-primary" id="batch_update_price_submit">提交</button>
+    <div class="modal-footer">
+    <input type="hidden" name="_method" value="put" />
+    <input type="hidden" name="sku_ids" id="sku_ids" />
+    <input type="hidden" name="_token" value="{{csrf_token()}}" />
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    <button type="button" class="btn btn-primary" id="batch_update_price_submit">提交</button>
+</div>
 </div>
 </div><!-- /.modal-content -->
 </form>
