@@ -60,6 +60,9 @@ $api->version('v1', function ($api) {
 
             //订单通知
             $api->get('/order_notice', 'GoodOrderController@order_notice');
+
+            //用户跟踪轨迹
+            $api->post('/trace_logs', 'UserTraceLogController@store')->name('user.trace_logs.store');
         });
     });
 

@@ -142,7 +142,7 @@ class BindProductAttributeListener
         if($attr_data){
             foreach ($attr_data as $data){
 
-                 $product_attr = ProductAttribute::firstOrcreate([
+                 $product_attr = ProductAttribute::updateOrCreate([
                      'product_id' => $good->product_id,
                      'attr_id' => $data['attr_id'],
                 ],[
@@ -152,11 +152,12 @@ class BindProductAttributeListener
                  );
 
                 foreach ($data['attr_value'] as $item){
-                    ProductAttributeValue::firstOrCreate([
+                    ProductAttributeValue::updateOrCreate([
                         'product_attribute_id' => $product_attr->id,
                         'attr_value_id' => $item['attr_value_id']
                     ],[
                         'attr_value_name' => $item['attr_value_name'],
+                        'english_name' => $item['attr_value_english'] ?? '',
                         'show_name' => $item['attr_value_name'],
                         'thumb_url' => isset($item['attr_value_image']) ? env('ERP_API_DOMAIN').$item['attr_value_image'] : null,
                     ]);
