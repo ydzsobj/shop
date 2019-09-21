@@ -28,7 +28,7 @@ class GoodSku extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     function good(){
-       return $this->belongsTo(Good::class)->withDefault();
+       return $this->belongsTo(Good::class)->withDefault()->withTrashed();
     }
 
 }
