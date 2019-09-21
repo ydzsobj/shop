@@ -3,6 +3,23 @@
     <h4 class="modal-title" id="myModalLabel">配置SKU（共{{$good->skus->count()}}个）</h4>
 </div>
 
+
+<div class="btn-group grid-select-all-btn" style="display:none;margin: 5px;">
+    <a class="btn btn-sm btn-default"><span class="hidden-xs selected"></span></a>
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href="#" class="" data-toggle="modal" data-target="#SetPriceModalBatch">设置单价</a></li>
+        <li><a href="#" class="" id="disable_list" data-action="disable">禁用</a></li>
+        <li><a href="#" class="" id="enable_list" data-action="enable">启用</a></li>
+    </ul>
+</div>
+
+
+
+
 @if($good->skus->count() >0)
     <div class="modal-body">
 
@@ -59,16 +76,61 @@
 
         </table>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" id="disable_list_{{$sku->id}}" data-action="disable">禁用</button>
-        <button type="button" class="btn btn-primary" id="enable_list_{{$sku->id}}" data-action="enable">启用</button>
-    </div>
 @endif
+
+<div class="modal fade" id="SetPriceModalBatch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog" style="width:50%;">
+<form action="{{route('good_skus.batch_update_price')}}" class="form-horizontal" method="post" id="fm_batch_update_price">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">批量设置单价</h4>
+</div>
+<div class="modal-body">
+
+<div class="row">
+<div class="form-group">
+<label for="price" class="col-sm-2 asterisk control-label">价格</label>
+<div class="col-sm-6">
+<input class="form-control price" name="price" id="set_price" required="1"/>
+</div>
+</div>
+</div>
+    <div class="modal-footer">
+    <input type="hidden" name="_method" value="put" />
+    <input type="hidden" name="sku_ids" id="sku_ids" />
+    <input type="hidden" name="_token" value="{{csrf_token()}}" />
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    <button type="button" class="btn btn-primary" id="batch_update_price_submit">提交</button>
+</div>
+</div>
+</div><!-- /.modal-content -->
+</form>
+</div><!-- /.modal -->
+</div>
 
 <script src="{{asset('js/admin/common.js')}}"></script>
 <script>
+    //批量设置价格
+    $("button[id=batch_update_price_submit]").click(function () {
+
+        var sku_ids = $.admin.grid.selected();
+        if($.admin.grid.selected().length == 0){
+            swal('请先选择一条数据','','error');
+            return false;
+        }
+        $("#sku_ids").val(sku_ids);
+        var price = $("#set_price").val();
+        if(!price){
+            swal('价格必填','','error');
+            return false;
+        }
+        $("#fm_batch_update_price").submit();
+
+    })
+
     //隐藏sku
-    $("button[id*=disable_list_], button[id*=enable_list_]").click(function(){
+    $("a[id=disable_list], a[id=enable_list]").click(function(){
         var action = $(this).data('action');
         var title = action == 'disable' ? '禁用' : '启用';
         var sku_ids = $.admin.grid.selected();

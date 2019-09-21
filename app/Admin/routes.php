@@ -28,6 +28,8 @@ Route::group([
     $router->get('/goods/export', 'GoodController@export')->name('goods.export');
     //更新sku价格
     $router->put('/good_skus/{id}/update_price','GoodSkuController@update_price');
+    //批量更新价格
+    $router->put('/good_skus/batch_update_price','GoodSkuController@batch_update_price')->name('good_skus.batch_update_price');
     //sku启用禁用
     $router->put('/good_skus/update_disabled_at', 'GoodSkuController@update_disabled_at');
 
