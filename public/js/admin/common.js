@@ -72,9 +72,10 @@ $(function () {
         if (this.checked) {
             $.admin.grid.selects = {};
         } else {
-            $('.grid-row-checkbox').each(function () {
+            $('.grid-row-checkbox:visible').each(function () {
                 var id = $(this).data('id');
                 $.admin.grid.select(id);
+                console.log(id);
             });
         }
 

@@ -11,7 +11,7 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li><a href="#" class="" data-toggle="modal" data-target="#SetPriceModalBatch">设置单价</a></li>
+        <li><a href="#" class="" data-toggle="modal" data-target="#SetPriceModalBatch_{{$good->id}}">设置单价</a></li>
         <li><a href="#" class="" id="disable_list" data-action="disable">禁用</a></li>
         <li><a href="#" class="" id="enable_list" data-action="enable">启用</a></li>
     </ul>
@@ -78,7 +78,7 @@
     </div>
 @endif
 
-<div class="modal fade" id="SetPriceModalBatch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="SetPriceModalBatch_{{$good->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-dialog" style="width:50%;">
 <form action="{{route('good_skus.batch_update_price')}}" class="form-horizontal" method="post" id="fm_batch_update_price">
 <div class="modal-content">
@@ -218,4 +218,11 @@
             }
         },
     });
+
+    //关闭model
+    $('div[id*=SetPriceModalBatch_]').on('hidden.bs.modal', function () {
+        // 执行一些动作...
+        console.log('close 2');
+        window.location.reload();
+    })
 </script>
