@@ -115,5 +115,9 @@ function formatRepoSelection (repo) {
 
 $('div[id*=SetSkuModal_]').on('hidden.bs.modal', function () {
     // 执行一些动作...
-    $.admin.grid.selects = {};
+    console.log('close 1');
+    if($.admin.grid.selected().length >0){
+        window.location.reload();
+    }
+
 })
