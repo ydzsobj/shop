@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateGood extends FormRequest
 {
@@ -25,7 +26,13 @@ class UpdateGood extends FormRequest
     {
         $id = $this->route('good');
         return [
-            'name' => 'required|unique:goods,name,'.$id.'|max:255',
+            'name' =>[
+                'required',
+                'max:255',
+                Rule::unique('goods')->where(function ($query) use ($id) {
+                    $query->whereNull('deleted_at')->where('id', '<>', $id);
+                })
+            ],
             'title' => 'required',
             'detail_desc' => 'required',
 //            'size_desc' => 'required',

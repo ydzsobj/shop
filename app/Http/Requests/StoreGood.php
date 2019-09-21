@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreGood extends FormRequest
 {
@@ -24,7 +25,13 @@ class StoreGood extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:goods|max:255',
+            'name' =>[
+                'required',
+                'max:255',
+                Rule::unique('goods')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                })
+            ],
             'title' => 'required',
             'about' => 'nullable|max:255',
             'detail_desc' => 'required',
