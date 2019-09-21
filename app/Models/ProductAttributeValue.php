@@ -29,7 +29,7 @@ class ProductAttributeValue extends Model
      */
     static function get_show_name($good_id, $attr_value_ids=[]){
 
-        $gd = Good::find($good_id);
+        $gd = Good::withTrashed()->find($good_id);
         $product_attr_ids = ProductAttribute::where('product_id', $gd->product_id)->pluck('id');
 
         $show_name_str = '';
@@ -53,7 +53,7 @@ class ProductAttributeValue extends Model
      */
     static function get_english_name($good_id, $attr_value_ids=[]){
 
-        $gd = Good::find($good_id);
+        $gd = Good::withTrashed()->find($good_id);
         $product_attr_ids = ProductAttribute::where('product_id', $gd->product_id)->pluck('id');
 
         $english_name_str = '';
