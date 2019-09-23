@@ -49,6 +49,9 @@ class Good extends Model
         return $this->hasMany(GoodImage::class);
     }
 
+    /**
+     * @return $this
+     */
     public function admin_user(){
         return $this->belongsTo(AdminUser::class)->withDefault();
     }

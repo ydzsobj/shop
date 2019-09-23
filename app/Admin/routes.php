@@ -76,6 +76,9 @@ Route::group([
     //访问记录
     $router->resource('/user_trace_logs','UserTraceLogController');
 
+    //优惠码管理
+    $router->resource('/coupon_codes','CouponCodeController');
+
 
 
 });

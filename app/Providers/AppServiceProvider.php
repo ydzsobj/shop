@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\RuleFixed;
+use App\Models\RuleFullReduction;
+use App\Models\RulePercent;
 use Illuminate\Support\ServiceProvider;
 
 use Encore\Admin\Config\Config;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +35,11 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable($table)) {
             Config::load();
         }
+
+        Relation::morphMap([
+            'rule_percents' => RulePercent::class,
+            'rule_fixed' => RuleFixed::class,
+            'rule_full_reductions' => RuleFullReduction::class,
+        ]);
     }
 }
