@@ -174,7 +174,7 @@
 
                 <div class="col-sm-8">
 
-                    <input type="file" class="form-control main_image_file" name="main_image_file" />
+                    <input type="file" class="form-control main_image_file" name="main_image_file" required="1" />
 
                 </div>
             </div>
@@ -244,6 +244,8 @@
         <div class="col-md-2">
             <input type="hidden" name="_token" value="{{csrf_token()}}" />
             <input type="hidden" name="_method" value="put" />
+            <input type="hidden" name="video_clear_flag" id="video_clear_flag" value=0 />
+            <input type="hidden" name="list_image_clear_flag" id="list_image_clear_flag" value=0 />
         </div>
 
         <div class="col-md-8">
@@ -364,6 +366,26 @@
                 "allowedFileTypes": ["video"],
                 "maxFileSize": "{{$upload_config['video_max']}}",
                 "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
+            });
+
+            $('.main_video_file').on('fileclear', function(event) {
+                console.log("video fileclear");
+                $("#video_clear_flag").val(1);
+            });
+
+            $('.main_video_file').on('change', function(event) {
+                console.log("video change");
+                $("#video_clear_flag").val(0);
+            });
+
+            $('.list_image_files').on('fileclear', function(event) {
+                console.log("list fileclear");
+                $("#list_image_clear_flag").val(1);
+            });
+
+            $('.list_image_files').on('change', function(event) {
+                console.log("list change");
+                $("#list_image_clear_flag").val(0);
             });
 
             // $('.main_image_url').on('fileselect', function(event, numFiles, label) {

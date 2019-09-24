@@ -67,6 +67,7 @@ class GoodController extends BaseController
             'about',
         ]);
 
+
         if(is_null($request->post('show_comment'))){
             $insert_data['show_comment'] = 0;
         }
@@ -126,6 +127,9 @@ class GoodController extends BaseController
             'about',
         ]);
 
+        $list_image_clear_flag = $request->post('list_image_clear_flag');
+        $video_clear_flag = $request->post('video_clear_flag');
+
         if(is_null($request->post('show_comment'))){
             $update_data['show_comment'] = 0;
         }
@@ -142,6 +146,11 @@ class GoodController extends BaseController
 
         if($main_video_url){
            $update_data = collect($update_data)->merge(['main_video_url' => $main_video_url]);
+        }else{
+            if($video_clear_flag){
+                //清除视频
+                $update_data = collect($update_data)->merge(['main_video_url' => null]);
+            }
         }
 
         $result = Good::where('id', $id)->update($update_data->all());
@@ -152,6 +161,11 @@ class GoodController extends BaseController
                 GoodImage::where('good_id',$id)->delete();
                 //添加新的
                 $gd->list_images()->createMany($list_image_urls);
+            }else{
+                if($list_image_clear_flag){
+                    //清除轮播
+                    GoodImage::where('good_id',$id)->delete();
+                }
             }
             return redirect(route('goods.index'))->with('success', trans('common.update.success'));
         }else{
