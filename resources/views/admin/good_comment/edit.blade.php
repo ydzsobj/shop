@@ -6,7 +6,7 @@
 <table class="table" style="margin-left: 150px;width: 80%;">
     <tr><td>单品名</td><td>{{$detail->good->name}}</td></tr>
     <tr><td>审核状态</td><td>@if($detail->audited_at)<span style="color: green;">已审核</span>@else <span style="color: red;">未审核</span> @endif</td></tr>
-    <tr><td>评价时间</td><td>{{$detail->created_at}}</td></tr>
+    {{--<tr><td>评价时间</td><td>{{$detail->created_at}}</td></tr>--}}
 
 </table>
 <!-- form start -->
