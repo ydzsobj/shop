@@ -80,22 +80,6 @@
                 </div>
             </div>
 
-            <div class="form-group  ">
-
-                <label for="created_at" class="col-sm-2 asterisk control-label">评价时间</label>
-
-                <div class="col-sm-8">
-
-                    <div class="input-group">
-
-                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-
-                        <input type="text" class="form-control" id="created_at" placeholder="评价时间" name="created_at" value="{{$detail->created_at}}" required="1" />
-
-                    </div>
-                </div>
-            </div>
-
             <div class="form-group">
 
                 <label for="comment_image_files" class="col-sm-2 control-label">晒图(可选择多张)</label>
@@ -138,45 +122,45 @@
 </form>
 
     <script>
-
         $(function () {
 
-            $('#created_at').datetimepicker({"format":"YYYY-MM-DD HH:mm:ss","locale":"zh-CN"});
+            $(function () {
 
-            $("#comment_image_files").fileinput({
-                @if($comment_image_urls)
-                "initialPreview" :[
-                    {!! $comment_image_urls !!}
-                ],
-                @endif
-                "overwriteInitial": true,
-                "initialPreviewAsData": true,
-                "browseLabel": "\u6d4f\u89c8",
-                "cancelLabel": "\u53d6\u6d88",
-                "showRemove": false,
-                "showUpload": false,
-                "showCancel": false,
-                "dropZoneEnabled": true,
-                // "uploadUrl": '/admin/upload',
-                {{--"uploadExtraData": {--}}
-                        {{--'_token': '{{csrf_token()}}',--}}
-                        {{--'_method': 'post'--}}
-                        {{--},--}}
-                        {{--"deleteUrl": "/admin/upload/null",--}}
-                        {{--"deleteExtraData": {--}}
-                        {{--"_token": "{{csrf_token()}}",--}}
-                        {{--"_method": "delete"--}}
-                        {{--},--}}
-                "fileActionSettings": {"showRemove": false, "showDrag": false},
-                "msgPlaceholder": "\u9009\u62e9\u56fe\u7247",
-                "allowedFileTypes": ["image"],
-                "maxFileSize": "{{$upload_config['image_max']}}",
-                "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
+                $("#comment_image_files").fileinput({
+                    @if($comment_image_urls)
+                    "initialPreview" :[
+                        {!! $comment_image_urls !!}
+                    ],
+                    @endif
+                    "overwriteInitial": true,
+                    "initialPreviewAsData": true,
+                    "browseLabel": "\u6d4f\u89c8",
+                    "cancelLabel": "\u53d6\u6d88",
+                    "showRemove": false,
+                    "showUpload": false,
+                    "showCancel": false,
+                    "dropZoneEnabled": true,
+                    // "uploadUrl": '/admin/upload',
+                    {{--"uploadExtraData": {--}}
+                            {{--'_token': '{{csrf_token()}}',--}}
+                            {{--'_method': 'post'--}}
+                            {{--},--}}
+                            {{--"deleteUrl": "/admin/upload/null",--}}
+                            {{--"deleteExtraData": {--}}
+                            {{--"_token": "{{csrf_token()}}",--}}
+                            {{--"_method": "delete"--}}
+                            {{--},--}}
+                    "fileActionSettings": {"showRemove": false, "showDrag": false},
+                    "msgPlaceholder": "\u9009\u62e9\u56fe\u7247",
+                    "allowedFileTypes": ["image"],
+                    "maxFileSize": "{{$upload_config['image_max']}}",
+                    "msgSizeTooLarge": "{!! $upload_config['msg'] !!}",
+                });
+
+                $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
+
             });
 
-            $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
 
         });
-
-
     </script>

@@ -84,9 +84,9 @@ class GoodCommentController extends BaseController
             }
 
 
-            return back()->with('success', trans('common.update.success'));
+            return redirect(route('good_comments.index'))->with('success', trans('common.update.success'));
         }else{
-            return back()->with('error', trans('common.update.fail'));
+            return redirect(route('good_comments.index'))->with('error', trans('common.update.fail'));
         }
     }
 

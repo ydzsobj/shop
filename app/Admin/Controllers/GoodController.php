@@ -409,7 +409,7 @@ class GoodController extends BaseController
      */
     public function store_comment(Request $request){
 
-        $req = $request->only('good_id','comment','name','phone','star_scores','created_at');
+        $req = $request->only('good_id','comment','name','phone','star_scores');
 
         $comment_image_files = $request->file('comment_image_files');
 

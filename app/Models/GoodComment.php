@@ -48,8 +48,7 @@ class GoodComment extends Model
         'phone',
         'star_scores',
         'audited_at',
-        'admin_user_id',
-        'created_at'
+        'admin_user_id'
 
     ];
 

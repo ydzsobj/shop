@@ -55,22 +55,6 @@
                 </div>
             </div>
 
-            <div class="form-group  ">
-
-                <label for="created_at" class="col-sm-2 asterisk control-label">评价时间</label>
-
-                <div class="col-sm-8">
-
-                    <div class="input-group">
-
-                        <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-
-                        <input type="text" class="form-control" id="created_at" placeholder="评价时间" name="created_at" value="" required="1" />
-
-                    </div>
-                </div>
-            </div>
-
             <div class="form-group">
 
                 <label for="star_scores" class="col-sm-2 asterisk control-label">星级评分</label>
@@ -131,8 +115,6 @@
 </form>
     <script>
         $(function () {
-
-            $('#created_at').datetimepicker({"format":"YYYY-MM-DD HH:mm:ss","locale":"zh-CN"});
 
             $("#comment_image_files").fileinput({
                 "overwriteInitial": true,
