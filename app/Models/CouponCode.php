@@ -125,4 +125,70 @@ class CouponCode extends Model
 
         return [$base_query, $search];
     }
+
+    public function by_code($code){
+
+        return self::where('code',$code)->where('status', self::STATUS_RUNNING)->first();
+    }
+
+    //计算购物车每个sku优惠后的价格
+    public function count_price($item){
+
+        $price = $item['price'];
+        $sku_nums = $item['sku_nums'];
+
+        $rule = $this->targetable;
+
+        if($this->good_id == $item['good_id']){
+            switch ($this->type_id){
+
+                case self::TYPE_PERCENT:
+                    //折扣
+                    $after_price = round($price * $sku_nums * ($rule->percent/100), 2);
+                    break;
+                case self::TYPE_FIXED:
+                    //固定金额
+                    $after_price = round($sku_nums * ($price - $rule->money), 2);
+                    break;
+                case self::TYPE_FULL_REDUCTION:
+                    //满减
+                    if($item['sku_nums'] >= $rule->amount){
+                        $after_price = round($price * $sku_nums - $rule->money, 2);
+                    }else{
+                        return [false, '数量不够，享受不了优惠'];
+                    }
+                    break;
+                default:
+                    return [false, '找不到优惠类型'];
+            }
+            return [$price * $sku_nums - $after_price, self::formart_type_info($this->type_id, $rule) ];
+
+        }else{
+            return [false, '优惠码不适用该商品'];
+        }
+
+    }
+
+    /**
+     * @param $type_id
+     * @param $rule
+     * @return string
+     */
+    static public function formart_type_info($type_id, $rule){
+
+        $type_list = config('coupon.type_list');
+
+        $type_name = array_get($type_list, $type_id);
+
+        if($type_id == self::TYPE_PERCENT){
+            $msg = ' 折扣'.$rule->percent. '%';
+        }else if($type_id == self::TYPE_FIXED){
+            $msg = ' 减去'.$rule->money;
+        }else if($type_id == self::TYPE_FULL_REDUCTION){
+            $msg = ' 购买数量满'.$rule->amount.'件, 减去'.$rule->money;
+        }
+
+        return $type_name.';'. $msg;
+    }
+
 }

@@ -32,6 +32,7 @@ class GoodOrder extends Model
         'city',
         'area',
         'postcode',
+        'coupon_code_id',
 
     ];
 
@@ -80,6 +81,10 @@ class GoodOrder extends Model
         return $this->hasMany(GoodAuditLog::class);
     }
 
+    public function coupon_code(){
+        return $this->belongsTo(CouponCode::class);
+    }
+
     /**
      * 列表数据
      * @param $request
@@ -87,7 +92,7 @@ class GoodOrder extends Model
      */
     public function get_data($request){
 
-        $base_query =  GoodOrder::with(['order_skus','admin_user','audit_logs' => function($query){
+        $base_query =  GoodOrder::with(['order_skus','admin_user', 'coupon_code', 'audit_logs' => function($query){
             $query->orderBy('created_at', 'desc');
         }]);
 

@@ -162,15 +162,8 @@
                                     <td>{{$coupon_code->code}}</td>
                                     <td>{{$coupon_code->good->name}}</td>
                                     <td>
-                                        {{array_get($type_list, $coupon_code->type_id)}}:
                                         @php($targetable = $coupon_code->targetable)
-                                        @if($coupon_code->type_id == 1)
-                                            {{$targetable->percent}}%
-                                        @elseif($coupon_code->type_id == 2)
-                                            {{$targetable->money}}
-                                        @elseif($coupon_code->type_id == 3)
-                                            购买数量{{$targetable->amount}},减去{{$targetable->money}}
-                                        @endif
+                                        {{\App\Models\CouponCode::formart_type_info($coupon_code->type_id,$targetable)}}
                                     </td>
                                     <td>{{array_get($apply_type_list, $coupon_code->apply_type_id)}}</td>
                                     <td>

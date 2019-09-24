@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\CheckCouponCode;
 use App\Http\Requests\StoreGoodOrder;
+use App\Models\CouponCode;
 use App\Models\GoodOrder;
 use App\Models\GoodOrderSku;
 use Illuminate\Http\Request;
@@ -24,6 +26,7 @@ class GoodOrderController extends Controller
      * @apiParam {string} short_address 短地址
      * @apiParam {string} [leave_word] 留言
      * @apiParam {string} [postcode] 邮编
+     * @apiParam {string} [coupon_code_id] 优惠码id
      *
      * @apiParamExample {json} Request-Example:
      *{
@@ -39,6 +42,7 @@ class GoodOrderController extends Controller
      *  	"short_address":"清河大街888号小米大厦",
      *  	"leave_word":"尽快发货~~~~~",
      *  	"postcode":"470000",
+     *  	"coupon_code_id": 15
      *}
      *
      * @apiSuccessExample Success-Response:
@@ -58,7 +62,8 @@ class GoodOrderController extends Controller
      *        "leave_word": "尽快发货~~~~~",
      *        "updated_at": "2019-08-07 12:55:54",
      *        "created_at": "2019-08-07 12:55:54",
-     *        "id": 18
+     *        "id": 18,
+     *  	  "coupon_code_id": 15
      *    }
      *}
      *
@@ -119,6 +124,7 @@ class GoodOrderController extends Controller
             'price' => $skus_price->sum(),
             'ip' => $ip,
             'sn' => generate_sn(),
+            'coupon_code_id' => $request->post('coupon_code_id'),
         ];
 
         $go = GoodOrder::create(array_merge($insert_data, $address, compact('province', 'city', 'area')));
@@ -192,4 +198,95 @@ class GoodOrderController extends Controller
 
          return returned(true,'', $data);
     }
+
+    /**
+     * @api {post} /api/user/check_coupon_code  2.1 验证优惠码
+     * @apiName check_coupon_code
+     * @apiGroup User
+     *
+     * @apiParam {Array} cart_data 购物车数据
+     * @apiParam {string} coupon_code 优惠码
+     *
+     * @apiParamExample {json} Request-Example:
+     *{
+     *  "cart_data" : [
+     *  	{"sku_id" : 1001,"price" : 99,"sku_nums" : 1,"good_id" : 24},
+     *  	{"sku_id" : 1002,"price" : 99,"sku_nums" : 2,"good_id" : 24},
+     *  	{"sku_id" : 2001,"price" : 199,"sku_nums" : 1,"good_id" : 25}
+     *  	],
+     *  	"coupon_code" : "BQM1RS4I",
+     *}
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *{
+     *    "success": true,
+     *    "msg": "优惠码有效",
+     *    "data": {
+     *        "detail": [
+     *            {
+     *                "sku_id": 665032028,
+     *                "price": 900,
+     *                "sku_nums": 2,
+     *                "good_id": 111,
+     *                "off": 30,
+     *                "msg": "参与活动满减;购买数量满2件, 减去金额30.00"
+     *            },
+     *            {
+     *                "sku_id": 1002,
+     *                "price": 9900,
+     *                "sku_nums": 2,
+     *                "good_id": 24,
+     *                "off": 0,
+     *                "msg": "优惠码不适用该商品"
+     *            },
+     *            {
+     *                "sku_id": 2001,
+     *                "price": 199,
+     *                "sku_nums": 1,
+     *                "good_id": 25,
+     *                "off": 0,
+     *                "msg": "优惠码不适用该商品"
+     *            }
+     *        ],
+     *        "total_off": 30,
+     *        "coupon_code_id": 15
+     *    }
+     *}
+     */
+    public function check_coupon_code(CheckCouponCode $request){
+
+        $coupon_code = $request->post('coupon_code');
+
+        $cart_data = collect($request->post('cart_data'));
+
+        $cop = new CouponCode();
+        $code = $cop->by_code($coupon_code);
+
+        if(!$code){
+            return returned(false,'优惠码无效');
+        }
+
+        $result = $cart_data->map(function($item) use ($code){
+            list($success, $msg) = $code->count_price($item);
+            if($success){
+                $item['off'] = $success;
+                $item['msg'] = $msg;
+            }else{
+                $item['off'] = 0;
+                $item['msg'] = $msg;
+            }
+            return $item;
+        });
+
+        $total_off = $result->sum('off');
+
+        return returned(true, '优惠码有效', [
+            'detail' => $result->all(),
+            'total_off' => $total_off,
+            'coupon_code_id' => $code->id
+        ] );
+
+    }
+
 }
