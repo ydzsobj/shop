@@ -174,7 +174,7 @@
 
                 <div class="col-sm-8">
 
-                    <input type="file" class="form-control main_image_file" name="main_image_file" required="1" />
+                    <input type="file" class="form-control main_image_file" name="main_image_file" />
 
                 </div>
             </div>
