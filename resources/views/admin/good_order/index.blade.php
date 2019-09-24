@@ -255,7 +255,7 @@
                                               data-html="true"
                                               data-content="<table style='width:400px;' class='table'><tr><th>审核时间</th><th>审核人</th><th>审核信息</th></tr>
                                                     @foreach($order->audit_logs as $audit_log)
-                                                      <tr><td>{{$audit_log->created_at}}</td><td>{{$audit_log->admin_user->username}}</td><td>{{$audit_log->remark}}</td></tr>
+                                                      <tr><td>{{$audit_log->created_at}}</td><td>{{$audit_log->admin_user->name}}</td><td>{{$audit_log->remark}}</td></tr>
                                                     @endforeach
                                               </table>"
                                         >
@@ -296,7 +296,7 @@
                                     <td style="width:6%; word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         {{$order->last_audited_at}}
                                     </td>
-                                    <td>{{$order->admin_user ? $order->admin_user->username : ''}}</td>
+                                    <td>{{$order->admin_user ? $order->admin_user->name : ''}}</td>
                                     <td>
                                         <div class="grid-dropdown-actions dropdown">
                                             <a href="#" style="padding: 0 10px;" class="dropdown-toggle" data-toggle="dropdown">
