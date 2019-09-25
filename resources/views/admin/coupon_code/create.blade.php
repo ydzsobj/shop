@@ -188,7 +188,7 @@
 
                             <div class="form-group content_div content_div_3" style="display: none;">
 
-                                <label for="start_date" class="col-sm-2 asterisk control-label">满减</label>
+                                <label for="amount" class="col-sm-2 asterisk control-label">满减</label>
 
                                 <div class="col-sm-4">
 
@@ -246,8 +246,8 @@
 
             var date = new Date();
             console.log(date);
-            $('#start_date').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN","useCurrent":true,"minDate":date});
-            $('#end_date').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN","useCurrent":true,"minDate":date});
+            $('#start_date').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN","minDate":date});
+            $('#end_date').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN","minDate":date});
             $("#start_date").on("dp.change", function (e) {
                 $('#end_date').data("DateTimePicker").minDate(e.date);
             });
