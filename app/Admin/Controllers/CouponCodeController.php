@@ -13,7 +13,7 @@ use Encore\Admin\Facades\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CouponCodeController extends Controller
+class CouponCodeController extends BaseController
 {
     public function index(Request $request){
 

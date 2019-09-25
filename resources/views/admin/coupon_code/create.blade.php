@@ -144,7 +144,7 @@
 
                             <div class="form-group content_div content_div_1" style="display: none;">
 
-                                <label for="percent" class="col-sm-2 asterisk control-label">百分比折扣(%)</label>
+                                <label for="percent" class="col-sm-2 asterisk control-label">百分比折扣</label>
 
                                 <div class="col-sm-2">
 
@@ -153,7 +153,7 @@
                                         <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
                                         <input type="text" id="percent" name="percent" value="" class="form-control percent" placeholder="输入百分比" />
-
+                                        <span class="input-group-addon" style="border-left: 0;">%</span>
                                     </div>
                                 </div>
 
@@ -175,7 +175,7 @@
                                         <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
 
                                         <input type="text" id="fixed_money" name="fixed_money" value="" class="form-control fixed_money" placeholder="输入优惠金额"  />
-
+                                        <span class="input-group-addon" style="border-left: 0;">{{$money_sign}}</span>
                                     </div>
                                 </div>
 
@@ -197,7 +197,7 @@
                                         <input type="text" name="full_reduction[amount]" value="" class="form-control amount" placeholder="输入购买数量"  />
                                         <span class="input-group-addon" style="border-left: 0; border-right: 0;">减</span>
                                         <input type="text"  name="full_reduction[money]" value="" class="form-control money" placeholder="输入满减金额" />
-
+                                        <span class="input-group-addon" style="border-left: 0;">{{$money_sign}}</span>
                                     </div>
                                 </div>
 
