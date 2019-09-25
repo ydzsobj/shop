@@ -56,7 +56,7 @@
 
                                     <label for="code" class="col-sm-2 asterisk control-label">优惠码</label>
 
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-4">
 
                                         <div class="input-group">
 
@@ -64,6 +64,7 @@
 
                                             <input type="text" id="code" name="code" value="" class="form-control code" placeholder="输入 优惠码" required="1" />
                                         </div>
+
                                     </div>
 
                                     <div class="col-sm-2">
@@ -76,7 +77,7 @@
 
                                     <label for="good_id" class="col-sm-2 asterisk control-label">选择单品</label>
 
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-4">
 
                                         <select class="form-control" style="width: 100%;" id="good_id" name="good_id" required="1" >
 
@@ -88,7 +89,7 @@
 
                                     <label for="start_date" class="col-sm-2 asterisk control-label">生效日期</label>
 
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-4">
 
                                         <div class="input-group input-group-sm">
 
@@ -123,9 +124,9 @@
 
                             <div class="form-group content_div content_div_1" style="display: none;">
 
-                                <label for="percent" class="col-sm-2 asterisk control-label">百分比折扣</label>
+                                <label for="percent" class="col-sm-2 asterisk control-label">百分比折扣(%)</label>
 
-                                <div class="col-sm-8">
+                                <div class="col-sm-2">
 
                                     <div class="input-group">
 
@@ -135,13 +136,19 @@
 
                                     </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <label class="control-label">
+                                        <span style="color: red">（输入1-99的数字; 示例：填写80,表示商品价格打8折）</span>
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="form-group content_div content_div_2" style="display: none;" >
 
                                 <label for="fixed_money" class="col-sm-2 asterisk control-label">固定金额</label>
 
-                                <div class="col-sm-8">
+                                <div class="col-sm-2">
 
                                     <div class="input-group">
 
@@ -165,7 +172,7 @@
                                 </div>
 
                                 <label for="money" class="col-sm-2 asterisk control-label">满减金额</label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
 
                                     <div class="input-group">
                                         <input type="text"  name="full_reduction[money]" value="" class="form-control money" placeholder="输入满减金额" />

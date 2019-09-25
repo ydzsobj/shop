@@ -77,5 +77,6 @@ class CheckCouponCode extends Command
         }
 
         echo '['.Carbon::now().']共检测'.count($codes).'条数据；成功设置:'.$successed.'条,失败'.$failed.'条'."\n";
+        echo '###########################################';
     }
 }
