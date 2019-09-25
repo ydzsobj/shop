@@ -40,6 +40,7 @@ class StoreCouponCode extends FormRequest
             'fixed_money.required' => '固定金额不能为空',
             'full_reduction.amount.required' => '满减数量不能为空',
             'full_reduction.money.required' => '满减金额不能为空',
+            'good_id.required' => '选择商品不能为空',
         ];
     }
 
@@ -63,6 +64,10 @@ class StoreCouponCode extends FormRequest
 
             $validator->sometimes(['full_reduction.amount','full_reduction.money'], 'required|numeric', function ($input) {
                 return $input->type_id == CouponCode::TYPE_FULL_REDUCTION;
+            });
+
+            $validator->sometimes('good_id', 'required|integer', function ($input) {
+                return $input->apply_type_id == CouponCode::APPLY_TYPE_GOOD;
             });
 
         });

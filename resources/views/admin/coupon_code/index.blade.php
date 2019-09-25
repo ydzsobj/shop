@@ -42,12 +42,12 @@
                                             <div class="form-group">
 
                                                 <label class="col-sm-1 control-label">单品名称</label>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-2">
                                                     <select class="form-control" name="good_id" id="good_id">
                                                     </select>
                                                 </div>
 
-                                                <label class="col-sm-1 control-label">类型</label>
+                                                <label class="col-sm-1 control-label">优惠类型</label>
                                                 <div class="col-sm-2">
                                                     <select class="form-control status" name="type_id">
                                                         <option></option>
@@ -64,6 +64,17 @@
                                                         <option></option>
                                                         @foreach($status_list as $key=>$status)
                                                             <option value="{{$key}}" @if(isset($search['status']) && $search['status'] == $key) selected @endif>{{$status}}</option>
+                                                        @endforeach
+
+                                                    </select>
+                                                </div>
+
+                                                <label class="col-sm-1 control-label">适用类型</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control status" name="apply_type_id">
+                                                        <option></option>
+                                                        @foreach($apply_type_list as $key=>$type)
+                                                            <option value="{{$key}}" @if(isset($search['apply_type_id']) && $search['apply_type_id'] == $key) selected @endif>{{$type}}</option>
                                                         @endforeach
 
                                                     </select>

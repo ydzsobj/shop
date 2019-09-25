@@ -56,23 +56,26 @@ class CouponCodeController extends Controller
      */
     public function store(StoreCouponCode $request){
 
-        $req = $request->only('code', 'type_id','good_id');
+        $req = $request->only('code', 'type_id','apply_type_id','good_id');
 
         $type_id = $request->post('type_id');
 
         $rule_data = collect([]);
 
         switch ($type_id){
+
             case CouponCode::TYPE_PERCENT:
                 $targetable_type = 'rule_percents';
                 $rule_data->put('percent', $request->post('percent'));
                 $mod = RulePercent::create($rule_data->all());
                 break;
+
             case CouponCode::TYPE_FIXED:
                 $targetable_type = 'rule_fixed';
                 $rule_data->put('money', $request->post('fixed_money'));
                 $mod = RuleFixed::create($rule_data->all());
                 break;
+
             case CouponCode::TYPE_FULL_REDUCTION:
                 $targetable_type = 'rule_full_reductions';
                 $rule_data = $request->post('full_reduction');
@@ -80,7 +83,7 @@ class CouponCodeController extends Controller
                 break;
 
             default:
-                return false;
+                return redirect(route('coupon_codes.index'))->with('error', trans('common.create.fail'));
         }
 
         $targetable_id = $mod ? $mod->id : false;

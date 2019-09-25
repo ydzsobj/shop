@@ -41,6 +41,16 @@ class CouponCode extends Model
     const STATUS_FINISHED = 3;
 
     /**
+     * 适用特定商品类型
+     */
+    const APPLY_TYPE_GOOD = 1;
+
+    /**
+     * 适用订单
+     */
+    const APPLY_TYPE_ORDER = 2;
+
+    /**
      * 可以被批量赋值的属性。
      *
      * @var array
@@ -105,6 +115,12 @@ class CouponCode extends Model
             $base_query->where('type_id', $type_id);
         }
 
+        //适用类型
+        $apply_type_id = $request->get('apply_type_id');
+        if($apply_type_id){
+            $base_query->where('apply_type_id', $apply_type_id);
+        }
+
         //状态
         $status = $request->get('status');
         if($status){
@@ -121,7 +137,7 @@ class CouponCode extends Model
         $per_page = $request->get('per_page') ?: $this->page_size;
         $this->page_size = $per_page;
 
-        $search = compact('per_page','type_id', 'good_id', 'status');
+        $search = compact('per_page','type_id', 'good_id', 'status','apply_type_id');
 
         return [$base_query, $search];
     }
@@ -131,8 +147,8 @@ class CouponCode extends Model
         return self::where('code',$code)->where('status', self::STATUS_RUNNING)->first();
     }
 
-    //计算购物车每个sku优惠后的价格
-    public function count_price($item){
+    //计算购物车每种商品优惠后的价格
+    public function count_good_price($item){
 
         $price = $item['price'];
         $sku_nums = $item['sku_nums'];
@@ -146,10 +162,12 @@ class CouponCode extends Model
                     //折扣
                     $after_price = round($price * $sku_nums * ($rule->percent/100), 2);
                     break;
+
                 case self::TYPE_FIXED:
                     //固定金额
                     $after_price = round($sku_nums * ($price - $rule->money), 2);
                     break;
+
                 case self::TYPE_FULL_REDUCTION:
                     //满减
                     if($item['sku_nums'] >= $rule->amount){
@@ -158,6 +176,7 @@ class CouponCode extends Model
                         return [false, '数量不够，享受不了优惠'];
                     }
                     break;
+
                 default:
                     return [false, '找不到优惠类型'];
             }
@@ -166,6 +185,44 @@ class CouponCode extends Model
         }else{
             return [false, '优惠码不适用该商品'];
         }
+
+    }
+
+    //计算订单优惠金额
+    public function count_order_price($cart_data){
+
+        $total_nums = $cart_data->sum('sku_nums');
+        $total_price = $cart_data->map(function($item){
+            return $item['price'] * $item['sku_nums'];
+        })->sum();
+
+        $rule = $this->targetable;
+
+        switch ($this->type_id){
+
+            case self::TYPE_PERCENT:
+                //折扣
+                $after_price = round($total_price * ($rule->percent/100), 2);
+                break;
+
+            case self::TYPE_FIXED:
+                //固定金额
+                $after_price = round($total_price - $rule->money, 2);
+                break;
+
+            case self::TYPE_FULL_REDUCTION:
+                //满减
+                if($total_nums >= $rule->amount){
+                    $after_price = round($total_price - $rule->money, 2);
+                }else{
+                    return [false, '数量不够，享受不了优惠'];
+                }
+                break;
+
+            default:
+                return [false, '找不到优惠类型'];
+        }
+        return [$total_price - $after_price, self::formart_type_info($this->type_id, $rule) ];
 
     }
 

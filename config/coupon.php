@@ -5,15 +5,15 @@ return [
 
     //优惠类型
     'type_list' => [
-        1 => '折扣百分比',
-        2 => '固定金额',
-        3 => '满减'
+        CouponCode::TYPE_PERCENT => '折扣百分比',
+        CouponCode::TYPE_FIXED => '固定金额',
+        CouponCode::TYPE_FULL_REDUCTION => '满减'
     ],
 
     //
     'apply_type_list' => [
-        1 => '单品',
-//        2 => '订单'
+        CouponCode::APPLY_TYPE_GOOD => '特定商品',
+        CouponCode::APPLY_TYPE_ORDER => '订单'
     ],
 
     'status' => [

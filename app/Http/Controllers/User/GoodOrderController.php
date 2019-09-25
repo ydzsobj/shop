@@ -268,25 +268,51 @@ class GoodOrderController extends Controller
             return returned(false,'优惠码无效');
         }
 
-        $result = $cart_data->map(function($item) use ($code){
-            list($success, $msg) = $code->count_price($item);
-            if($success){
-                $item['off'] = $success;
-                $item['msg'] = $msg;
-            }else{
-                $item['off'] = 0;
-                $item['msg'] = $msg;
-            }
-            return $item;
-        });
+        //区分适用类型
+        switch ($code->apply_type_id){
 
-        $total_off = $result->sum('off');
+            //单个商品
+            case CouponCode::APPLY_TYPE_GOOD:
 
-        return returned(true, '优惠码有效', [
-            'detail' => $result->all(),
-            'total_off' => $total_off,
-            'coupon_code_id' => $code->id
-        ] );
+                $detail = $cart_data->map(function($item) use ($code){
+                    list($success, $msg) = $code->count_good_price($item);
+                    if($success){
+                        $item['off'] = $success;
+                        $item['msg'] = $msg;
+                    }else{
+                        $item['off'] = 0;
+                        $item['msg'] = $msg;
+                    }
+                    return $item;
+                });
+                $total_off = $detail->sum('off');
+                break;
+
+            //订单
+            case CouponCode::APPLY_TYPE_ORDER:
+                list($success, $msg) = $code->count_order_price($cart_data);
+                if($success){
+                    $total_off = $success;
+                    $desc = $msg;
+                }else{
+                    return returned(false, $msg);
+                }
+                break;
+
+            default:
+                return false;
+        }
+
+        $coupon_code_id = $code->id;
+
+        return returned(true, '优惠码有效',
+            compact(
+                'total_off',
+                'desc',
+                'coupon_code_id',
+                'detail'
+            )
+        );
 
     }
 

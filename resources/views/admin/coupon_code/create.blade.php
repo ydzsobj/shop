@@ -75,18 +75,6 @@
 
                                 </div>
 
-                                <div class="form-group">
-
-                                    <label for="good_id" class="col-sm-2 asterisk control-label">选择商品</label>
-
-                                    <div class="col-sm-4">
-
-                                        <select class="form-control" style="width: 100%;" id="good_id" name="good_id" required="1" >
-
-                                        </select>
-                                    </div>
-                                </div>
-
                                 <div class="form-group  ">
 
                                     <label for="start_date" class="col-sm-2 asterisk control-label">生效日期</label>
@@ -105,13 +93,43 @@
 
                             </div>
                         </div>
+                        <!--区域2-->
+                        <br />
+                        <div class="fields-group">
+                            <div class="form-group">
 
+                                <label for="apply_type_id" class="col-sm-2 asterisk control-label">适用于</label>
+
+                                <div class="col-sm-2">
+
+                                    <select class="form-control single_select" style="width: 100%;" name="apply_type_id" required="1" >
+                                        <option></option>
+                                        @foreach($apply_type_list as $key=>$apply_type)
+                                            <option value="{{$key}}">{{$apply_type}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group good_content_div" style="display: none;">
+
+                                <label for="good_id" class="col-sm-2 asterisk control-label">选择商品</label>
+
+                                <div class="col-sm-4">
+
+                                    <select class="form-control" style="width: 100%;" id="good_id" name="good_id" >
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--区域3-->
                         <br />
                         <div class="fields-group">
 
                             <div class="form-group">
 
-                                <label for="type_id" class="col-sm-2 asterisk control-label">类型</label>
+                                <label for="type_id" class="col-sm-2 asterisk control-label">优惠类型</label>
 
                                 <div class="col-sm-2">
 
@@ -246,6 +264,16 @@
                 console.log(type_id);
                 $(".content_div_" + type_id).css({'display': 'block'});
 
+            })
+
+            //适用类型变动
+            $("select[name='apply_type_id']").change(function(){
+                var apply_type_id = $(this).val();
+                if(apply_type_id == 1){
+                    $(".good_content_div").show();
+                }else{
+                    $(".good_content_div").hide();
+                }
             })
 
             $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
