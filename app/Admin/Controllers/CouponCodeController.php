@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Requests\StoreCouponCode;
 use App\Models\Coupon;
 use App\Models\CouponCode;
 use App\Models\RuleFixed;
@@ -49,7 +50,11 @@ class CouponCodeController extends Controller
        );
     }
 
-    public function store(Request $request){
+    /**
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function store(StoreCouponCode $request){
 
         $req = $request->only('code', 'type_id','good_id');
 

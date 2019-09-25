@@ -200,7 +200,7 @@ class GoodOrderController extends Controller
     }
 
     /**
-     * @api {post} /api/user/check_coupon_code  2.1 验证优惠码
+     * @api {post} /api/user/check_coupon_code  2.0 验证优惠码
      * @apiName check_coupon_code
      * @apiGroup User
      *
@@ -214,7 +214,7 @@ class GoodOrderController extends Controller
      *  	{"sku_id" : 1002,"price" : 99,"sku_nums" : 2,"good_id" : 24},
      *  	{"sku_id" : 2001,"price" : 199,"sku_nums" : 1,"good_id" : 25}
      *  	],
-     *  	"coupon_code" : "BQM1RS4I",
+     *  "coupon_code" : "BQM1RS4I",
      *}
      *
      * @apiSuccessExample Success-Response:
@@ -249,8 +249,9 @@ class GoodOrderController extends Controller
      *                "msg": "优惠码不适用该商品"
      *            }
      *        ],
-     *        "total_off": 30,
-     *        "coupon_code_id": 15
+     *
+     *        "total_off": 30,//一共减去的金额
+     *        "coupon_code_id": 15 //优惠码id,提交订单时如果有需要加上
      *    }
      *}
      */

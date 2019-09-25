@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Console\Commands;
-
 use App\Models\CouponCode;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -40,7 +39,9 @@ class CheckCouponCode extends Command
     public function handle()
     {
         //获取所有的有效状态的优惠码
-        $codes = CouponCode::where('status', CouponCode::STATUS_RUNNING)->get();
+        $codes = CouponCode::whereIn('status', [CouponCode::STATUS_NO_START,CouponCode::STATUS_RUNNING])
+            ->orderBy('id', 'desc')
+            ->get();
 
         $successed = 0;
         $failed = 0;
@@ -51,16 +52,23 @@ class CheckCouponCode extends Command
             $end_date = Carbon::parse($code->end_date)->endOfDay();
             $now = Carbon::now();
 
-            if($now >= $end_date){
+            if($now > $end_date){
                 //失效了
                 $status = CouponCode::STATUS_FINISHED;
+            }elseif(Carbon::parse($now)->between($start_date, $end_date) && $code->status != CouponCode::STATUS_RUNNING){
+                //执行中
+                $status = CouponCode::STATUS_RUNNING;
+            }
 
+            if(isset($status)){
                 $code->status = $status;
                 $result = $code->save();
 
+                $status_list = config('coupon.status');
+
                 if($result){
                     $successed++;
-                    echo '优惠码id='.$code->id. '设置状态为：已失效';
+                    echo '优惠码id='.$code->id. '设置状态为:'.array_get($status_list, $status);
                     echo "\n";
                 }else{
                     $failed++;
@@ -68,6 +76,6 @@ class CheckCouponCode extends Command
             }
         }
 
-        echo '共'.count($codes).' 条数据待处理；成功:'.$successed.'条,失败'.$failed.'.条'."\n";
+        echo '['.Carbon::now().']共检测'.count($codes).'条数据；成功设置:'.$successed.'条,失败'.$failed.'条'."\n";
     }
 }
