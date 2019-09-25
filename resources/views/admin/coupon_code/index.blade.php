@@ -159,7 +159,9 @@
                             @foreach($coupon_codes as $coupon_code)
                                 <tr>
                                     <td>{{$coupon_code->id}}</td>
-                                    <td>{{$coupon_code->code}}</td>
+                                    <td>
+                                        {{$coupon_code->code}}<br />
+                                        <a onclick="copy('{{$coupon_code->code}}');">复制</a></td>
                                     <td>{{$coupon_code->good->name}}</td>
                                     <td>
                                         @php($targetable = $coupon_code->targetable)
@@ -239,6 +241,7 @@
 
 @section('script')
 
+    <script src="{{asset('js/admin/helper.js')}}"></script>
     <script src="{{asset('js/admin/common.js')}}"></script>
     <script src="{{asset('js/admin/good/search.js')}}" ></script>
 
