@@ -68,14 +68,16 @@
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <a id="create_code_auto">自动生成</a>
+                                        <label class="control-label">
+                                            <a id="create_code_auto" style="cursor: pointer;">自动生成</a>
+                                        </label>
                                     </div>
 
                                 </div>
 
                                 <div class="form-group">
 
-                                    <label for="good_id" class="col-sm-2 asterisk control-label">选择单品</label>
+                                    <label for="good_id" class="col-sm-2 asterisk control-label">选择商品</label>
 
                                     <div class="col-sm-4">
 
@@ -111,7 +113,7 @@
 
                                 <label for="type_id" class="col-sm-2 asterisk control-label">类型</label>
 
-                                <div class="col-sm-8">
+                                <div class="col-sm-2">
 
                                     <select class="form-control single_select" style="width: 100%;" name="type_id" required="1" >
                                         <option></option>
@@ -139,7 +141,7 @@
 
                                 <div class="col-md-3">
                                     <label class="control-label">
-                                        <span style="color: red">（输入1-99的数字; 示例：填写80,表示商品价格打8折）</span>
+                                        <span style="color: red">（输入1-99的数字; 示例：填写80,表示价格打8折）</span>
                                     </label>
                                 </div>
                             </div>
@@ -158,27 +160,29 @@
 
                                     </div>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label class="control-label">
+                                        <span style="color: red">（输入的是要优惠的金额；示例：填写100，表示价格优惠100）</span>
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="form-group content_div content_div_3" style="display: none;">
 
-                                <label for="amount" class="col-sm-2 asterisk control-label">购买数量</label>
-                                <div class="col-sm-2">
+                                <label for="start_date" class="col-sm-2 asterisk control-label">满减</label>
 
-                                    <div class="input-group">
+                                <div class="col-sm-4">
+
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon" style="border-right: 0;">满</span>
                                         <input type="text" name="full_reduction[amount]" value="" class="form-control amount" placeholder="输入购买数量"  />
-
-                                    </div>
-                                </div>
-
-                                <label for="money" class="col-sm-2 asterisk control-label">满减金额</label>
-                                <div class="col-sm-2">
-
-                                    <div class="input-group">
+                                        <span class="input-group-addon" style="border-left: 0; border-right: 0;">减</span>
                                         <input type="text"  name="full_reduction[money]" value="" class="form-control money" placeholder="输入满减金额" />
 
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <!-- /.box-body -->
