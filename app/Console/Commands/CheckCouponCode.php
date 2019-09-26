@@ -49,11 +49,8 @@ class CheckCouponCode extends Command
         foreach ($codes as $code){
 
             $start_date = Carbon::parse($code->start_date);
-            $end_date = Carbon::parse($code->end_date)->endOfDay();
+            $end_date = Carbon::parse($code->end_date);
             $now = Carbon::now();
-
-            echo 'id='.$code->id.';now='.$now->toDateTimeString().'; end_date='.$end_date->toDateTimeString()."\n";
-            echo dump($now->gt($end_date))."\n";
 
             if($now->gt($end_date)){
                 //失效了
@@ -74,6 +71,7 @@ class CheckCouponCode extends Command
                 if($result){
                     $successed++;
                     echo '优惠码id='.$code->id. '设置状态为:'.array_get($status_list, $status);
+                    echo ' now='.$now->toDateTimeString().'; end_date='.$end_date->toDateTimeString().'; start_date='.$start_date->toDateTimeString();
                     echo "\n";
                 }else{
                     $failed++;
