@@ -94,7 +94,7 @@ class CouponCodeController extends BaseController
         $end_date = Carbon::parse($request->post('end_date'))->endOfDay();
         $now = Carbon::now();
 
-        if($now < $start_date){
+        if($now->lt($start_date)){
             //未开始
             $status = CouponCode::STATUS_NO_START;
         }elseif(Carbon::parse($now)->between($start_date, $end_date)){

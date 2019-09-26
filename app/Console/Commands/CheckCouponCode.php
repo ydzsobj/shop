@@ -52,15 +52,17 @@ class CheckCouponCode extends Command
             $end_date = Carbon::parse($code->end_date)->endOfDay();
             $now = Carbon::now();
 
-            if($now > $end_date){
+            if($now->gt($end_date)){
                 //失效了
                 $status = CouponCode::STATUS_FINISHED;
             }elseif(Carbon::parse($now)->between($start_date, $end_date) && $code->status != CouponCode::STATUS_RUNNING){
                 //执行中
                 $status = CouponCode::STATUS_RUNNING;
+            }else{
+                $status = null;
             }
 
-            if(isset($status)){
+            if($status){
                 $code->status = $status;
                 $result = $code->save();
 
@@ -78,5 +80,6 @@ class CheckCouponCode extends Command
 
         echo '['.Carbon::now().']共检测'.count($codes).'条数据；成功设置:'.$successed.'条,失败'.$failed.'条'."\n";
         echo '###########################################';
+        echo "\n";
     }
 }
