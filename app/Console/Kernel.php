@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $filePath = storage_path('logs/check_coupon_code.log');
         $schedule->command('check:coupon_code')
-                ->dailyAt('00:00')
+                ->daily()
 //                ->dailyAt('18:43')
                 ->appendOutputTo($filePath);
     }
