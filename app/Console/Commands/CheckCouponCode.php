@@ -52,6 +52,9 @@ class CheckCouponCode extends Command
             $end_date = Carbon::parse($code->end_date)->endOfDay();
             $now = Carbon::now();
 
+            echo 'id='.$code->id.';now='.$now->toDateTimeString().'; end_date='.$end_date->toDateTimeString()."\n";
+            echo dump($now->gt($end_date))."\n";
+
             if($now->gt($end_date)){
                 //失效了
                 $status = CouponCode::STATUS_FINISHED;
