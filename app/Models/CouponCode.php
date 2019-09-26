@@ -165,13 +165,13 @@ class CouponCode extends Model
 
                 case self::TYPE_FIXED:
                     //固定金额
-                    $after_price = round($sku_nums * ($price - $rule->money), 2);
+                    $after_price = round($sku_nums * ($price - $rule->money*100), 2);
                     break;
 
                 case self::TYPE_FULL_REDUCTION:
                     //满减
                     if($item['sku_nums'] >= $rule->amount){
-                        $after_price = round($price * $sku_nums - $rule->money, 2);
+                        $after_price = round($price * $sku_nums - $rule->money*100, 2);
                     }else{
                         return [false, '数量不够，享受不了优惠'];
                     }
@@ -207,13 +207,13 @@ class CouponCode extends Model
 
             case self::TYPE_FIXED:
                 //固定金额
-                $after_price = round($total_price - $rule->money, 2);
+                $after_price = round($total_price - $rule->money*100, 2);
                 break;
 
             case self::TYPE_FULL_REDUCTION:
                 //满减
                 if($total_nums >= $rule->amount){
-                    $after_price = round($total_price - $rule->money, 2);
+                    $after_price = round($total_price - $rule->money*100, 2);
                 }else{
                     return [false, '数量不够，享受不了优惠'];
                 }
