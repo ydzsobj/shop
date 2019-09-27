@@ -251,6 +251,10 @@ class GoodController extends Controller
             $query->whereNotNull('audited_at')->orderBy('id', 'desc');
         },'comments.comment_images'])->where('id', $id)->first();
 
+        if(!$good){
+            return returned(false, '商品不存在');
+        }
+
         //轮播图列表
         $list_images = $good->list_images()->pluck('image_url');
 
