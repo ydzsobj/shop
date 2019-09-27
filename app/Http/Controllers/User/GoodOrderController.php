@@ -304,12 +304,13 @@ class GoodOrderController extends Controller
                     $total_off = $success;
                     $desc = $msg;
                 }else{
-                    return returned(false, $msg);
+                    $desc = $msg;
+                    $total_off = 0;
                 }
                 break;
 
             default:
-                return false;
+                return returned(false,'优惠码类型不符合条件');
         }
 
         $coupon_code_id = $code->id;
