@@ -247,7 +247,7 @@
 
                                         @if($order->coupon_code)
                                             <a href="#"
-                                               title="使用了优惠码"
+                                               title="使用了优惠码,此单优惠了 {{$order->total_off}}"
                                                data-toggle="tooltip"
                                                data-placement="top"
                                                >

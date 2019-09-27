@@ -20,6 +20,7 @@ class GoodOrder extends Model
         'sn',
         'ip',
         'price',
+        'total_off',
         'status',
         'receiver_name',
         'receiver_phone',

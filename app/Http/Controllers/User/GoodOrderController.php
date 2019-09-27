@@ -27,6 +27,7 @@ class GoodOrderController extends Controller
      * @apiParam {string} [leave_word] 留言
      * @apiParam {string} [postcode] 邮编
      * @apiParam {string} [coupon_code_id] 优惠码id
+     * @apiParam {string} [total_off] 计算优惠后的价格
      *
      * @apiParamExample {json} Request-Example:
      *{
@@ -42,7 +43,8 @@ class GoodOrderController extends Controller
      *  	"short_address":"清河大街888号小米大厦",
      *  	"leave_word":"尽快发货~~~~~",
      *  	"postcode":"470000",
-     *  	"coupon_code_id": 15
+     *  	"coupon_code_id": 15,
+     *  	"total_off": 999000,
      *}
      *
      * @apiSuccessExample Success-Response:
@@ -109,7 +111,6 @@ class GoodOrderController extends Controller
             return $item;
         });
 
-
         $skus_price = $cart_data->map(function($item){
             return $item['price'] * $item['sku_nums'];
         });
@@ -119,9 +120,13 @@ class GoodOrderController extends Controller
             list($province, $city, $area) = explode('/', $request->post('address'));
         }
 
+        //优惠
+        $total_off = $request->post('total_off');
+        $total_off = $total_off ? round($total_off/100, 2) : 0;
 
         $insert_data = [
-            'price' => $skus_price->sum(),
+            'price' => $skus_price->sum() - $total_off,
+            'total_off' => $total_off,
             'ip' => $ip,
             'sn' => generate_sn(),
             'coupon_code_id' => $request->post('coupon_code_id'),
