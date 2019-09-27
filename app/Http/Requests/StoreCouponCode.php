@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\CouponCode;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCouponCode extends FormRequest
 {
@@ -25,7 +26,13 @@ class StoreCouponCode extends FormRequest
     public function rules()
     {
         return [
-            'code'=> 'required|unique:coupon_codes|max:255',
+            'code' =>[
+                'required',
+                'max:255',
+                Rule::unique('coupon_codes')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                })
+            ],
             'type_id' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
