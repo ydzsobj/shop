@@ -148,30 +148,33 @@ class CouponCode extends Model
     }
 
     //计算购物车每种商品优惠后的价格
-    public function count_good_price($item){
+    public function count_good_price($good_id,$items){
 
-        $price = $item['price'];
-        $sku_nums = $item['sku_nums'];
+        $total_nums = $items->sum('sku_nums');
+
+        $total_price = $items->map(function($item){
+           return $item['price'] * $item['sku_nums'];
+        })->sum();
 
         $rule = $this->targetable;
 
-        if($this->good_id == $item['good_id']){
+        if($this->good_id == $good_id){
             switch ($this->type_id){
 
                 case self::TYPE_PERCENT:
                     //折扣
-                    $after_price = round($price * $sku_nums * ($rule->percent/100), 2);
+                    $after_price = round($total_price * ($rule->percent/100), 2);
                     break;
 
                 case self::TYPE_FIXED:
                     //固定金额
-                    $after_price = round($sku_nums * ($price - $rule->money*100), 2);
+                    $after_price = round($total_price - $total_nums * $rule->money * 100, 2);
                     break;
 
                 case self::TYPE_FULL_REDUCTION:
                     //满减
-                    if($item['sku_nums'] >= $rule->amount){
-                        $after_price = round($price * $sku_nums - $rule->money*100, 2);
+                    if($total_nums >= $rule->amount || count($items) >= $rule->amount){
+                        $after_price = round($total_price - $rule->money*100, 2);
                     }else{
                         return [false, '数量不够，享受不了优惠'];
                     }
@@ -180,7 +183,7 @@ class CouponCode extends Model
                 default:
                     return [false, '找不到优惠类型'];
             }
-            return [$price * $sku_nums - $after_price, self::formart_type_info($this->type_id, $rule) ];
+            return [$total_price - $after_price, self::formart_type_info($this->type_id, $rule) ];
 
         }else{
             return [false, '优惠码不适用该商品'];

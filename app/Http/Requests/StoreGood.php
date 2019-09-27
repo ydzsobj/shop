@@ -35,6 +35,8 @@ class StoreGood extends FormRequest
             'title' => 'required',
             'about' => 'nullable|max:255',
             'detail_desc' => 'required',
+            'price' => 'required|numeric',
+            'original_price' => 'required|numeric',
 //            'size_desc' => 'required',
         ];
     }
@@ -46,7 +48,9 @@ class StoreGood extends FormRequest
             'name.unique'  => '单品名已存在',
             'detail_desc.required'  => '详情描述必填',
 //            'size_desc.required'  => '尺寸描述必填',
-            'about.max' => '简介最大255个字符'
+            'about.max' => '简介最大255个字符',
+            'price.numeric' => '价格格式不正确',
+            'original_price.numeric' => '价格格式不正确',
         ];
     }
 }

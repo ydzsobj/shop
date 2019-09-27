@@ -274,18 +274,22 @@ class GoodOrderController extends Controller
             //单个商品
             case CouponCode::APPLY_TYPE_GOOD:
 
-                $detail = $cart_data->map(function($item) use ($code){
-                    list($success, $msg) = $code->count_good_price($item);
+                $cart_data = $cart_data->groupBy('good_id');
+
+                $detail = collect([]);
+
+                $cart_data->map(function($item,$good_id) use ($code,$detail){
+                    list($success, $msg) = $code->count_good_price($good_id, $item);
                     if($success){
-                        $item['off'] = $success;
-                        $item['msg'] = $msg;
+                        $off = $success;
                     }else{
-                        $item['off'] = 0;
-                        $item['msg'] = $msg;
+                        $off = 0;
                     }
-                    return $item;
+                    return $detail->push(['off' => $off, 'msg' => $msg ,'good_id' => $good_id]);
                 });
+
                 $total_off = $detail->sum('off');
+
                 break;
 
             //订单
@@ -304,6 +308,8 @@ class GoodOrderController extends Controller
         }
 
         $coupon_code_id = $code->id;
+
+        $total_off = round($total_off, 2);
 
         return returned(true, '优惠码有效',
             compact(
