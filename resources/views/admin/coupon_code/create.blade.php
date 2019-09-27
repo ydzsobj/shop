@@ -213,15 +213,10 @@
 
                             <div class="col-md-8">
 
-                                <div class="btn-group pull-right">
+                                <div class="btn-group pull-left">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
 
-
-
-                                <div class="btn-group pull-left">
-                                    <button type="reset" class="btn btn-warning">重置</button>
-                                </div>
                             </div>
                         </div>
 
