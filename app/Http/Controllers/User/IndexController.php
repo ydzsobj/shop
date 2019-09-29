@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\AdminConfig;
 use App\Models\Good;
 use App\Models\GoodCategory;
 use App\Models\GoodModule;
 use App\Models\Slide;
+use Encore\Admin\Config\Config;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -202,7 +204,14 @@ class IndexController extends Controller
      *            "lang": "zh_CN",
      *            "money_sign": "$",
      *            "email": "123@qq.com"
-     *        }
+     *        },
+     *      "global_configs": {
+     *          "money_sign": "$",
+     *          "global_area": "印度尼西亚",
+     *          "global_lang": "en-US",
+     *          "global_email": "123@qq.com",
+     *          "global_phone": "18811112222"
+     *      }
      *    }
      *}
      */
@@ -216,7 +225,9 @@ class IndexController extends Controller
             'phone' => config('global_phone'),
         ];
 
-        return returned(true, '', compact('config'));
+        $global_configs = AdminConfig::pluck('value','name');
+
+        return returned(true, '', compact('config','global_configs'));
     }
 
 
