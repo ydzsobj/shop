@@ -174,35 +174,35 @@
                                     ID
                                 </th>
                                 <th>
-                                    订单号
+                                    SN
                                 </th>
                                 <th>
-                                    下单IP
+                                    IP
                                 </th>
                                 <th>
-                                    下单总价({{$money_sign}})
+                                    总价({{$money_sign}})
                                 </th>
 
                                 <th>
-                                    订单状态
+                                    状态
                                 </th>
                                 <th>
                                     下单时间
                                 </th>
 
                                 <th>
-                                    收货人信息
+                                    收货人
                                 </th>
 
                                 <th>
-                                    收货人地址
+                                    收货地址
                                 </th>
 
                                 <th>
                                     留言
                                 </th>
                                 <th>
-                                    单品名/SKU信息
+                                    单品名/SKU
                                 </th>
 
                                 <th>
@@ -235,7 +235,8 @@
                                            data-pk="{{$order->id}}"
                                            data-value="{{$order->remark}}"
                                            data-url="/admin/good_orders/{{$order->id}}/update_remark"
-                                           data-title="客服备注">{{$order->remark ?: '+'}}
+                                           data-title="客服备注">
+                                            {{$order->remark ?: '+'}}
                                         </a>
 
                                     </td>
@@ -243,7 +244,19 @@
                                         {{$order->ip}}<br />
                                         {{$order->ip_country}}</td>
                                     <td>
-                                        {{$order->price}}
+
+                                        @if($order->coupon_code)
+                                            <a href="#"
+                                               title="使用了优惠码,此单优惠了 {{$order->total_off}}"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               >
+                                                {{$order->price}}
+                                            </a>
+
+                                        @else
+                                            {{$order->price}}
+                                        @endif
                                     </td>
                                     <td>
                                         <span style="color: @if($order->status == 1)green @elseif($order->status == 2) red @else orange @endif "

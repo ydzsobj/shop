@@ -63,6 +63,9 @@ $api->version('v1', function ($api) {
 
             //用户跟踪轨迹
             $api->post('/trace_logs', 'UserTraceLogController@store')->name('user.trace_logs.store');
+
+            //优惠码
+            $api->post('/check_coupon_code', 'GoodOrderController@check_coupon_code')->name('user.good.check_coupon_code');
         });
     });
 
