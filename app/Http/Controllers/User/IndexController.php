@@ -212,7 +212,8 @@ class IndexController extends Controller
             'area' => config('global_area'),
             'lang' => config('global_lang'),
             'money_sign' => config('money_sign'),
-            'email' => config('global_email')
+            'email' => config('global_email'),
+            'phone' => config('global_phone'),
         ];
 
         return returned(true, '', compact('config'));
