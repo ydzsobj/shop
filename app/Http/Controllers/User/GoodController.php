@@ -98,6 +98,7 @@ class GoodController extends Controller
      * @apiSuccess {String} title 商品标题
      * @apiSuccess {String} about 商品简介
      * @apiSuccess {String} price 实际价格
+     * @apiSuccess {Number} show_coupon_code 是否展示优惠码输入
      * @apiSuccess {Array} pay_types 付款方式
      * @apiSuccess {Number} show_comment 是否显示评论模块
      * @apiSuccess {string} detail_desc 商品详情
@@ -119,6 +120,7 @@ class GoodController extends Controller
      *        "about": "这是一条简介。。。",
      *        "original_price": "111.00",
      *        "price": "99.00",
+     *        "show_coupon_code": 0,//是否展示优惠码输入
      *        "product_id": 1,
      *        "product_name": null,
      *        "admin_user_id": 1,

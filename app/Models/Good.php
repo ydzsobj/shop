@@ -39,6 +39,7 @@ class Good extends Model
         'main_image_url',
         'main_video_url',
         'fb_pix',
+        'show_coupon_code',
 
     ];
 

@@ -65,6 +65,7 @@ class GoodController extends BaseController
             'size_desc',
             'fb_pix',
             'about',
+            'show_coupon_code',
         ]);
 
         if(is_null($request->post('show_comment'))){
@@ -124,6 +125,7 @@ class GoodController extends BaseController
             'size_desc',
             'fb_pix',
             'about',
+            'show_coupon_code',
         ]);
 
         if(is_null($request->post('show_comment'))){
