@@ -98,7 +98,7 @@ class GoodController extends Controller
      * @apiSuccess {String} title 商品标题
      * @apiSuccess {String} about 商品简介
      * @apiSuccess {String} price 实际价格
-     * @apiSuccess {Number} show_coupon_code 是否展示优惠码输入
+     * @apiSuccess {Number} show_coupon_code 是否展示优惠码输入 0不显示 1展示
      * @apiSuccess {Array} pay_types 付款方式
      * @apiSuccess {Number} show_comment 是否显示评论模块
      * @apiSuccess {string} detail_desc 商品详情
