@@ -83,8 +83,14 @@ class GoodController extends Controller
      */
     public function index(Request $request){
 
+        $keywords = $request->get('keywords');
+
+        if($request->has('keywords') && is_null($keywords)){
+            return returned(true,'',['data' => []]);
+        }
+
         $gd = new Good();
-        $goods = $gd->user_good_data($request->all());
+        $goods = $gd->user_good_data($request);
 
         return returned(true, '', $goods);
     }
