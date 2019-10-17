@@ -229,9 +229,7 @@ class Good extends Model
      * @param $request
      * @return mixed
      */
-    public function user_good_data($request){
-
-        $search = $request->all();
+    public function user_good_data($search = []){
 
         $category_id = array_get($search, 'category_id', null);
         $good_module_id = array_get($search, 'good_module_id', null);
