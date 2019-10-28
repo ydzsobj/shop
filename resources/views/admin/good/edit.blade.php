@@ -436,9 +436,9 @@
                 allowImageRemote: false,
                 afterBlur: function () { this.sync(); } ,  //同步编辑器数据
 
-                items: [
-                    'source', '|', 'undo', 'redo', '|', 'preview', 'image', 'multiimage', 'media',
-                ],
+                // items: [
+                //     'source', '|', 'undo', 'redo', '|', 'preview', 'image', 'multiimage', 'media',
+                // ],
                 imageSizeLimit : '{{$upload_config['image_max']}}K', //批量上传图片单张最大容量
                 imageUploadLimit : 20 //批量上传图片同时上传最多个数
             });
