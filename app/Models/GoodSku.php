@@ -31,4 +31,24 @@ class GoodSku extends Model
        return $this->belongsTo(Good::class)->withDefault()->withTrashed();
     }
 
+    public function get_sku_name($sku = null){
+
+        $sku = $sku ?: $this;
+
+        $sku_name = '';
+
+        if($sku->s1_name){
+            $sku_name .= $sku->s1_name .' ';
+        }
+
+        if($sku->s2_name){
+            $sku_name .= $sku->s2_name .' ';
+        }
+
+        if($sku->s3_name){
+            $sku_name .= $sku->s3_name .' ';
+        }
+
+        return $sku_name;
+    }
 }

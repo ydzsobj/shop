@@ -325,6 +325,11 @@
 
 @section('script')
 
+    <script>
+        var erp_api_domain = "{{ $erp_api_domain }}";
+        console.log(erp_api_domain);
+    </script>
+
     <script src="{{asset('js/admin/common.js')}}"></script>
     <script src="{{asset('js/admin/good/index.js')}}"></script>
 

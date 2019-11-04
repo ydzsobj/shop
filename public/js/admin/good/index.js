@@ -60,7 +60,7 @@ $("#product_id").select2({
     "allowClear": true,
     "placeholder": {"id": "", "text": "请选择"},
     ajax: {
-        url: "{{$erp_api_domain}}/api/product",
+        url: erp_api_domain + "/api/product",
         dataType: 'json',
         delay: 500,
         data: function (params) {
@@ -93,8 +93,6 @@ function formatRepo (repo) {
     if (repo.loading) {
         return repo.text;
     }
-
-    var erp_api_domain = "{{$erp_api_domain}}";
 
     var $container = $(
         "<div class='select2-result-repository clearfix'>" +
