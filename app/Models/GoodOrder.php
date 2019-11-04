@@ -113,6 +113,9 @@ class GoodOrder extends Model
         return [$data, $search->all()];
     }
 
+    /**
+     * 模糊搜索
+     */
     public function scopeFilterKeywords($query, $filter_keywords){
         if($filter_keywords){
             return $query->where(function($sub_query) use ($filter_keywords){
