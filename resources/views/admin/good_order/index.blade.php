@@ -99,6 +99,11 @@
                                                     </div>
                                                 </div>
 
+                                                <label class="col-sm-1 control-label">模糊搜索</label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control filter_keywords" placeholder="收货人/收货电话" name="filter_keywords" value="{{$search['filter_keywords']}}">
+                                                </div>
+
                                             </div>
 
                                         </div>

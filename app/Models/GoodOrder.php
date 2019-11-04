@@ -94,11 +94,15 @@ class GoodOrder extends Model
      */
     public function get_data($request){
 
+        $filter_keywords = $request->get('filter_keywords');
+
         $base_query =  GoodOrder::with(['order_skus','admin_user', 'coupon_code', 'audit_logs' => function($query){
             $query->orderBy('created_at', 'desc');
-        }]);
+        }])->filterKeywords($filter_keywords);
 
         list($query, $search) = $this->query_conditions($base_query, $request);
+
+        $search = collect($search)->put('filter_keywords', $filter_keywords);
 
         $data = $query->select(
             'good_orders.*'
@@ -106,7 +110,18 @@ class GoodOrder extends Model
             ->orderBy('good_orders.id', 'desc')
             ->paginate($this->page_size);
 
-        return [$data, $search];
+        return [$data, $search->all()];
+    }
+
+    public function scopeFilterKeywords($query, $filter_keywords){
+        if($filter_keywords){
+            return $query->where(function($sub_query) use ($filter_keywords){
+                $sub_query->where('receiver_name', 'like', '%'. $filter_keywords. '%')
+                    ->orWhere('receiver_phone', 'like', '%'. $filter_keywords. '%');
+            });
+        }else{
+            return $query;
+        }
     }
 
     /**
