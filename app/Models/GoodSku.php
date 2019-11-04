@@ -51,4 +51,19 @@ class GoodSku extends Model
 
         return $sku_name;
     }
+
+    /**
+     * @获取所有sku
+     */
+    public function product_skus($good_id){
+
+        $good_skus = self::where('good_id', $good_id)->get();
+
+        $sku_list = $good_skus->map(function($good_sku){
+                return [ 'id' => $good_sku->sku_id ,'name' => $good_sku->get_sku_name()];
+        });
+
+        return $sku_list->pluck('name','id');
+
+    }
 }

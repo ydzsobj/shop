@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Encore\Admin\Facades\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\GoodSku;
 use Auth;
 use Excel;
 
@@ -96,20 +97,23 @@ class GoodOrderController extends BaseController
      */
     public function edit(Request $request, $id){
 
-        $detail = GoodOrder::find($id);
+        $detail = GoodOrder::with(['order_skus'])->where('id',$id)->first();
 
+        //获取所有产品下的sku
         $order_skus = $detail->order_skus;
+
+        $order_skus = $order_skus->map(function($order_sku){
+            $sku = ($order_sku->sku_info);
+            $order_sku->sku_list = $sku->product_skus($order_sku->good_id);
+            return $order_sku;
+        });
+
+        // dd($order_skus);
 
         $pay_types = config('order.pay_types');
         $status = config('order.status');
 
-        $total_price = $order_skus->map(function($item){
-            return $item->price * $item->sku_nums;
-        })->sum();
-
-        $total_price = config('money_sign').$total_price;
-
-        return view('admin.good_order.edit', compact('detail','total_price','pay_types','status'));
+        return view('admin.good_order.edit', compact('detail','pay_types','status', 'order_skus'));
     }
 
     /**
@@ -121,6 +125,8 @@ class GoodOrderController extends BaseController
 
         $rq = $request->only('receiver_name','receiver_phone' ,'short_address','province', 'city', 'area','postcode');
 
+        $sku_attr_values = $request->post('sku_attr_values');
+
         $go = GoodOrder::find($id);
         if(!$go){
             return redirect()->route('good_orders.index')->with('error',trans('order.not_exist'));
@@ -129,6 +135,12 @@ class GoodOrderController extends BaseController
         $rq['address'] = $rq['province'] . '/' .$rq['city']. '/'. $rq['area'];
 
         $res = GoodOrder::where('id',$id)->update($rq);
+
+        if($res && $sku_attr_values){
+            foreach($sku_attr_values as $id=>$sku_id){
+                GoodOrderSku::where('id', $id)->update(['sku_id' => $sku_id]);
+            }
+        }
         $msg = $res ? trans('common.update.success') : trans('common.update.fail');
         $alert_type = $res ? 'success':'error';
 

@@ -3,19 +3,34 @@
     <h4 class="modal-title" id="myModalLabel">编辑订单</h4>
 </div>
 
+<form action="{{route('good_orders.update',['id' => $detail->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+
 <table class="table" style="margin-left: 150px;width: 80%;">
     <tr><td>订单编号</td><td>{{$detail->sn}}</td></tr>
-    <tr><td>订单总金额</td><td>{{$total_price}}</td></tr>
+    <tr><td>订单总金额</td><td>{{ $money_sign . $detail->price}}</td></tr>
     <tr><td>支付方式</td><td>{{array_get($pay_types, $detail->pay_type_id, '')}}</td></tr>
     <tr><td>订单状态</td><td>{{array_get($status, $detail->status, '')}}</td></tr>
     <tr><td>下单时间</td><td>{{$detail->created_at}}</td></tr>
     <tr><td>商品信息</td>
         <td>
             <table class="table">
-                <tr><th>单品名称</th><th>数量</th><th>SKU信息</th></tr>
-                @foreach($detail->order_skus as $order_sku)
+                <tr><th>单品名称</th><th>数量</th><th>SKU编码</th><th>属性</th></tr>
+                @foreach($order_skus as $key=>$order_sku)
                     @php($sku = $order_sku->sku_info)
-                    <tr><td>{{$sku->good->name}}</td><td>{{$order_sku->sku_nums}}</td><td>{{'【'.$sku->sku_id. '】' .$sku->s1_name.' '.$sku->s2_name.' '.$sku->s3_name}}</td></tr>
+                    <tr>
+                        <td>{{$sku->good->name}}</td>
+                        <td>{{$order_sku->sku_nums}}</td>
+                        <td>{{ $sku->sku_id }}</td>
+                        <td>
+                                <select class="form-control status" style="width:160px;" name="sku_attr_values[{{ $order_sku->id }}]">
+                                    <option></option>
+                                    @foreach($order_sku->sku_list as $key=>$sku_attr_value_name)
+                                        <option value="{{$key}}" @if($order_sku->sku_id == $key) selected @endif>{{$sku_attr_value_name}}</option>
+                                    @endforeach
+
+                                </select>
+                        </td>
+                    </tr>
                 @endforeach
             </table>
         </td>
@@ -23,7 +38,7 @@
 
 </table>
 <!-- form start -->
-<form action="{{route('good_orders.update',['id' => $detail->id])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+
 
     <div class="box-body">
 
@@ -144,11 +159,13 @@
     <!-- /.box-footer -->
 </form>
 
+    <script src="{{asset('js/admin/common.js')}}"></script>
     <script>
+
         $(function () {
 
             $(".single_select").select2({"allowClear": true, "placeholder": {"id": "", "text": "请选择"}});
-            
+
             $('.container-refresh').off('click').on('click', function () {
                 $.admin.reload();
                 $.admin.toastr.success('刷新成功 !', '', {positionClass: "toast-top-center"});

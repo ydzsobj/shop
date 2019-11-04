@@ -78,11 +78,11 @@ class BindProductAttributeListener
         foreach ($result_data as $item){
 
             $sku_datas->push([
-                'sku_id' => $item->sku_id,
-                'attrs' => unserialize($item->sku_value),
-                'price' => $item->sku_price,
+                // 'sku_id' => $item->sku_id,
+                // 'attrs' => unserialize($item->sku_value),
+                // 'price' => $item->sku_price,
                 'stock' => 9999,
-                'thumb_url' => env('ERP_API_DOMAIN',''). $item->sku_image
+                'thumb_url' => env('ERP_API_DOMAIN',''). $item->sku_image_url
             ]);
         }
 
@@ -91,7 +91,7 @@ class BindProductAttributeListener
             $tmp = [];
             if($sku_data['attrs']){
                 foreach ($sku_data['attrs'] as $key=>$attr){
-                    $k = 's'.intval($key);
+                    $k = 's'.intval($key + 1);
                     $tmp[$k] = $attr['sku_value_id'];
                     $tmp[$k.'_name'] = $attr['sku_value_name'];
                 }
@@ -129,7 +129,7 @@ class BindProductAttributeListener
             return false;
         }
         $result_data = $result->data;
-        $attr_data = unserialize($result_data->spec_value);
+        $attr_data = $result_data->attr;
 
         //添加产品名称
         Product::updateOrCreate([
