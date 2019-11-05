@@ -67,69 +67,38 @@ class BindProductAttributeListener
 //        ];
 
         //获取产品sku
-        $get_sku_url = env('ERP_API_DOMAIN').'/api/product/sku/'.$good->product_id;
+        $get_sku_url = env('ERP_API_DOMAIN').'/api/product/'.$good->product_id;
         $result = get_api_data($get_sku_url);
         if(!$result){
             return false;
         }
         $result_data = $result->data;
-        $sku_datas = collect([]);
 
-        foreach ($result_data as $item){
+        $sku_datas = $result_data->skus;
 
-            $sku_datas->push([
-                // 'sku_id' => $item->sku_id,
-                // 'attrs' => unserialize($item->sku_value),
-                // 'price' => $item->sku_price,
-                'stock' => 9999,
-                'thumb_url' => env('ERP_API_DOMAIN',''). $item->sku_image_url
-            ]);
-        }
-
-        foreach ($sku_datas->all() as $sku_data){
+        foreach ($sku_datas as $sku_data){
 
             $tmp = [];
-            if($sku_data['attrs']){
-                foreach ($sku_data['attrs'] as $key=>$attr){
+            if($sku_data->sku_values){
+                foreach ($sku_data->sku_values as $key=>$attr_value){
                     $k = 's'.intval($key + 1);
-                    $tmp[$k] = $attr['sku_value_id'];
-                    $tmp[$k.'_name'] = $attr['sku_value_name'];
+                    $tmp[$k] = $attr_value->attr_value_id;
+                    $tmp[$k.'_name'] = $attr_value->attr_name;
                 }
             }
 
             $insert_data = array_merge($tmp,[
-                    'sku_id' => $sku_data['sku_id'],
-                    'price' => $sku_data['price'],
-                    'stock' => $sku_data['stock'],
-                    'thumb_url' => $sku_data['thumb_url'],
+                    'sku_id' => $sku_data->sku_code,
+                    'price' => $sku_data->sku_price,
+                    'stock' => 9999,
+                    'thumb_url' => env('ERP_API_DOMAIN','') . $sku_data->sku_image,
                 ]
             );
 
             $sku_obj = $good->skus()->create($insert_data);
         }
-
-//        $attr_data = [
-//            [
-//                'id' => 1,
-//                'name' => '颜色',
-//                'value' => [['name'=>'红','id'=>1],['name'=>'黄','id'=>2],['name'=>'蓝','id'=>3]],
-//            ],
-//
-//            [
-//                'id' => 2,
-//                'name' => '尺寸',
-//                'value' => [['name'=> '大','id'=>4],['name' => '小', 'id' =>5]],
-//            ]
-//        ];
-
         //获取产品属性
-        $get_attr_url = env('ERP_API_DOMAIN').'/api/product/'.$good->product_id;
-        $result = get_api_data($get_attr_url);
-        if(!$result){
-            return false;
-        }
-        $result_data = $result->data;
-        $attr_data = $result_data->attr;
+        $product_attrs = $result_data->product_attr;
 
         //添加产品名称
         Product::updateOrCreate([
@@ -139,27 +108,29 @@ class BindProductAttributeListener
             'english_name' => $result_data->product_english,
         ]);
 
-        if($attr_data){
-            foreach ($attr_data as $data){
+        if($product_attrs){
+            foreach ($product_attrs as $product_attr){
 
-                 $product_attr = ProductAttribute::updateOrCreate([
+                $attr = $product_attr->attr;
+
+                $mod = ProductAttribute::updateOrCreate([
                      'product_id' => $good->product_id,
-                     'attr_id' => $data['attr_id'],
+                     'attr_id' => $attr->id,
                 ],[
-                    'attr_name' => $data['attr_name'],
-                    'show_name' => $data['attr_name']
+                    'attr_name' => $attr->attr_name,
+                    'show_name' => $attr->attr_name
                  ]
                  );
 
-                foreach ($data['attr_value'] as $item){
+                foreach ($product_attr->attr_values as $item){
                     ProductAttributeValue::updateOrCreate([
-                        'product_attribute_id' => $product_attr->id,
-                        'attr_value_id' => $item['attr_value_id']
+                        'product_attribute_id' => $mod->id,
+                        'attr_value_id' => $item->id
                     ],[
-                        'attr_value_name' => $item['attr_value_name'],
-                        'english_name' => $item['attr_value_english'] ?? '',
-                        'show_name' => $item['attr_value_name'],
-                        'thumb_url' => isset($item['attr_value_image']) ? env('ERP_API_DOMAIN').$item['attr_value_image'] : null,
+                        'attr_value_name' => $item->attr_value_name,
+                        'english_name' => $item->attr_value_english ?? '',
+                        'show_name' => $item->attr_value_name,
+                        'thumb_url' =>  null,
                     ]);
                 }
             }
