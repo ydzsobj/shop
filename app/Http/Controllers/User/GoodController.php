@@ -275,12 +275,25 @@ class GoodController extends Controller
 
         //sku list
         $skus = $good->skus()
-            ->select('sku_id as id','price','s1','s2','s3','stock as stock_num')
+            ->select('sku_id','price','s1','s2','s3','stock as stock_num')
             ->whereNull('disabled_at')
             ->get();
-        $skus = $skus->map(function($sku){
-            $sku->price =  ($sku->price) * 100;
-            return $sku;
+
+        $format_skus = collect([]);
+
+        $skus->map(function($sku) use($format_skus){
+
+            $append = [
+                'price' =>  ($sku->price) * 100 ,
+                'id' => $sku->sku_id
+            ];
+
+            $sku = $sku->toArray();
+
+            unset($sku['sku_id'], $sku['price']);
+
+            $format_skus->push(array_merge($append, $sku));
+
         });
 
         $good->tree = $attrs;
@@ -290,7 +303,7 @@ class GoodController extends Controller
 
         $good->none_sku = $good->tree ? false : true;
 
-        $good->list = $skus;
+        $good->list = $format_skus;
         $good->list_images = $list_images;
 
         $good->collection_id = null;

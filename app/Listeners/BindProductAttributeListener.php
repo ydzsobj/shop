@@ -83,7 +83,7 @@ class BindProductAttributeListener
                 foreach ($sku_data->sku_values as $key=>$attr_value){
                     $k = 's'.intval($key + 1);
                     $tmp[$k] = $attr_value->attr_value_id;
-                    $tmp[$k.'_name'] = $attr_value->attr_name;
+                    $tmp[$k.'_name'] = $attr_value->attr_value_name;
                 }
             }
 
@@ -125,7 +125,7 @@ class BindProductAttributeListener
                 foreach ($product_attr->attr_values as $item){
                     ProductAttributeValue::updateOrCreate([
                         'product_attribute_id' => $mod->id,
-                        'attr_value_id' => $item->id
+                        'attr_value_id' => $item->attr_value_id
                     ],[
                         'attr_value_name' => $item->attr_value_name,
                         'english_name' => $item->attr_value_english ?? '',
