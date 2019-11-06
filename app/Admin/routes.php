@@ -79,6 +79,11 @@ Route::group([
     //优惠码管理
     $router->resource('/coupon_codes','CouponCodeController');
 
+    //属性管理
+    $router->resource('/attributes','AttributeController');
+    //属性值管理
+    $router->resource('/attribute_values','AttributeValueController');
+
 
 
 });
