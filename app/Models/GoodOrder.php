@@ -113,6 +113,27 @@ class GoodOrder extends Model
         return [$data, $search->all()];
     }
 
+    public function get_api_data($request){
+
+        $base_query =  GoodOrder::with(['order_skus']);
+
+        $today = Carbon::today();
+
+        $pre_day = Carbon::today()->subDays(3);
+
+        // dd($today, $pre_day);
+
+        $base_query->whereBetween('created_at', [$pre_day, $today->endOfDay() ]);
+
+        $data = $base_query->select(
+            'good_orders.*'
+        )
+            ->orderBy('good_orders.id', 'desc')
+            ->get();
+
+        return $data;
+    }
+
     /**
      * 模糊搜索
      */
@@ -217,7 +238,9 @@ class GoodOrder extends Model
 
     public function export($request){
 
-        $base_query =  GoodOrder::with(['order_skus']);
+        $filter_keywords = $request->get('filter_keywords');
+
+        $base_query =  GoodOrder::with(['order_skus'])->filterKeywords($filter_keywords);
 
         list($query, $search) = $this->query_conditions($base_query, $request);
 

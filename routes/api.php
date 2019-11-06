@@ -66,6 +66,9 @@ $api->version('v1', function ($api) {
 
             //优惠码
             $api->post('/check_coupon_code', 'GoodOrderController@check_coupon_code')->name('user.good.check_coupon_code');
+
+            //获取订单信息
+            $api->get('/order_infos', 'GoodOrderController@order_info')->name('user.good.order_infos');
         });
     });
 

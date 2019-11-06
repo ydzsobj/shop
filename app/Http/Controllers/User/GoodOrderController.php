@@ -328,4 +328,14 @@ class GoodOrderController extends Controller
 
     }
 
+    //开放订单信息api
+    public function order_info(Request $request){
+
+        $go = new GoodOrder();
+
+        $data = $go->get_api_data($request);
+
+        return returned(true, 'ok', $data);
+    }
+
 }
