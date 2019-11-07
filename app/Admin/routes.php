@@ -58,7 +58,7 @@ Route::group([
     $router->get('/search_goods', 'GoodController@search');
 
     //产品库
-    $router->resource('/products', 'ProductController')->only(['index']);
+    $router->resource('/products', 'ProductController');
     //设置产品属性别名
     $router->put('/product_attributes/{id}/update_show_name', 'ProductAttributeController@update_show_name');
     //设置产品属性值别名
@@ -83,6 +83,8 @@ Route::group([
     $router->resource('/attributes','AttributeController');
     //属性值管理
     $router->resource('/attribute_values','AttributeValueController');
+    //获取属性下的属性值
+    $router->get('/get_attr_values/{id}', 'AttributeController@get_attr_value');
 
 
 

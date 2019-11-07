@@ -9,6 +9,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
+use Illuminate\Support\Facades\Request;
 
 class AttributeController
 {
@@ -107,5 +108,14 @@ class AttributeController
 //        $form->display('updated_at');
 
         return $form;
+    }
+
+    public function get_attr_value(Request $request, $id){
+
+        $attr = Attribute::find($id);
+
+        $data = $attr->attr_values;
+
+        return returned(true, 'ok', $data);
     }
 }

@@ -2,7 +2,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            产品库
+            产品列表
         </h1>
     </section>
     <section class="content">
@@ -83,6 +83,14 @@
                             </div>
 
                         </form>
+
+                        <div class="pull-right">
+                            <div class="btn-group pull-right grid-create-btn" style="margin-right: 10px">
+                                <a href="{{route('products.create')}}" class="btn btn-sm btn-success" title="新增">
+                                    <i class="fa fa-plus"></i><span class="hidden-xs">&nbsp;&nbsp;新增</span>
+                                </a>
+                            </div>
+                        </div>
 
                     </div>
 

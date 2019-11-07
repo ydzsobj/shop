@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Models\Attribute;
 
 class ProductController extends BaseController
 {
@@ -35,6 +35,17 @@ class ProductController extends BaseController
         $search['per_page'] = $limit;
 
         return view('admin.product.index', compact('products', 'search','pages'));
+
+    }
+
+    public function create(){
+
+        $attributes = Attribute::pluck('name','id');
+
+        return view('admin.product.create', compact('attributes'));
+    }
+
+    public function store(Request $request){
 
     }
 
