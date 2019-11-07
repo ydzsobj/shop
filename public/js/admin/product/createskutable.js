@@ -109,7 +109,12 @@ function skutable(){
 				}
 			}
 			//console.log(propvalids);
-			SKUTableDom += '<tr propvalids=\''+propvalids+'\' propids=\''+propIdArr.toString()+'\' propvalnames=\''+propvalnameArr.join(";")+'\'  propnames=\''+propNameArr.join(";")+'\' class="sku_table_tr">'+currRowDoms+'<td><input type="text" class="setting_sku_price" value="'+alreadySetSkuPrice+'"/></td><td><input type="text" class="setting_sku_stock" value="'+alreadySetSkuStock+'"/></td></tr>';
+            SKUTableDom += '<tr propvalids=\''+propvalids+'\' propids=\''+propIdArr.toString()+'\' propvalnames=\''+propvalnameArr.join(";")+'\'  propnames=\''+propNameArr.join(";")+'\' class="sku_table_tr">'+currRowDoms+
+            '<td><input type="text" name="skus[' + i +'][sku_code]" class="setting_sku_price" value="'+alreadySetSkuPrice+'"/></td>' +
+            '<td><input type="file" name="skus[' + i +'][sku_image]" class="setting_sku_stock" value="'+alreadySetSkuStock+'"/>' +
+            '<input type="hidden" name="skus[' + i +'][attr_value_ids]" value=' + propvalids +' /> ' +
+            '<input type="hidden" name="skus[' + i +'][attr_value_names]" value=' + propvalnameArr.join(";") +' /> ' +
+            '</td></tr>';
 		}
 		console.log(currRowDoms)
 
@@ -129,40 +134,11 @@ function skutable(){
 var alreadySetSkuVals = {};//已经设置的SKU值数据
 
 $(function(){
-//sku属性发生改变时,进行表格创建
-$(document).on("change",'.sku_value',function(){
-	skutable();
-});
-var trs = $("table tr:not(:first)");
-		//声明一个盒子
-		var array = [];
-		//循环你所要选择的行
-		$.each(trs, function (i, val) {
-			var tr = val;
-			var json = { ChannelID: "", txtSortId: 0 }
-			json.ChannelID = $(tr).attr('propvalids')
-			json.txtSortId = $(tr).find("input.setting_sku_price").val()
-			//全加入
-			array.push(json);
-		});
-		console.log(array)
-// $('body').on('change','.sku_name',function(){
-// 	console.log($(this).prop('checked'))
-// 	if($(this).prop('checked')){
-// 		var str='<div class="'+$(this).val()+' "><ul class="SKU_TYPE">'
-// 					+'<li is_required="1" propid="4" sku-type-name="'+$(this).val()+'"><em>*</em>'+$(this).val()+'：</li>'
-// 				+'</ul>'
-// 				+'<ul>'
-// 					+'<li><label><input type="checkbox" class="sku_value" propvalid="41" value="儿童" />儿童</label></li>'
-// 					+'<li><label><input type="checkbox" class="sku_value" propvalid="42" value="成人" />成人</label></li>'
-// 				+'</ul>';
-// 		$('.sku-type-val').append(str)
-// 	}else{
-// 		var a='.'+$(this).val()
-// 		$(a).remove()
-// 	}
-// 	skutable()
-// })
+    //sku属性发生改变时,进行表格创建
+    $(document).on("change",'.sku_value',function(){
+        skutable();
+    });
+
 });
 
 /**

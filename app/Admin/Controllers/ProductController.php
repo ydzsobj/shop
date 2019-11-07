@@ -40,13 +40,21 @@ class ProductController extends BaseController
 
     public function create(){
 
-        $attributes = Attribute::pluck('name','id');
+        // $attributes = Attribute::pluck('name','id');
 
-        return view('admin.product.create', compact('attributes'));
+        $attributes = Attribute::with('attr_values')->get();
+
+        $format_attr_values = collect([]);
+        $attributes->map(function($item) use ($format_attr_values){
+            return $format_attr_values->put($item->id, $item->attr_values);
+        });
+
+        return view('admin.product.create', compact('attributes','format_attr_values'));
     }
 
     public function store(Request $request){
 
+        dd($request->all());
     }
 
 

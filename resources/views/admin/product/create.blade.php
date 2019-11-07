@@ -95,11 +95,11 @@
 
                             </div>
 
-                            <div class="fields-group">
+                            <div class="fields-group" style="margin-left:120px;">
                                 <div>
-                                    <ul>
+                                    <ul class="attr_ul">
                                         @foreach($attributes as $key=>$attr)
-                                            <li><label><input type="checkbox" class="sku_name" value="{{ $attr }}"  data-id="{{ $key }}" />{{ $attr }}</label></li>
+                                            <li><label><input type="checkbox" name="product_attr[{{ $attr->id }}]" class="sku_name" value="{{ $attr->name }}"  data-id="{{ $attr->id }}" />{{ $attr->name }}</label></li>
                                         @endforeach
 
                                     </ul>
@@ -165,40 +165,44 @@
                     array.push(json);
                 });
                 console.log(array)
+                var attr_values = {!! $format_attr_values !!};
+                console.log('attr_values',attr_values);
                 $('body').on('change','.sku_name',function(){
                     console.log($(this).prop('checked'))
                     if($(this).prop('checked')){
 
-                        var str='<div class="'+$(this).val()+' "><ul class="SKU_TYPE">'
-                                    +'<li is_required="1" propid="4" sku-type-name="'+$(this).val()+'"><em>*</em>'+$(this).val()+'：</li>'
-                                +'</ul>';
-
                         var attr_id = $(this).data('id');
-                        $.ajax({
-                            type:'GET',
-                            url:'/admin/get_attr_values/' + attr_id,
-                            success:function(msg){
-                                console.log(msg.data);
-                                var data = msg.data;
 
-                                var ul_str = '<ul>';
-                                for(var i=0;i<data.length;i++){
-                                    ul_str += '<li><label><input type="checkbox" class="sku_value" propvalid="' + data[i].id+'" value="' + data[i].name +'" />' + data[i].name+'</label></li>'
-                                }
+                        var str='<div>' +
+                            '<ul class="SKU_TYPE">'+
+                                '<li is_required="1" propid="4" sku-type-name="'+$(this).val()+'"><em>*</em>'+
+                                    '<input type="hidden" name="product_attr[' + attr_id + '][id]" value="' + attr_id +'" />' +
+                                    '<input type="hidden" name="product_attr[' + attr_id + '][attr_name]" value="' + $(this).val() +'" />' +
+                                    $(this).val()+'：</li>'+
+                             '</ul>';
 
-                                ul_str += '</ul>';
-                                str += ul_str;
-                                $('.sku-type-val').append(str);
-                            },
-                            error:function(){
-                                swal('请求失败', '', 'error');
-                            }
-                        })
+                        // str += '<input type="hidden" name="product_attr[][id]" value="' + attr_id +'" />';
+                        // str += '<input type="hidden" name="product_attr[][attr_name]" value="' + $(this).val() +'" />';
+
+                        var data = attr_values[attr_id];
+
+                        var ul_str = '<ul class="attr_ul">';
+                        for(var i=0;i<data.length;i++){
+                            ul_str += '<li><label>' +
+                                '<input type="checkbox" class="sku_value"  name="product_attr[' + attr_id +'][' + data[i].id +']" propvalid="' + data[i].id+'" value="' + data[i].name +'" />' + data[i].name +
+                                '</label></li>'
+                        }
+
+                        ul_str += '</ul></div>';
+                        str += ul_str;
+                        $('.sku-type-val').append(str);
 
                     }else{
                         var a='.'+$(this).val()
                         $(a).remove()
                     }
+
+                    skutable()
                 })
 
     </script>

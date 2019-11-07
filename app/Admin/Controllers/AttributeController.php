@@ -116,6 +116,8 @@ class AttributeController
 
         $data = $attr->attr_values;
 
+        $data = Attribute::with('attr_values')->get();
+
         return returned(true, 'ok', $data);
     }
 }
