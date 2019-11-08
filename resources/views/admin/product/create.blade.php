@@ -61,24 +61,7 @@
 
                                 <div class="form-group  ">
 
-                                    <label for="title" class="col-sm-2 asterisk control-label">产品名称</label>
-
-                                    <div class="col-sm-8">
-
-                                        <div class="input-group">
-
-                                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-
-                                            <input type="text" id="title" name="title" value="" class="form-control title" placeholder="输入" required="1" />
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="form-group  ">
-
-                                    <label for="name" class="col-sm-2 asterisk control-label">英文名称</label>
+                                    <label for="name" class="col-sm-2 asterisk control-label">产品名称</label>
 
                                     <div class="col-sm-8">
 
@@ -89,13 +72,30 @@
                                             <input type="text" id="name" name="name" value="" class="form-control name" placeholder="输入" required="1" />
 
                                         </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="form-group  ">
+
+                                    <label for="english_name" class="col-sm-2 asterisk control-label">英文名称</label>
+
+                                    <div class="col-sm-8">
+
+                                        <div class="input-group">
+
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+
+                                            <input type="text" id="english_name" name="english_name" value="" class="form-control english_name" placeholder="输入" required="1" />
+
+                                        </div>
                                     </div>
                                 </div>
 
 
                             </div>
 
-                            <div class="fields-group" style="margin-left:120px;">
+                            <div class="fields-group" style="margin-left:20px;">
                                 <div>
                                     <ul class="attr_ul">
                                         @foreach($attributes as $key=>$attr)
@@ -171,18 +171,11 @@
                     console.log($(this).prop('checked'))
                     if($(this).prop('checked')){
 
+                        var str='<div class="'+$(this).val()+' ">' +'<ul class="SKU_TYPE">'
+                                    +'<li is_required="1" propid="4" sku-type-name="'+$(this).val()+'"><em>*</em>' + $(this).val()+'：</li>'
+                                +'</ul>';
+
                         var attr_id = $(this).data('id');
-
-                        var str='<div>' +
-                            '<ul class="SKU_TYPE">'+
-                                '<li is_required="1" propid="4" sku-type-name="'+$(this).val()+'"><em>*</em>'+
-                                    '<input type="hidden" name="product_attr[' + attr_id + '][id]" value="' + attr_id +'" />' +
-                                    '<input type="hidden" name="product_attr[' + attr_id + '][attr_name]" value="' + $(this).val() +'" />' +
-                                    $(this).val()+'：</li>'+
-                             '</ul>';
-
-                        // str += '<input type="hidden" name="product_attr[][id]" value="' + attr_id +'" />';
-                        // str += '<input type="hidden" name="product_attr[][attr_name]" value="' + $(this).val() +'" />';
 
                         var data = attr_values[attr_id];
 

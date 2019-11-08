@@ -5,6 +5,12 @@ namespace App\Admin\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
+use App\Models\AttributeValue;
+use App\Models\Product;
+use App\Models\ProductAttribute;
+use App\Models\ProductAttributeValue;
+use App\Models\ProductSku;
+use App\Models\ProductSkuAttrValue;
 
 class ProductController extends BaseController
 {
@@ -54,7 +60,68 @@ class ProductController extends BaseController
 
     public function store(Request $request){
 
-        dd($request->all());
+        dump($request->all());
+
+        $req = $request->only('name','english_name');
+
+        $product = Product::create($req);
+
+        $product_attr = $request->post('product_attr');
+
+        foreach($product_attr as  $attr_id=>$attr_values){
+
+            $attr = Attribute::find($attr_id);
+
+            $product_attribute_mod = ProductAttribute::create([
+                'product_id' => $product->id,
+                'attr_id' => $attr_id,
+                'attr_name' => $attr->name,
+                'show_name' => $attr->name
+            ]);
+
+            foreach($attr_values as $attr_value_id=>$attr_value){
+                $attr_value = AttributeValue::find($attr_value_id);
+                ProductAttributeValue::create([
+                    'product_attribute_id' => $product_attribute_mod->id,
+                    'attr_value_id' => $attr_value_id,
+                    'attr_value_name' => $attr_value->name,
+                    'english_name' => $attr_value->english_name,
+                    'show_name' => $attr_value->name
+                ]);
+            }
+        }
+
+        $skus = $request->post('skus');
+
+        foreach($skus as $sku){
+
+            if(isset($sku['sku_image'])){
+                $sku_image = $this->upload($sku['sku_image']);
+                dd($sku_image);
+            }
+
+            $product_sku_mod = ProductSku::create([
+                'product_id' => $product->id,
+                'sku_code' => $sku['sku_code'],
+                'attr_value_names' => $sku['attr_value_names'],
+                'sku_image' => $sku_image ?? null,
+            ]);
+
+            $sku_value_ids  = explode(',', $sku['attr_value_ids']);
+            foreach($sku_value_ids as $attr_value_id){
+                $attr_value = AttributeValue::find($attr_value_id);
+                ProductSkuAttrValue::create([
+                    'product_sku_id' => $product_sku_mod->id,
+                    'attr_value_id' => $attr_value_id,
+                    'attr_value_name' => $attr_value->name
+                ]);
+            }
+        }
+
+        $msg = $product ? '添加成功':'添加失败';
+        $alert_type = $product ? 'success':'error';
+
+        // return redirect()->route('products.index')->with($alert_type, $msg);
     }
 
 

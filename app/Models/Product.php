@@ -20,4 +20,12 @@ class Product extends Model
         'english_name'
 
     ];
+
+    public function attrs(){
+        return $this->hasMany(ProductAttribute::class);
+    }
+
+    public function skus(){
+        return $this->hasMany(Produ);
+    }
 }
