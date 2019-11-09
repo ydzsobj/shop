@@ -202,7 +202,20 @@
         var erp_api_domain = "{{ $erp_api_domain }}";
         console.log(erp_api_domain);
 
-        console.log($("#editModal_*").length);
+        console.log($("div[id*=editModal_").length);
+
+        $("div[id*=editModal_").each(function(a,b){
+            console.log('haha',a,b);
+            var mythis = $(this);
+            $(this).on("hidden.bs.modal", function() {
+                console.log('ok',document.getElementById("fm"));
+                var mythis = $(this);
+                // mythis.removeData("bs.modal");
+                $(this).remove();
+            });
+
+        })
+
 
 
     </script>

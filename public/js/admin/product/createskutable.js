@@ -5,7 +5,7 @@ function skutable(){
 	var skuTypeArr =  [];//存放SKU类型的数组
 	var totalRow = 1;//总行数
 	//获取元素类型
-	$(".SKU_TYPE:visible").each(function(){
+	$(".SKU_TYPE").each(function(){
 		//SKU类型节点
         var skuTypeNode = $(this).children("li");
         console.log('skuTypeNode',skuTypeNode);
@@ -124,7 +124,7 @@ function skutable(){
 		SKUTableDom += "</table>";
     }
     // console.log('777',$("#skuTable"),SKUTableDom );
-	$(".skuTable:visible").html(SKUTableDom);
+	$(".skuTable").html(SKUTableDom);
 }
 
 
@@ -151,7 +151,7 @@ $(function(){
 function getAlreadySetSkuVals(){
 // alreadySetSkuVals = {};
 //获取设置的SKU属性值
-$("tr[class*='sku_table_tr']:visible").each(function(){
+$("tr[class*='sku_table_tr']").each(function(){
 	var skuPrice = $(this).find("input[type='text'][class*='setting_sku_price']").val();//SKU价格
 	var skuStock = $(this).find("input[type='text'][class*='setting_sku_stock']").val();//SKU库存
 	if(skuPrice || skuStock){//已经设置了全部或部分值

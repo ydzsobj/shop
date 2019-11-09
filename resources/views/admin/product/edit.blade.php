@@ -12,7 +12,7 @@
 
 <!-- /.box-header -->
 <!-- form start -->
-<form action="{{route('products.update',['id' =>  $detail->id ])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+<form id="fm" action="{{route('products.update',['id' =>  $detail->id ])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
 
     <div class="box-body">
 
@@ -112,7 +112,9 @@
  <script>
     //  console.log('empty', $('.sku-type-val').html())
 
-     $(".sku_name:visible").each(function(i){
+    $(document).ready(function(){
+
+     $("#editModal_{{ $detail->id }} .sku_name").each(function(i){
         if($(this).prop('checked')){
 
             var str='<div class="'+$(this).val()+' ">' +'<ul class="SKU_TYPE">'
@@ -138,12 +140,12 @@
             $('.sku-type-val').append(str);
 
             alreadySetSkuVals = {!! $formart_skus  !!};
-
-
         }
      })
 
      skutable()
+
+    })
 
  </script>
 
@@ -163,9 +165,8 @@
 
                 var attr_values = {!! $format_attr_values !!};
 
-                $('.modal:visible').on('change','.sku_name',function(){
-                    console.log('888',$(this).parents('.modal').attr('id'), $(this).css('visibility'));
-                    if($(this).prop('checked') && $(this).css('visibility') == 'visible'){
+                $('#editModal_{{ $detail->id }}').on('change','.sku_name',function(){
+                    if($(this).prop('checked')){
 
                         var str='<div class="'+$(this).val()+' ">' +'<ul class="SKU_TYPE">'
                                     +'<li is_required="1" propid="4" sku-type-name="'+$(this).val()+'"><em>*</em>' + $(this).val()+'：</li>'
