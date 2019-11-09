@@ -20,27 +20,11 @@ class ProductController extends BaseController
      */
     public function index(Request $request){
 
-        $page = $request->get('page') ?: 1;
-        $limit = $request->get('per_page') ?: 20;
-        $keywords = $request->get('keywords');
+        $product = new Product();
 
+        list($products, $search) = $product->get_data($request);
 
-        $url =  env('ERP_API_DOMAIN'). '/api/product';
-
-        $search = compact('page', 'limit','keywords');
-
-        $products = get_api_data($url, $search);
-
-        $pages = 0;
-
-        if($products){
-
-            $pages = intval(ceil($products->count/$limit));
-        }
-
-        $search['per_page'] = $limit;
-
-        return view('admin.product.index', compact('products', 'search','pages'));
+        return view('admin.product.index', compact('products', 'search'));
 
     }
 
@@ -60,11 +44,23 @@ class ProductController extends BaseController
 
     public function store(Request $request){
 
-        dump($request->all());
+        // dump($request->all());
 
         $req = $request->only('name','english_name');
 
         $product = Product::create($req);
+
+        $this->create_product_attribute($product, $request);
+
+        $this->create_product_sku($product, $request);
+
+        $msg = $product ? '添加成功':'添加失败';
+        $alert_type = $product ? 'success':'error';
+
+        return redirect()->route('products.index')->with($alert_type, $msg);
+    }
+
+    public function create_product_attribute($product, $request){
 
         $product_attr = $request->post('product_attr');
 
@@ -90,14 +86,16 @@ class ProductController extends BaseController
                 ]);
             }
         }
+    }
 
-        $skus = $request->post('skus');
+    public function create_product_sku($product, $request){
+
+        $skus = $request->skus;
 
         foreach($skus as $sku){
 
             if(isset($sku['sku_image'])){
                 $sku_image = $this->upload($sku['sku_image']);
-                dd($sku_image);
             }
 
             $product_sku_mod = ProductSku::create([
@@ -117,11 +115,71 @@ class ProductController extends BaseController
                 ]);
             }
         }
+    }
 
-        $msg = $product ? '添加成功':'添加失败';
-        $alert_type = $product ? 'success':'error';
+    public function edit(Request $request, $id){
 
-        // return redirect()->route('products.index')->with($alert_type, $msg);
+        $attributes = Attribute::with('attr_values')->get();
+
+        $format_attr_values = collect([]);
+        $attributes->map(function($item) use ($format_attr_values){
+            return $format_attr_values->put($item->id, $item->attr_values);
+        });
+
+        $detail = Product::with(['attrs.attribute_values', 'skus.attr_values'])->where('id', $id)->first();
+
+        $formart_attr_value_ids = [];
+        foreach($detail->attrs as $attr){
+            $attribute_values = $attr->attribute_values;
+            foreach($attribute_values as $attr_value){
+                array_push($formart_attr_value_ids, $attr_value->attr_value_id);
+            }
+        }
+
+        $formart_attr_value_ids = json_encode($formart_attr_value_ids);
+
+        // dd($formart_attr_value_ids);
+
+        $formart_skus = collect([]);
+
+        $detail->skus->map(function($item) use ($formart_skus){
+            $ids = $item->attr_values->pluck('attr_value_id');
+            return $formart_skus->put($ids->implode(',') , collect(['skuPrice' => $item->sku_code, 'skuStock' => $item->sku_image]));
+        });
+
+        // dd( $formart_skus);
+
+        return view('admin.product.edit', compact('detail', 'attributes', 'format_attr_values', 'formart_attr_value_ids', 'formart_skus'));
+    }
+
+    public function update(Request $request, $id){
+
+        $product = Product::find($id);
+
+        //清除属性值和属性关系
+        $product_attr_ids = $product->attrs->pluck('id');
+        ProductAttributeValue::whereIn('product_attribute_id', $product_attr_ids)->delete();
+        ProductAttribute::whereIn('id', $product_attr_ids)->delete();
+
+        //解除sku关系
+        $product_sku_ids = $product->skus->pluck('id');
+        ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->delete();
+        ProductSku::whereIn('id', $product_sku_ids)->delete();
+
+        //创建属性
+        $this->create_product_attribute($product, $request);
+        //创建属性值
+        $this->create_product_sku($product, $request);
+
+        return redirect()->route('products.index')->with('success', '保存成功');
+
+    }
+
+    public function select_products(Request $request){
+
+        $product = new product();
+        list($products, $search)  =  $product->get_data($request);
+        return returned(true, '', $products);
     }
 
 

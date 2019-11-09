@@ -15,4 +15,9 @@ class ProductSku extends Model
         'attr_value_names',
         'sku_image'
     ];
+
+    public function attr_values(){
+
+        return $this->hasMany(ProductSkuAttrValue::class);
+    }
 }

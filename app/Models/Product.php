@@ -9,6 +9,8 @@ class Product extends Model
     //
     protected $table = 'products';
 
+    protected $page_size = 20;
+
     /**
      * 可以被批量赋值的属性。
      *
@@ -26,6 +28,32 @@ class Product extends Model
     }
 
     public function skus(){
-        return $this->hasMany(Produ);
+        return $this->hasMany(ProductSku::class);
+    }
+
+    public function get_data($request){
+
+        $per_page = $request->get('per_page');
+        $keywords = $request->get('keywords');
+
+        $per_page = $per_page ?: $this->page_size;
+
+        $search = compact('page_size','keywords', 'per_page');
+
+        $products = self::with(['attrs.attribute_values','skus'])
+            ->ofKeywords($keywords)
+            ->orderBy('id', 'desc')
+            ->paginate($per_page);
+
+        return [$products, $search];
+    }
+
+    public function scopeOfKeywords($query, $keywords){
+
+        if($keywords){
+            return $query->where('name', 'like', '%'. $keywords.'%');
+        }else{
+            return $query;
+        }
     }
 }

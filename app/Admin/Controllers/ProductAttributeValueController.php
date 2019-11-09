@@ -6,7 +6,7 @@ use App\Models\ProductAttributeValue;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductAttributeValueController extends Controller
+class ProductAttributeValueController extends BaseController
 {
     /**
      * @param Request $request
@@ -26,5 +26,23 @@ class ProductAttributeValueController extends Controller
         $msg = $res ? trans('common.update.success') : trans('common.update.success');
 
         return returned($res, $msg);
+    }
+
+    public function update_thumb_url(Request $request){
+
+        // dd($request->all());
+
+        $product_id = $request->post('product_id');
+
+        $attr_images = $request->attr_images;
+
+        foreach($attr_images as $id=>$image){
+            $image_url = $this->upload($image);
+            if($image_url){
+                ProductAttributeValue::where(['id' => $id])->update(['thumb_url' => $image_url ]);
+            }
+        }
+
+        return back()->with('success','成功');
     }
 }

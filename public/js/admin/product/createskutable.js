@@ -1,4 +1,3 @@
-
 function skutable(){
 	getAlreadySetSkuVals();//获取已经设置的SKU值
 	console.log(alreadySetSkuVals);
@@ -6,9 +5,10 @@ function skutable(){
 	var skuTypeArr =  [];//存放SKU类型的数组
 	var totalRow = 1;//总行数
 	//获取元素类型
-	$(".SKU_TYPE").each(function(){
+	$(".SKU_TYPE:visible").each(function(){
 		//SKU类型节点
-		var skuTypeNode = $(this).children("li");
+        var skuTypeNode = $(this).children("li");
+        console.log('skuTypeNode',skuTypeNode);
 		var skuTypeObj = {};//sku类型对象
 		//SKU属性类型标题
 		skuTypeObj.skuTypeTitle = $(skuTypeNode).attr("sku-type-name");
@@ -49,7 +49,7 @@ function skutable(){
 	var SKUTableDom = "";//sku表格数据
 	//开始创建行
 	if(b){//必选的SKU属性已经都选中了
-		console.log(skuTypeArr)
+		console.log('666',skuTypeArr)
 //			//调整顺序(少的在前面,多的在后面)
 //			skuTypeArr.sort(function(skuType1,skuType2){
 //				return (skuType1.skuValueLen - skuType2.skuValueLen)
@@ -60,8 +60,9 @@ function skutable(){
 		for(var t = 0 ; t < skuTypeArr.length ; t ++){
 			SKUTableDom += '<th>'+skuTypeArr[t].skuTypeTitle+'</th>';
 		}
-		SKUTableDom += '<th>sku编码</th><th>图片上传</th>';
-		SKUTableDom += "</tr>";
+		SKUTableDom += '<th>sku编码</th>';
+        SKUTableDom += "</tr>";
+
 		//循环处理表体
 		for(var i = 0 ; i < totalRow ; i ++){//总共需要创建多少行
 			var currRowDoms = "";
@@ -80,6 +81,7 @@ function skutable(){
 				propNameArr.push(skuTypeArr[j].skuTypeTitle);
 				if(0  == (i % anInterBankNum)){//需要创建td
 					currRowDoms += '<td rowspan='+anInterBankNum+'>'+skuValues[point].skuValueTitle+'</td>';
+					// currRowDoms += '<td rowspan='+anInterBankNum+'>'+skuValues[point].skuValueTitle+'</td>';
 					propvalidArr.push(skuValues[point].skuValueId);
 					propIdArr.push(skuValues[point].skuPropId);
 					propvalnameArr.push(skuValues[point].skuValueTitle);
@@ -100,7 +102,8 @@ function skutable(){
 			var propvalids = propvalidArr.toString()
 			var alreadySetSkuPrice = "";//已经设置的SKU价格
 			var alreadySetSkuStock = "";//已经设置的SKU库存
-			//赋值
+            //赋值
+            console.log('abc',alreadySetSkuVals);
 			if(alreadySetSkuVals){
 				var currGroupSkuVal = alreadySetSkuVals[propvalids];//当前这组SKU值
 				if(currGroupSkuVal){
@@ -111,7 +114,7 @@ function skutable(){
 			//console.log(propvalids);
             SKUTableDom += '<tr propvalids=\''+propvalids+'\' propids=\''+propIdArr.toString()+'\' propvalnames=\''+propvalnameArr.join(";")+'\'  propnames=\''+propNameArr.join(";")+'\' class="sku_table_tr">'+currRowDoms+
             '<td><input type="text" name="skus[' + i +'][sku_code]" class="setting_sku_price" value="'+alreadySetSkuPrice+'"/></td>' +
-            '<td><input type="file" name="skus[' + i +'][sku_image]" class="setting_sku_stock" value="'+alreadySetSkuStock+'"/>' +
+            // '<td><input type="file" name="skus[' + i +'][sku_image]" class="setting_sku_stock" value="'+alreadySetSkuStock+'"/>' +
             '<input type="hidden" name="skus[' + i +'][attr_value_ids]" value=' + propvalids +' /> ' +
             '<input type="hidden" name="skus[' + i +'][attr_value_names]" value=' + propvalnameArr.join(";") +' /> ' +
             '</td></tr>';
@@ -119,8 +122,9 @@ function skutable(){
 		console.log(currRowDoms)
 
 		SKUTableDom += "</table>";
-	}
-	$("#skuTable").html(SKUTableDom);
+    }
+    // console.log('777',$("#skuTable"),SKUTableDom );
+	$(".skuTable:visible").html(SKUTableDom);
 }
 
 
@@ -145,9 +149,9 @@ $(function(){
 * 获取已经设置的SKU值
 */
 function getAlreadySetSkuVals(){
-alreadySetSkuVals = {};
+// alreadySetSkuVals = {};
 //获取设置的SKU属性值
-$("tr[class*='sku_table_tr']").each(function(){
+$("tr[class*='sku_table_tr']:visible").each(function(){
 	var skuPrice = $(this).find("input[type='text'][class*='setting_sku_price']").val();//SKU价格
 	var skuStock = $(this).find("input[type='text'][class*='setting_sku_stock']").val();//SKU库存
 	if(skuPrice || skuStock){//已经设置了全部或部分值

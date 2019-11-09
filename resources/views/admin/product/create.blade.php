@@ -95,20 +95,19 @@
 
                             </div>
 
-                            <div class="fields-group" style="margin-left:20px;">
+                            <div class="fields-group" style="margin-left:120px;">
                                 <div>
                                     <ul class="attr_ul">
                                         @foreach($attributes as $key=>$attr)
                                             <li><label><input type="checkbox" name="product_attr[{{ $attr->id }}]" class="sku_name" value="{{ $attr->name }}"  data-id="{{ $attr->id }}" />{{ $attr->name }}</label></li>
                                         @endforeach
-
                                     </ul>
                                 </div>
 
                                 <div class="clear"></div>
                                 <div class="sku-type-val"></div>
 
-                                <div id="skuTable"></div>
+                                <div class="skuTable"></div>
 
                             </div>
 

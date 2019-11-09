@@ -2,7 +2,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            产品列表
+            商品管理
         </h1>
     </section>
     <section class="content">
@@ -42,15 +42,15 @@
                                             <div class="form-group">
 
                                                 <label class="col-sm-1 control-label">
-                                                    搜索
+                                                    产品搜索
                                                 </label>
-                                                <div class="col-sm-5">
+                                                <div class="col-sm-6">
                                                     <div class="input-group input-group-sm">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-pencil"></i>
                                                         </div>
 
-                                                        <input type="text" class="form-control keywords" placeholder="产品名称" name="keywords" value="@if($search['keywords'])  {{$search['keywords']}} @endif">
+                                                        <input type="text" class="form-control keywords" placeholder="产品名称" name="keywords" value="{{$search['keywords']}}">
                                                     </div>
                                                 </div>
 
@@ -83,13 +83,13 @@
                             </div>
 
                         </form>
-
                         <div class="pull-right">
                             <div class="btn-group pull-right grid-create-btn" style="margin-right: 10px">
                                 <a href="{{route('products.create')}}" class="btn btn-sm btn-success" title="新增">
                                     <i class="fa fa-plus"></i><span class="hidden-xs">&nbsp;&nbsp;新增</span>
                                 </a>
                             </div>
+
                         </div>
 
                     </div>
@@ -98,7 +98,7 @@
                         <div class="box-tools pull-right">
                         </div><!-- /.box-tools -->
                         <div class="box-body" style="display: block;">
-                            共 {{$products ? $products->count : 0}}条
+                            共 {{$products->total()}}条
                         </div><!-- /.box-body -->
                     </div>
 
@@ -111,41 +111,55 @@
                                     ID
                                 </th>
                                 <th>
-                                    主图
+                                    产品名称
                                 </th>
                                 <th>
-                                    名称
+                                    英文名
                                 </th>
                                 <th>
-                                    价格
+                                    添加时间
+                                </th>
+
+                                <th>
+                                    操作
                                 </th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @if($products)
-                                @foreach($products->data as $product)
+
+                            @foreach($products as $product)
                                 <tr>
                                     <td>{{$product->id}}</td>
-                                    <td style="width: 80px;">
-                                        <div style="width: 70px;"
-                                             title="{{$product->product_name}}"
-                                             data-container="body"
-                                             data-toggle="popover"
-                                             data-placement="right"
-                                             data-trigger="hover"
-                                             data-html="true"
-                                             data-content="<img src='{{$erp_api_domain}}{{$product->product_image}}' class='img-thumbnail'  />"
-                                        >
-                                            <img src='{{$erp_api_domain}}{{$product->product_image}}' class='img-thumbnail' />
+
+                                    <td>{{$product->name}}</td>
+                                    <td>{{$product->english_name}}</td>
+
+                                    <td>{{$product->created_at}}</td>
+                                    <td>
+
+                                        <div class="grid-dropdown-actions dropdown">
+                                            <a href="#" style="padding: 0 10px;" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-ellipsis-v"></i>
+                                            </a>
+                                            <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
+                                                <li><a href="#" data-toggle="modal" data-target="#editModal_{{$product->id}}" data-remote="{{route('products.edit',['id' => $product->id])}}">编辑</a></li>
+                                            </ul>
                                         </div>
+
+                                        <!-- 模态框（Modal） -->
+                                        <div class="modal fade" id="editModal_{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" style="width:100%">
+                                                <div class="modal-content">
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal -->
+                                        </div>
+
                                     </td>
-                                    <td>{{$product->product_name}}</td>
-                                    <td>{{$product->product_price}}</td>
                                 </tr>
 
                                 @endforeach
-                            @endif
+
                             </tbody>
                         </table>
 
@@ -155,12 +169,8 @@
                     <div class="box-footer clearfix ">
 
                         <div class="pull-right">
-                            <ul class="pagination">
-                                @for($i=1; $i<=$pages;$i++)
-                                <li @if(intval($search['page']) == $i)class="active" @endif><a href="{{route('products.index',['page' => $i,'keywords' => $search['keywords'], 'per_page' => $search['per_page'] ])}}" >{{$i}}</a></li>
-                                @endfor
-
-                            </ul>
+                            <!-- Previous Page Link -->
+                            {{$products->appends($search)->links()}}
                         </div>
 
                         <label class="control-label pull-right" style="margin-right: 10px;margin-top: 20px; font-weight: 100;">
@@ -189,33 +199,14 @@
 @section('script')
 
     <script>
+        var erp_api_domain = "{{ $erp_api_domain }}";
+        console.log(erp_api_domain);
 
-        $(function () {
-            $('#created_at_start').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN"});
-            $('#created_at_end').datetimepicker({"format":"YYYY-MM-DD","locale":"zh-CN","useCurrent":false});
-            $("#created_at_start").on("dp.change", function (e) {
-                $('#created_at_end').data("DateTimePicker").minDate(e.date);
-            });
-            $("#created_at_end").on("dp.change", function (e) {
-                $('#created_at_start').data("DateTimePicker").maxDate(e.date);
-            });
-
-            $(".status").select2({
-                placeholder: {"id":"","text":"\u9009\u62e9"},
-                "allowClear":true
-            });
-        });
-
-
-
-        $(".grid-per-pager").on('change', function(e){
-            $("#select_per_page").val($(this).val());
-            $("#fm").submit();
-        })
-
+        console.log($("#editModal_*").length);
 
 
     </script>
 
+    <script src="{{asset('js/admin/common.js')}}"></script>
 
 @endsection
