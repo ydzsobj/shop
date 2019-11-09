@@ -44,18 +44,16 @@ class ProductController extends BaseController
 
     public function store(Request $request){
 
-        // dump($request->all());
-
         $req = $request->only('name','english_name');
 
         $product = Product::create($req);
 
         $this->create_product_attribute($product, $request);
 
-        $this->create_product_sku($product, $request);
+        list($success, $message) = $this->create_product_sku($product, $request);
 
-        $msg = $product ? '添加成功':'添加失败';
-        $alert_type = $product ? 'success':'error';
+        $msg = $success ? '添加成功':$message;
+        $alert_type = $success ? 'success':'error';
 
         return redirect()->route('products.index')->with($alert_type, $msg);
     }
@@ -94,6 +92,10 @@ class ProductController extends BaseController
 
         foreach($skus as $sku){
 
+            if(ProductSku::check_sku_code($sku['sku_code'])){
+                return [false, $sku['sku_code']. ' sku编码已经重复'];
+            }
+
             if(isset($sku['sku_image'])){
                 $sku_image = $this->upload($sku['sku_image']);
             }
@@ -115,6 +117,8 @@ class ProductController extends BaseController
                 ]);
             }
         }
+
+        return [true, ''];
     }
 
     public function edit(Request $request, $id){
@@ -169,9 +173,13 @@ class ProductController extends BaseController
         //创建属性
         $this->create_product_attribute($product, $request);
         //创建属性值
-        $this->create_product_sku($product, $request);
+        list($success, $message) = $this->create_product_sku($product, $request);
 
-        return redirect()->route('products.index')->with('success', '保存成功');
+        $msg = $success ? '添加成功':$message;
+        $alert_type = $success ? 'success':'error';
+
+
+        return redirect()->route('products.index')->with($alert_type, $msg);
 
     }
 

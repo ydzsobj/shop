@@ -20,4 +20,9 @@ class ProductSku extends Model
 
         return $this->hasMany(ProductSkuAttrValue::class);
     }
+
+    public static function check_sku_code($sku_code){
+
+        return self::where('sku_code', $sku_code)->first();
+    }
 }
