@@ -204,17 +204,17 @@
 
         console.log($("div[id*=editModal_").length);
 
-        $("div[id*=editModal_").each(function(a,b){
-            console.log('haha',a,b);
-            var mythis = $(this);
-            $(this).on("hidden.bs.modal", function() {
-                console.log('ok',document.getElementById("fm"));
-                var mythis = $(this);
-                // mythis.removeData("bs.modal");
-                $(this).remove();
-            });
+        // $("div[id*=editModal_").each(function(a,b){
+        //     console.log('haha',a,b);
+        //     var mythis = $(this);
+        //     $(this).on("hidden.bs.modal", function() {
+        //         console.log('ok',document.getElementById("fm"));
+        //         var mythis = $(this);
+        //         // mythis.removeData("bs.modal");
+        //         $(this).remove();
+        //     });
 
-        })
+        // })
 
 
 

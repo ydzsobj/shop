@@ -151,6 +151,11 @@
 
 @section('script')
 
+<script>
+    var model_id = null;
+    var initSku = null;
+</script>
+
  <script src="{{ asset('js/admin/product/createskutable.js') }}"></script>
 
  <script>

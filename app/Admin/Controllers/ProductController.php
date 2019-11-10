@@ -11,6 +11,7 @@ use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
 use App\Models\ProductSku;
 use App\Models\ProductSkuAttrValue;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends BaseController
 {
@@ -93,7 +94,7 @@ class ProductController extends BaseController
         foreach($skus as $sku){
 
             if(ProductSku::check_sku_code($sku['sku_code'])){
-                return [false, $sku['sku_code']. ' sku编码已经重复'];
+                return [false, $sku['sku_code']. ' 此SKU编码已经有商品绑定'];
             }
 
             if(isset($sku['sku_image'])){
@@ -165,15 +166,22 @@ class ProductController extends BaseController
         ProductAttributeValue::whereIn('product_attribute_id', $product_attr_ids)->delete();
         ProductAttribute::whereIn('id', $product_attr_ids)->delete();
 
+        //创建属性
+        $this->create_product_attribute($product, $request);
+
+        DB::beginTransaction();//开始事务
         //解除sku关系
         $product_sku_ids = $product->skus->pluck('id');
         ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->delete();
         ProductSku::whereIn('id', $product_sku_ids)->delete();
-
-        //创建属性
-        $this->create_product_attribute($product, $request);
-        //创建属性值
+        //创建sku
         list($success, $message) = $this->create_product_sku($product, $request);
+
+        if($success){
+            DB::commit();
+        }else{
+            DB::rollBack();
+        }
 
         $msg = $success ? '添加成功':$message;
         $alert_type = $success ? 'success':'error';

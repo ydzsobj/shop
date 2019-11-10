@@ -71,12 +71,15 @@
                     @endforeach
                 </ul>
             </div>
-
             <div class="clear"></div>
             <div class="sku-type-val"></div>
 
             <div class="skuTable"></div>
 
+        </div>
+
+        <div style="margin-left:180px;">
+                <span style="color:red;">（请注意：SKU编码系统内唯一，不能重复绑定）</span>
         </div>
 
     </div>
@@ -107,12 +110,21 @@
     <!-- /.box-footer -->
 </form>
 
+<script>
+    var model_id = {{ $detail->id }};
+    var initSku = {!! $formart_skus  !!};
+</script>
+
  <script src="{{ asset('js/admin/product/createskutable.js') }}"></script>
 
  <script>
     //  console.log('empty', $('.sku-type-val').html())
 
     $(document).ready(function(){
+
+        var attr_values = {!! $format_attr_values !!};
+        var formart_attr_value_ids = {!! $formart_attr_value_ids !!};
+
 
      $("#editModal_{{ $detail->id }} .sku_name").each(function(i){
         if($(this).prop('checked')){
@@ -123,8 +135,6 @@
 
             var attr_id = $(this).data('id');
 
-            var attr_values = {!! $format_attr_values !!};
-            var formart_attr_value_ids = {!! $formart_attr_value_ids !!};
             var data = attr_values[attr_id];
 
             var ul_str = '<ul class="attr_ul">';
@@ -137,9 +147,9 @@
 
             ul_str += '</ul></div>';
             str += ul_str;
-            $('.sku-type-val').append(str);
 
-            alreadySetSkuVals = {!! $formart_skus  !!};
+            // console.log('str', str);
+            $("#editModal_{{ $detail->id }}").find('.sku-type-val').append(str);
         }
      })
 
@@ -185,7 +195,9 @@
 
                         ul_str += '</ul></div>';
                         str += ul_str;
-                        $('.sku-type-val').append(str);
+                        // $('.sku-type-val').append(str);
+
+                        $("#editModal_{{ $detail->id }}").find('.sku-type-val').append(str);
 
                     }else{
                         var a='.'+$(this).val()
