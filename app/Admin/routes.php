@@ -58,11 +58,13 @@ Route::group([
     $router->get('/search_goods', 'GoodController@search');
 
     //产品库
-    $router->resource('/products', 'ProductController')->only(['index']);
+    $router->resource('/products', 'ProductController');
     //设置产品属性别名
     $router->put('/product_attributes/{id}/update_show_name', 'ProductAttributeController@update_show_name');
     //设置产品属性值别名
     $router->put('/product_attribute_values/{id}/update_show_name', 'ProductAttributeValueController@update_show_name');
+    //设置属性值预览图片
+    $router->put('/product_attribute_values/update_thumb_urls', 'ProductAttributeValueController@update_thumb_url')->name('product_attribute_values.update_thumb_url');
 
     //商品评价列表 | 删除
     $router->resource('/good_comments', 'GoodCommentController');
@@ -78,6 +80,16 @@ Route::group([
 
     //优惠码管理
     $router->resource('/coupon_codes','CouponCodeController');
+
+    //属性管理
+    $router->resource('/attributes','AttributeController');
+    //属性值管理
+    $router->resource('/attribute_values','AttributeValueController');
+    //获取属性下的属性值
+    $router->get('/get_attr_values/{id}', 'AttributeController@get_attr_value');
+
+    //获取产品列表
+    $router->get('/select_products', 'ProductController@select_products');
 
 
 

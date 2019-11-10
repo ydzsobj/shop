@@ -481,7 +481,7 @@
                 "allowClear": true,
                 "placeholder": {"id": "", "text": "请选择"},
                 ajax: {
-                    url: "{{$erp_api_domain}}/api/product",
+                    url: "/admin/select_products",
                     dataType: 'json',
                     delay: 500,
                     data: function (params) {
@@ -499,7 +499,7 @@
                         params.page = params.page || 1;
 
                         return {
-                            results: data.data,
+                            results: data.data.data,
                             pagination: {
                                 more: (params.page * 30) < data.count
                             }
@@ -519,12 +519,12 @@
                     return repo.text;
                 }
 
-                var erp_api_domain = "{{$erp_api_domain}}";
+                // var erp_api_domain = "{{$erp_api_domain}}";
 
                 var $container = $(
                     "<div class='select2-result-repository clearfix'>" +
                     "<div class='select2-result-repository__avatar'>" +
-                    "<img class='thumbnail' width=\"60px\" height=\"60px\"  src='" + erp_api_domain + repo.product_image + "' /></div>" +
+                    // "<img class='thumbnail' width=\"60px\" height=\"60px\"  src='" + erp_api_domain + repo.product_image + "' /></div>" +
                     // "<div class='select2-result-repository__meta'>" +
                     "<div class='select2-result-repository__title'></div>" +
                     // "<div class='select2-result-repository__description'></div>" +
@@ -537,7 +537,7 @@
                     "</div>"
                 );
 
-                $container.find(".select2-result-repository__title").text(repo.product_name);
+                $container.find(".select2-result-repository__title").text(repo.name);
                 // $container.find(".select2-result-repository__description").text(repo.description);
                 // $container.find(".select2-result-repository__forks").append(repo.forks_count + " Forks");
                 // $container.find(".select2-result-repository__stargazers").append(repo.stargazers_count + " Stars");
@@ -546,7 +546,7 @@
                 return $container;
             }
             function formatRepoSelection (repo) {
-                return repo.product_name;
+                return repo.name;
             }
 
 
