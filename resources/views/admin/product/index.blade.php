@@ -113,9 +113,9 @@
                                 <th>
                                     产品名称
                                 </th>
-                                <th>
+                                {{-- <th>
                                     英文名
-                                </th>
+                                </th> --}}
                                 <th>
                                     添加时间
                                 </th>
@@ -133,7 +133,7 @@
                                     <td>{{$product->id}}</td>
 
                                     <td>{{$product->name}}</td>
-                                    <td>{{$product->english_name}}</td>
+                                    {{-- <td>{{$product->english_name}}</td> --}}
 
                                     <td>{{$product->created_at}}</td>
                                     <td>
