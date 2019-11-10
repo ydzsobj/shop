@@ -96,9 +96,9 @@ class AttributeValueController
             ->creationRules(['required', "unique:attribute_values"])
             ->updateRules(['required', "unique:attribute_values,name,{{id}}"]);
 
-        $form->text('english_name','英文名称')
-            ->creationRules(['required'])
-            ->updateRules(['required']);
+        $form->text('english_name','英文名称');
+            // ->creationRules(['required'])
+            // ->updateRules(['required']);
 
 
         $form->select('attribute_id','所属属性')->options(Attribute::pluck('name','id'));

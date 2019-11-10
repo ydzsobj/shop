@@ -198,5 +198,13 @@ class ProductController extends BaseController
         return returned(true, '', $products);
     }
 
+    public function destroy(Request $request, $id){
+
+        $res = Product::where('id', $id)->delete();
+
+        $msg = $res ? trans('common.set.success') : trans('common.set.fail');
+
+        return response()->json(['success' => $res, 'msg' => $msg ]);
+    }
 
 }

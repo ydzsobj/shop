@@ -144,6 +144,8 @@
                                             </a>
                                             <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
                                                 <li><a href="#" data-toggle="modal" data-target="#editModal_{{$product->id}}" data-remote="{{route('products.edit',['id' => $product->id])}}">编辑</a></li>
+                                                <li><a href="#" id ="delete_{{$product->id}}" data-id="{{ $product->id }}" data-title="删除" data-url="{{ route('products.destroy', $product->id) }}" class="grid-row-action">删除</a></li>
+
                                             </ul>
                                         </div>
 
@@ -221,5 +223,6 @@
     </script>
 
     <script src="{{asset('js/admin/common.js')}}"></script>
+    <script src="{{asset('js/admin/delete.js')}}"></script>
 
 @endsection

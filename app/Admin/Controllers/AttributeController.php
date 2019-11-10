@@ -65,7 +65,7 @@ class AttributeController
 
         $grid->id('ID');
         $grid->name('属性名称');
-        $grid->show_name('英文名称');
+        $grid->english_name('英文名称');
 
         // $grid->column('image_url','图标')->image(env('APP_URL').'/uploads/admin/', 100, 100);
 

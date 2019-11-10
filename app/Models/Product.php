@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
@@ -10,6 +11,8 @@ class Product extends Model
     protected $table = 'products';
 
     protected $page_size = 20;
+
+    use SoftDeletes;
 
     /**
      * 可以被批量赋值的属性。
