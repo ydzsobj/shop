@@ -17,6 +17,7 @@ class GoodController extends Controller
      * @apiParam {Number} [category_id] 商品类别ID
      * @apiParam {Number} [good_module_id] 商品模块id
      * @apiParam {Number} [page] 当前分页
+     * @apiParam {String} [keywords] 搜索关键词
      *
      * @apiSuccess {Array} data 商品列表数据
      * @apiSuccess {Number} current_page 当前页码
@@ -81,6 +82,12 @@ class GoodController extends Controller
      *}
      */
     public function index(Request $request){
+
+        $keywords = $request->get('keywords');
+
+        if($request->has('keywords') && is_null($keywords)){
+            return returned(true,'',['data' => []]);
+        }
 
         $gd = new Good();
         $goods = $gd->user_good_data($request->all());

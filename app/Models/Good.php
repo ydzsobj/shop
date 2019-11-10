@@ -233,13 +233,19 @@ class Good extends Model
 
         $category_id = array_get($search, 'category_id', null);
         $good_module_id = array_get($search, 'good_module_id', null);
+        $keywords = array_get($search, 'keywords');
 
         return Good::when($category_id,function($query) use($category_id){
-            $query->where('category_id', $category_id);
-        })
+                $query->where('category_id', $category_id);
+            })
             ->when($good_module_id, function($query) use ($good_module_id){
-            $query->where('good_module_id', $good_module_id);
-        })
+                $query->where('good_module_id', $good_module_id);
+            })
+
+            ->when($keywords, function($query) use ($keywords){
+                $query->where('title', 'like', '%'.($keywords). '%');
+            })
+
             ->select(
                 'id as goodsId',
                 'title as name',
