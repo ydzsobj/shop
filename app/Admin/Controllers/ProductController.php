@@ -71,7 +71,7 @@ class ProductController extends BaseController
                 'product_id' => $product->id,
                 'attr_id' => $attr_id,
                 'attr_name' => $attr->name,
-                'show_name' => $attr->name
+                'show_name' => '',
             ]);
 
             foreach($attr_values as $attr_value_id=>$attr_value){
@@ -81,7 +81,7 @@ class ProductController extends BaseController
                     'attr_value_id' => $attr_value_id,
                     'attr_value_name' => $attr_value->name,
                     'english_name' => $attr_value->english_name,
-                    'show_name' => $attr_value->name
+                    'show_name' => ''
                 ]);
             }
         }
