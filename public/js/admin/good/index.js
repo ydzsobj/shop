@@ -60,7 +60,7 @@ $("#product_id").select2({
     "allowClear": true,
     "placeholder": {"id": "", "text": "请选择"},
     ajax: {
-        url: erp_api_domain + "/api/product",
+        url: "/admin/select_products",
         dataType: 'json',
         delay: 500,
         data: function (params) {
@@ -74,7 +74,7 @@ $("#product_id").select2({
             params.page = params.page || 1;
 
             return {
-                results: data.data,
+                results: data.data.data,
                 pagination: {
                     more: (params.page * 30) < data.count
                 }
@@ -97,18 +97,18 @@ function formatRepo (repo) {
     var $container = $(
         "<div class='select2-result-repository clearfix'>" +
         "<div class='select2-result-repository__avatar'>" +
-        "<img class='thumbnail' width=\"60px\" height=\"60px\"  src='" + erp_api_domain + repo.product_image + "' /></div>" +
+        // "<img class='thumbnail' width=\"60px\" height=\"60px\"  src='" + erp_api_domain + repo.product_image + "' /></div>" +
         // "<div class='select2-result-repository__meta'>" +
         "<div class='select2-result-repository__title'></div>" +
         "</div>"
     );
 
-    $container.find(".select2-result-repository__title").text(repo.product_name);
+    $container.find(".select2-result-repository__title").text(repo.name);
 
     return $container;
 }
 function formatRepoSelection (repo) {
-    return repo.product_name;
+    return repo.name;
 }
 
 $('div[id*=SetSkuModal_]').on('hidden.bs.modal', function () {
