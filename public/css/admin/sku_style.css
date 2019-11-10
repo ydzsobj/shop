@@ -5,7 +5,7 @@
 	color: red;
 }
 /*sku选择样式*/
-.attr_ul li, .SKU_TYPE li{list-style: none;margin-right:10px;}
+.attr_ul li, .SKU_TYPE li, .add_attr{list-style: none;margin-right:10px;}
 .attr_ul li label, .SKU_TYPE li label{cursor: pointer;}
 .attr_ul li, .SKU_TYPE li{float: left;line-height: 30px;}
 
@@ -66,7 +66,7 @@ table.skuTable td input{
 }
 /*输入框样式*/
 input[type="text"]{
-	height: 24px;
+	/* height: 24px; */
 	display: inline-block;
 	padding: 2px 12px;
 	font-size: 14px;

@@ -113,7 +113,7 @@ function skutable(){
 			}
 			//console.log(propvalids);
             SKUTableDom += '<tr propvalids=\''+propvalids+'\' propids=\''+propIdArr.toString()+'\' propvalnames=\''+propvalnameArr.join(";")+'\'  propnames=\''+propNameArr.join(";")+'\' class="sku_table_tr">'+currRowDoms+
-            '<td><input type="text" name="skus[' + i +'][sku_code]" class="setting_sku_price" value="'+alreadySetSkuPrice+'"/></td>' +
+            '<td><input type="text" name="skus[' + i +'][sku_code]" class="setting_sku_price" value="'+alreadySetSkuPrice+'" required="1" /></td>' +
             // '<td><input type="file" name="skus[' + i +'][sku_image]" class="setting_sku_stock" value="'+alreadySetSkuStock+'"/>' +
             '<input type="hidden" name="skus[' + i +'][attr_value_ids]" value=' + propvalids +' /> ' +
             '<input type="hidden" name="skus[' + i +'][attr_value_names]" value=' + propvalnameArr.join(";") +' /> ' +

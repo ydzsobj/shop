@@ -72,9 +72,8 @@
                                             <input type="text" id="name" name="name" value="" class="form-control name" placeholder="输入" required="1" />
 
                                         </div>
-
-
                                     </div>
+
                                 </div>
                                 <div class="form-group  ">
 
@@ -95,7 +94,7 @@
 
                             </div>
 
-                            <div class="fields-group" style="margin-left:120px;">
+                            <div class="fields-group" style="margin-left:165px;">
                                 <div>
                                     <ul class="attr_ul">
                                         @foreach($attributes as $key=>$attr)
@@ -109,6 +108,10 @@
 
                                 <div class="skuTable"></div>
 
+                            </div>
+
+                            <div style="margin-left:180px;">
+                                    <span style="color:red;">（此处绑定的SKU编码要与ERP系统保持一致）</span>
                             </div>
 
                         </div>

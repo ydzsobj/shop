@@ -54,7 +54,7 @@
 
         </div>
 
-        <div class="fields-group" style="margin-left:120px;">
+        <div class="fields-group" style="margin-left:165px;">
             <div>
                 <ul class="attr_ul">
                     @foreach($attributes as $key=>$attr)
