@@ -12,7 +12,7 @@
 
 <!-- /.box-header -->
 <!-- form start -->
-<form id="fm" action="{{route('products.update',['id' =>  $detail->id ])}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+<form id="fm" action="{{route('products.update',['id' =>  $detail->id ])}}" method="post" accept-charset="UTF-8" class="form-horizontal" onsubmit="return submit_check();" enctype="multipart/form-data">
 
     <div class="box-body">
 
@@ -52,6 +52,10 @@
             </div> --}}
 
 
+        </div>
+
+        <div style="margin-left:180px;">
+                <span style="color:red;">（请注意：已添加的商品属性和属性值不允许取消；如要取消请去商品列表禁用SKU）</span>
         </div>
 
         <div class="fields-group" style="margin-left:165px;">
@@ -140,8 +144,10 @@
             var ul_str = '<ul class="attr_ul">';
             for(var i=0;i<data.length;i++){
                 var checked = formart_attr_value_ids.indexOf(data[i].id) != -1 ? 'checked': '';
+                // var disabled = formart_attr_value_ids.indexOf(data[i].id) != -1 ? 'disabled': '';
+                var disabled = false;
                 ul_str += '<li><label>' +
-                    '<input type="checkbox" class="sku_value" ' + checked +' name="product_attr[' + attr_id +'][' + data[i].id +']" propvalid="' + data[i].id+'" value="' + data[i].name +'" />' + data[i].name +
+                    '<input type="checkbox" class="sku_value" ' + checked  + ' ' + disabled +' name="product_attr[' + attr_id +'][' + data[i].id +']" propvalid="' + data[i].id+'" value="' + data[i].name +'" />' + data[i].name +
                     '</label></li>'
             }
 
@@ -209,7 +215,7 @@
                     skutable()
                 })
 
-
-
     </script>
+
+<script src="{{ asset('js/admin/product/sku_check.js') }}"></script>
 

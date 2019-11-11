@@ -63,6 +63,8 @@ class ProductController extends BaseController
 
     public function create_product_attribute($product, $request){
 
+        dd($request->all());
+
         $product_attr = $request->post('product_attr');
 
         foreach($product_attr as  $attr_id=>$attr_values){

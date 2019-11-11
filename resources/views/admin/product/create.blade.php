@@ -53,7 +53,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form action="{{route('products.store')}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('products.store')}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data" onsubmit="return submit_check();">
 
                         <div class="box-body">
 
@@ -206,6 +206,8 @@
                 })
 
     </script>
+
+    <script src="{{ asset('js/admin/product/sku_check.js') }}"></script>
 
 
 @endsection
