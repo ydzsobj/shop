@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
+use App\Models\Good;
+use App\Models\GoodSku;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
@@ -67,21 +69,21 @@ class ProductController extends BaseController
 
             $attr = Attribute::find($attr_id);
 
-            $product_attribute_mod = ProductAttribute::create([
+            $product_attribute_mod = ProductAttribute::firstOrCreate([
                 'product_id' => $product->id,
                 'attr_id' => $attr_id,
-                'attr_name' => $attr->name,
-                'show_name' => '',
+            ],[
+                'attr_name' => $attr->name
             ]);
 
             foreach($attr_values as $attr_value_id=>$attr_value){
                 $attr_value = AttributeValue::find($attr_value_id);
-                ProductAttributeValue::create([
+                ProductAttributeValue::firstOrCreate([
                     'product_attribute_id' => $product_attribute_mod->id,
                     'attr_value_id' => $attr_value_id,
+                ],[
                     'attr_value_name' => $attr_value->name,
-                    'english_name' => $attr_value->english_name,
-                    'show_name' => ''
+                    'english_name' => $attr_value->english_name
                 ]);
             }
         }
@@ -93,7 +95,7 @@ class ProductController extends BaseController
 
         foreach($skus as $sku){
 
-            if(ProductSku::check_sku_code($sku['sku_code'])){
+            if(ProductSku::check_sku_code($sku['sku_code'] ,$product)){
                 return [false, $sku['sku_code']. ' 此SKU编码已经有商品绑定'];
             }
 
@@ -101,21 +103,46 @@ class ProductController extends BaseController
                 $sku_image = $this->upload($sku['sku_image']);
             }
 
-            $product_sku_mod = ProductSku::create([
+            $product_sku_mod = ProductSku::firstOrCreate([
                 'product_id' => $product->id,
                 'sku_code' => $sku['sku_code'],
+            ],[
                 'attr_value_names' => $sku['attr_value_names'],
                 'sku_image' => $sku_image ?? null,
             ]);
 
+            $good_sku_data = collect([]);
             $sku_value_ids  = explode(',', $sku['attr_value_ids']);
-            foreach($sku_value_ids as $attr_value_id){
+            foreach($sku_value_ids as $key=>$attr_value_id){
                 $attr_value = AttributeValue::find($attr_value_id);
-                ProductSkuAttrValue::create([
+                ProductSkuAttrValue::firstOrCreate([
                     'product_sku_id' => $product_sku_mod->id,
                     'attr_value_id' => $attr_value_id,
+                ],[
                     'attr_value_name' => $attr_value->name
                 ]);
+
+                $key = $key + 1;
+                $good_sku_data->put('s'.$key,  $attr_value_id);
+                $good_sku_data->put('s'.$key.'_name', $attr_value->name);
+            }
+
+            $good_sku_data->put('price', 0);
+            $good_sku_data->put('stock', 9999);
+
+            // dump($good_sku_data->all());
+
+            $good_ids = Good::where('product_id', $product->id)->pluck('id');
+
+            // dd($good_ids);
+
+            foreach($good_ids as $good_id){
+
+                GoodSku::firstOrCreate([
+                        'good_id' => $good_id,
+                        'sku_id' => $sku['sku_code']
+                    ],$good_sku_data->all()
+                );
             }
         }
 
@@ -159,23 +186,25 @@ class ProductController extends BaseController
 
     public function update(Request $request, $id){
 
+        // dd($request->all());
+
         $product = Product::find($id);
 
         //清除属性值和属性关系
-        $product_attr_ids = $product->attrs->pluck('id');
-        ProductAttributeValue::whereIn('product_attribute_id', $product_attr_ids)->delete();
-        ProductAttribute::whereIn('id', $product_attr_ids)->delete();
+        // $product_attr_ids = $product->attrs->pluck('id');
+        // ProductAttributeValue::whereIn('product_attribute_id', $product_attr_ids)->delete();
+        // ProductAttribute::whereIn('id', $product_attr_ids)->delete();
 
         //创建属性
         $this->create_product_attribute($product, $request);
 
         DB::beginTransaction();//开始事务
         //解除sku关系
-        $product_sku_ids = $product->skus->pluck('id');
-        ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->delete();
-        ProductSku::whereIn('id', $product_sku_ids)->delete();
+        // $product_sku_ids = $product->skus->pluck('id');
+        // ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->delete();
+        // ProductSku::whereIn('id', $product_sku_ids)->delete();
         //创建sku
-        list($success, $message) = $this->create_product_sku($product, $request);
+        list($success, $message) = ($this->create_product_sku($product, $request));
 
         if($success){
             DB::commit();

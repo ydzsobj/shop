@@ -36,10 +36,12 @@ class ProductAttributeValueController extends BaseController
 
         $attr_images = $request->attr_images;
 
-        foreach($attr_images as $id=>$image){
-            $image_url = $this->upload($image);
-            if($image_url){
-                ProductAttributeValue::where(['id' => $id])->update(['thumb_url' => $image_url ]);
+        if($attr_images && count($attr_images) >0){
+            foreach($attr_images as $id=>$image){
+                $image_url = $this->upload($image);
+                if($image_url){
+                    ProductAttributeValue::where(['id' => $id])->update(['thumb_url' => $image_url ]);
+                }
             }
         }
 
