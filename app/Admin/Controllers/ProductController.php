@@ -63,7 +63,7 @@ class ProductController extends BaseController
 
     public function create_product_attribute($product, $request){
 
-        dd($request->all());
+        // dd($request->all());
 
         $product_attr = $request->post('product_attr');
 
@@ -98,7 +98,7 @@ class ProductController extends BaseController
         foreach($skus as $sku){
 
             if(ProductSku::check_sku_code($sku['sku_code'] ,$product)){
-                return [false, $sku['sku_code']. ' 此SKU编码已经有商品绑定'];
+                return [false, $sku['sku_code']. ' 此SKU编码已经有商品绑定,请重新编辑'];
             }
 
             if(isset($sku['sku_image'])){
@@ -200,7 +200,7 @@ class ProductController extends BaseController
         //创建属性
         $this->create_product_attribute($product, $request);
 
-        DB::beginTransaction();//开始事务
+        // DB::beginTransaction();//开始事务
         //解除sku关系
         // $product_sku_ids = $product->skus->pluck('id');
         // ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->delete();
@@ -208,15 +208,14 @@ class ProductController extends BaseController
         //创建sku
         list($success, $message) = ($this->create_product_sku($product, $request));
 
-        if($success){
-            DB::commit();
-        }else{
-            DB::rollBack();
-        }
+        // if($success){
+        //     DB::commit();
+        // }else{
+        //     DB::rollBack();
+        // }
 
-        $msg = $success ? '添加成功':$message;
+        $msg = $success ? '成功':$message;
         $alert_type = $success ? 'success':'error';
-
 
         return redirect()->route('products.index')->with($alert_type, $msg);
 
