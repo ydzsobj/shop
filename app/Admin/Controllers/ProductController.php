@@ -192,6 +192,9 @@ class ProductController extends BaseController
 
         $product = Product::find($id);
 
+        $product->name = $request->post('name');
+        $product->save();
+
         //清除属性值和属性关系
         // $product_attr_ids = $product->attrs->pluck('id');
         // ProductAttributeValue::whereIn('product_attribute_id', $product_attr_ids)->delete();
