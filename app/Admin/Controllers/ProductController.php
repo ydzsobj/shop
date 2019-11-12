@@ -177,7 +177,7 @@ class ProductController extends BaseController
         $formart_skus = collect([]);
 
         $detail->skus->map(function($item) use ($formart_skus){
-            $ids = $item->attr_values->pluck('attr_value_id');
+            $ids = $item->attr_values()->orderBy('attr_value_id', 'asc')->pluck('attr_value_id');
             return $formart_skus->put($ids->implode(',') , collect(['skuPrice' => $item->sku_code, 'skuStock' => $item->sku_image]));
         });
 
