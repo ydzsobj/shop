@@ -2,7 +2,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            商品管理
+            产品管理
         </h1>
     </section>
     <section class="content">

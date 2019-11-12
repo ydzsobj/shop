@@ -1,5 +1,19 @@
 function submit_check(){
 
+    var check_target_attr = model_id ? $("#editModal_" + model_id).find('.sku_name:checked') : $('.sku_name:checked');
+    var check_target_attr_name = model_id ? $("#editModal_" + model_id).find('.sku_value:checked') : $('.sku_value:checked');
+
+    if(check_target_attr.length == 0){
+        alert('请勾选属性');
+        return false;
+    }
+
+    if(check_target_attr_name.length == 0){
+        alert('请先勾选属性值');
+        return false;
+    }
+
+
     var target_model = model_id ? $("#editModal_" + model_id).find('.setting_sku_price'): $(".setting_sku_price");
 
     target_model.each(function(i,item){

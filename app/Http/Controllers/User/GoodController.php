@@ -331,6 +331,10 @@ class GoodController extends Controller
 
         $good->detail_list_images = $matches[0];
 
+        if(!$good->show_comment){
+            unset($good->comments);
+        }
+
         unset($good->attributes);
 
         return compact('good');
