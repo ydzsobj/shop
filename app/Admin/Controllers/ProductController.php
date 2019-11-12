@@ -160,7 +160,7 @@ class ProductController extends BaseController
             return $format_attr_values->put($item->id, $item->attr_values);
         });
 
-        $detail = Product::with(['attrs.attribute_values', 'skus.attr_values'])->where('id', $id)->first();
+        $detail = Product::with(['attrs.attribute_values','skus.attr_values'])->where('id', $id)->first();
 
         $formart_attr_value_ids = [];
         foreach($detail->attrs as $attr){
@@ -177,8 +177,9 @@ class ProductController extends BaseController
         $formart_skus = collect([]);
 
         $detail->skus->map(function($item) use ($formart_skus){
-            $ids = $item->attr_values()->orderBy('attr_value_id', 'asc')->pluck('attr_value_id');
-            return $formart_skus->put($ids->implode(',') , collect(['skuPrice' => $item->sku_code, 'skuStock' => $item->sku_image]));
+            $ids = $item->attr_values->pluck('attr_value_id');
+            $format_ids = AttributeValue::whereIn('id', $ids)->orderBy('attribute_id', 'asc')->pluck('id');
+            return $formart_skus->put($format_ids->implode(',') , collect(['skuPrice' => $item->sku_code, 'skuStock' => $item->sku_image]));
         });
 
         // dd( $formart_skus);
