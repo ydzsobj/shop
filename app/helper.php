@@ -27,7 +27,7 @@ if (!function_exists('getSql')) {
  */
 if(!function_exists('generate_sn')){
     function generate_sn(){
-        return 'D'.date('ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+        return 'AR'.date('ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
     }
 }
 
