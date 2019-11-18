@@ -194,6 +194,7 @@ class ProductController extends BaseController
         $product = Product::find($id);
 
         $product->name = $request->post('name');
+        $product->english_name = $request->post('english_name');
         $product->save();
 
         //清除属性值和属性关系

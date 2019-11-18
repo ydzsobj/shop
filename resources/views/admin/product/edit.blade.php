@@ -35,7 +35,7 @@
 
                 </div>
             </div>
-            {{-- <div class="form-group  ">
+            <div class="form-group  ">
 
                 <label for="english_name" class="col-sm-2 asterisk control-label">英文名称</label>
 
@@ -49,7 +49,7 @@
 
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
 
         </div>

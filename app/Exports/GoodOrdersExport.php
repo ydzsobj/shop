@@ -174,7 +174,7 @@ class GoodOrdersExport implements FromCollection,WithHeadings,withEvents
             $sku_str = $product->name .' '. $sku_name. ' x'. $order_sku->sku_nums;
 
             //物品描述-sku-英文
-            $sku_desc_str = $product->name;
+            $sku_desc_str = $product->english_name;
             //属性
             $color_english = '';
             $size_english = '';
