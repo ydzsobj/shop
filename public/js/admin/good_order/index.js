@@ -169,3 +169,25 @@ $("#batch_audit_submit").click(function(){
     $("#fm_batch_audit").submit();
 
 })
+
+//批量导出
+$("#batch_export").click(function(){
+    var title = '批量导出';
+    var order_ids = $.admin.grid.selected();
+    if(order_ids.length == 0){
+        swal('需要选择至少一条数据','','error');
+        return false;
+    }
+    var params = '';
+    var search = location.search;
+    var filter = 'filter_order_ids=' + order_ids.join(',');
+    console.log(filter);
+    if(search){
+        params = search + '&' + filter;
+    }else{
+        params = '?' + filter;
+    }
+    console.log(params);
+    location.href = '/admin/good_orders/export' + params;
+
+})

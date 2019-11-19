@@ -144,7 +144,8 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#" class="grid-batch-0" id="batch_delete">批量删除 </a></li>
-                                    <li><a href="#" class="grid-batch-1" data-toggle="modal" data-target="#auditModalBatch">批量审核 </a></li>
+                                    <li><a class="grid-batch-1" id="batch_export">批量导出 </a></li>
+                                    <li><a href="#" class="grid-batch-2" data-toggle="modal" data-target="#auditModalBatch">批量审核 </a></li>
                                 </ul>
                             </div>
                         </div>

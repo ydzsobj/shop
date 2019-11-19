@@ -178,6 +178,12 @@ class GoodOrder extends Model
             $base_query->where('good_orders.status', $status);
         }
 
+        //筛选过滤选中的id
+        $filter_order_ids = $request->get('filter_order_ids');
+        if($filter_order_ids){
+            $base_query->whereIn('good_orders.id', explode(',', $filter_order_ids));
+        }
+
         //关键词
         $keywords = $request->get('keywords');
         $search_item = $request->get('search_item');
