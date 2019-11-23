@@ -274,7 +274,7 @@ class GoodOrder extends Model
         $status = config('order.status');
 
         foreach ($orders as $order){
-            $order->status_str = array_get($status, $order->status, '');
+            $order->status_name = array_get($status, $order->status, '');
             $order->currency_code = config('money_sign','');
             $order->country_name = config('global_area','');
         }
