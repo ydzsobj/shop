@@ -132,6 +132,10 @@ class GoodController extends BaseController
             $update_data['show_comment'] = 0;
         }
 
+        if(!$request->post('show_coupon_code')){
+            $update_data['show_coupon_code'] = 0;
+        }
+
         $pay_types = json_encode($request->post('pay_types'));
 
         $update_data = collect($update_data)->merge(['pay_types' => $pay_types]);
