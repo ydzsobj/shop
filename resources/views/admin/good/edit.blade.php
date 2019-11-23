@@ -215,6 +215,17 @@
 
             <div class="form-group  ">
 
+                <label for="show_coupon_code" class="col-sm-2  control-label">是否开启优惠码输入（默认关闭）</label>
+
+                <div class="col-sm-8">
+
+                    <input type="checkbox" name="show_coupon_code" value="{{$detail->show_coupon_code}}" @if($detail->show_coupon_code)checked @endif />
+
+                </div>
+            </div>
+
+            <div class="form-group  ">
+
                 <label for="detail_desc" class="col-sm-2 asterisk control-label">商品描述</label>
 
                 <div class="col-sm-8">
@@ -404,7 +415,7 @@
                 $.admin.toastr.success('刷新成功 !', '', {positionClass: "toast-top-center"});
             });
 
-            $("[name='show_comment']").bootstrapSwitch({
+            $("input[name='show_comment'],input[name='show_coupon_code']").bootstrapSwitch({
                 onText : '开',
                 offText : '关',
                 onSwitchChange: function (event, state) {

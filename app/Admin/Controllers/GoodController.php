@@ -65,6 +65,7 @@ class GoodController extends BaseController
             'size_desc',
             'fb_pix',
             'about',
+            'show_coupon_code',
         ]);
 
 
@@ -125,6 +126,7 @@ class GoodController extends BaseController
             'size_desc',
             'fb_pix',
             'about',
+            'show_coupon_code',
         ]);
 
         $list_image_clear_flag = $request->post('list_image_clear_flag');
