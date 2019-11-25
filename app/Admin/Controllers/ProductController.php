@@ -205,19 +205,19 @@ class ProductController extends BaseController
         //创建属性
         $this->create_product_attribute($product, $request);
 
-        // DB::beginTransaction();//开始事务
+        DB::beginTransaction();//开始事务
         //解除sku关系
-        // $product_sku_ids = $product->skus->pluck('id');
-        // ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->delete();
-        // ProductSku::whereIn('id', $product_sku_ids)->delete();
+        $product_sku_ids = $product->skus->pluck('id');
+        ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->delete();
+        ProductSku::whereIn('id', $product_sku_ids)->delete();
         //创建sku
         list($success, $message) = ($this->create_product_sku($product, $request));
 
-        // if($success){
-        //     DB::commit();
-        // }else{
-        //     DB::rollBack();
-        // }
+        if($success){
+            DB::commit();
+        }else{
+            DB::rollBack();
+        }
 
         $msg = $success ? '成功':$message;
         $alert_type = $success ? 'success':'error';
