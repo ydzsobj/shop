@@ -65,6 +65,7 @@ class GoodController extends BaseController
             'size_desc',
             'fb_pix',
             'about',
+            'show_coupon_code',
         ]);
 
 
@@ -125,6 +126,7 @@ class GoodController extends BaseController
             'size_desc',
             'fb_pix',
             'about',
+            'show_coupon_code',
         ]);
 
         $list_image_clear_flag = $request->post('list_image_clear_flag');
@@ -132,6 +134,10 @@ class GoodController extends BaseController
 
         if(is_null($request->post('show_comment'))){
             $update_data['show_comment'] = 0;
+        }
+
+        if(!$request->post('show_coupon_code')){
+            $update_data['show_coupon_code'] = 0;
         }
 
         $pay_types = json_encode($request->post('pay_types'));

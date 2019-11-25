@@ -195,7 +195,7 @@
                                                 <i class="fa fa-ellipsis-v"></i>
                                             </a>
                                             <ul class="dropdown-menu" style="min-width: 50px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
-                                                {{--<li><a href="#" data-toggle="modal" data-target="#editModal_{{$coupon_code->id}}" data-remote="{{route('coupon_codes.edit',['id' => $coupon_code->id])}}">编辑</a></li>--}}
+{{--                                                <li><a href="#" data-toggle="modal" data-target="#editModal_{{$coupon_code->id}}" data-remote="{{route('coupon_codes.edit',['id' => $coupon_code->id])}}">编辑</a></li>--}}
                                                 <li><a href="#" id ="delete_{{$coupon_code->id}}" data-id="{{$coupon_code->id}}" data-title="删除" data-url="{{route('coupon_codes.destroy', ['id' => $coupon_code->id])}}" class="grid-row-action">删除</a></li>
 
                                             </ul>

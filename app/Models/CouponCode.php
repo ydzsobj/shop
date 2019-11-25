@@ -144,6 +144,8 @@ class CouponCode extends Model
 
     public function by_code($code){
 
+        $code = strtoupper($code);
+
         return self::where('code',$code)->where('status', self::STATUS_RUNNING)->first();
     }
 
