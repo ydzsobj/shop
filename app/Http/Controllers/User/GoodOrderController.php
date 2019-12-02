@@ -9,6 +9,8 @@ use App\Models\GoodOrder;
 use App\Models\GoodOrderSku;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\sendSms;
+use App\Models\ServicePhone;
 
 class GoodOrderController extends Controller
 {
@@ -135,6 +137,11 @@ class GoodOrderController extends Controller
         $go = GoodOrder::create(array_merge($insert_data, $address, compact('province', 'city', 'area')));
 
         if($go){
+
+            //发送短信
+            if(ServicePhone::check_available() >0){
+                sendSms::dispatch($go)->onQueue('sms');
+            }
 
             $go->order_skus()->createMany($cart_data->all());
             return returned(true, '提交订单成功', $go);
