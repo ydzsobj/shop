@@ -21,7 +21,7 @@ class ServicePhone extends Model
 
     public static function round_phone($order_id){
 
-        $service_phones = self::whereNull('disabled_at')->where('round','>',0)->get();
+        $service_phones = self::where('disabled_at', '>',0)->where('round','>',0)->get();
 
         if(!$service_phones){
             return false;
@@ -34,10 +34,10 @@ class ServicePhone extends Model
             //多个手机号时 计算应该发给谁
             $cnt = $service_phones->count();
             $round = intval($order_id%$cnt + 1);//取模
-            $s_phone = self::where('round', $round)->whereNull('disabled_at')->first();
+            $s_phone = self::where('round', $round)->where('disabled_at','>',0)->first();
 
             if(!$s_phone){
-                $s_phone = self::where('round', '1')->whereNull('disabled_at')->first();
+                $s_phone = self::where('round', '1')->where('disabled_at','>',0)->first();
             }
             return $s_phone->area_code. $s_phone->phone;
         }
@@ -47,6 +47,6 @@ class ServicePhone extends Model
      * 检查有没有可用的
      */
     public static function check_available(){
-        return self::whereNull('disabled_at')->where('round','>',0)->count();
+        return self::where('disabled_at','>',0)->where('round','>',0)->count();
     }
 }

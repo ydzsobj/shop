@@ -91,6 +91,9 @@ Route::group([
     //获取产品列表
     $router->get('/select_products', 'ProductController@select_products');
 
+    //配置客服电话
+    $router->resource('/service_phones', 'ServicePhoneController');
+
 
 
 });
