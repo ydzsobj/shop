@@ -253,7 +253,8 @@ class Good extends Model
                 'original_price as mallPrice',
                 'price',
                 'good_module_id',
-                'main_image_url as image'
+                'main_image_url as image',
+                'about'
             )
             ->orderBy('id', 'desc')
             ->paginate($this->page_size);
