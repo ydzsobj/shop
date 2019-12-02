@@ -290,23 +290,29 @@ class GoodController extends Controller
 
         $format_skus = collect([]);
 
-        $skus->map(function($sku) use($format_skus){
+        // dd($skus->count());
 
-            $append = [
-                'price' =>  ($sku->price) * 100 ,
-                'id' => $sku->sku_id
-            ];
+        if($skus->count() >0){
 
-            $sku = $sku->toArray();
+            $skus->map(function($sku) use($format_skus){
 
-            unset($sku['sku_id'], $sku['price']);
+                $append = [
+                    'price' =>  ($sku->price) * 100 ,
+                    'id' => $sku->sku_id
+                ];
 
-            $format_skus->push(array_merge($append, $sku));
+                $sku = $sku->toArray();
 
-        });
+                unset($sku['sku_id'], $sku['price']);
+
+                $format_skus->push(array_merge($append, $sku));
+
+            });
+
+        }
 
         $good->tree = $attrs;
-        if($attrs->count() == 0 || $skus->count() ==0){
+        if($attrs->count() == 0){
             $good->tree = null;
         }
 
@@ -317,7 +323,7 @@ class GoodController extends Controller
 
         $good->collection_id = null;
 
-        if($good->attributes->count() == 0){
+        if($good->attributes->count() == 0 && $skus->count() >0){
             $good->collection_id = $skus->first()->id;
         }
 
