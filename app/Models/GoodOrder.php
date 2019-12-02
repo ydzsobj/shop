@@ -178,6 +178,12 @@ class GoodOrder extends Model
             $base_query->where('good_orders.status', $status);
         }
 
+         //ID筛选
+         $search_id = $request->get('search_id');
+         if($search_id){
+             $base_query->where('good_orders.id', $search_id);
+         }
+
         //筛选过滤选中的id
         $filter_order_ids = $request->get('filter_order_ids');
         if($filter_order_ids){
@@ -237,7 +243,7 @@ class GoodOrder extends Model
         $this->page_size = $per_page;
 
 
-        $search = compact('start_date','end_date','status','keywords','per_page','search_item','date_search_item');
+        $search = compact('start_date','end_date','status','keywords','per_page','search_item','date_search_item','search_id');
 
         return [$base_query, $search];
     }
