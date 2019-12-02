@@ -70,6 +70,11 @@
                                                     </select>
                                                 </div>
 
+                                                <label class="col-sm-1 control-label">ID</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control " name="search_id" placeholder="请输入ID" value="{{$search['search_id']}}"/>
+                                                </div>
+
                                             </div>
 
                                         </div>
