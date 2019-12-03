@@ -43,7 +43,7 @@ class sendSms implements ShouldQueue
             $sms = new smsAPI();
             $result = $sms->send($send_msg, $phone);
 
-            if($result->code == 0){
+            if($result && $result->code == 0){
                 $success_msg = sprintf($msg. ' 发送短信成功，对应订单id=%s', $this->order->id);
                 Log::info($success_msg);
                 echo '发送成功';
