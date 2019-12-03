@@ -48,7 +48,7 @@ class sendSms implements ShouldQueue
                 Log::info($success_msg);
                 echo '发送成功';
             }else{
-                $error_msg = sprintf($msg. ' 发送失败，错误code:%d,error:%s', $result->code, $result->error);
+                $error_msg = sprintf($msg. ' 发送失败，返回：%s', var_export($result));
                 Log::info($error_msg);
                 echo $error_msg;
             }
