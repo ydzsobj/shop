@@ -16,10 +16,10 @@ class GoodAttributeValue extends Model
      */
     protected $fillable = [
         'good_attribute_id',
-        'remote_id',
-        'name',
+        'attr_value_id',
+        'attr_value_name',
+        'show_name',
         'thumb_url',
-        'is_show',
     ];
 
 }

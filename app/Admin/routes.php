@@ -60,11 +60,14 @@ Route::group([
     //产品库
     $router->resource('/products', 'ProductController');
     //设置产品属性别名
-    $router->put('/product_attributes/{id}/update_show_name', 'ProductAttributeController@update_show_name');
+    // $router->put('/product_attributes/{id}/update_show_name', 'ProductAttributeController@update_show_name');
+    $router->put('/good_attributes/{id}/update_show_name', 'GoodAttributeController@update_show_name');
     //设置产品属性值别名
-    $router->put('/product_attribute_values/{id}/update_show_name', 'ProductAttributeValueController@update_show_name');
+    // $router->put('/product_attribute_values/{id}/update_show_name', 'ProductAttributeValueController@update_show_name');
+    $router->put('/good_attribute_values/{id}/update_show_name', 'GoodAttributeValueController@update_show_name');
     //设置属性值预览图片
-    $router->put('/product_attribute_values/update_thumb_urls', 'ProductAttributeValueController@update_thumb_url')->name('product_attribute_values.update_thumb_url');
+    // $router->put('/product_attribute_values/update_thumb_urls', 'ProductAttributeValueController@update_thumb_url')->name('product_attribute_values.update_thumb_url');
+    $router->put('/good_attribute_values/update_thumb_urls', 'GoodAttributeValueController@update_thumb_url')->name('good_attribute_values.update_thumb_url');
 
     //商品评价列表 | 删除
     $router->resource('/good_comments', 'GoodCommentController');

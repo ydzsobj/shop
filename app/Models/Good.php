@@ -76,7 +76,7 @@ class Good extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function attributes(){
+    public function good_attributes(){
         return $this->hasMany(GoodAttribute::class);
     }
 

@@ -95,7 +95,8 @@ class GoodController extends BaseController
         if($mod){
 
             //绑定默认属性
-            event(new BindProductAttributeEvent($mod));
+            // event(new BindProductAttributeEvent($mod));
+            event(new BindGoodAttributeEvent($mod));
 
             return redirect(route('goods.index'))->with('success', trans('common.create.success'));
         }else{
@@ -345,7 +346,8 @@ class GoodController extends BaseController
 
         if($result){
             //绑定默认属性
-            event(new BindProductAttributeEvent($copy_data));
+            // event(new BindProductAttributeEvent($copy_data));
+            event(new BindGoodAttributeEvent($copy_data));
 
             //轮播图复制
             if($list_images->count() > 0){

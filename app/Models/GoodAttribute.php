@@ -16,10 +16,10 @@ class GoodAttribute extends Model
      */
     protected $fillable = [
         'good_id',
-        'remote_id',
-        'name',
+        'attr_id',
+        'attr_name',
+        'show_name',
         'sort',
-        'is_show'
     ];
 
     public function attribute_values(){

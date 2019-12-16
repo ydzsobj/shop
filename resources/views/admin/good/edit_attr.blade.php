@@ -3,8 +3,8 @@
     <h4 class="modal-title" id="myModalLabel">配置属性<span style="color:red;">(目前支持第一个属性自定义预览图片)</span></h4>
 </div>
 
-@if($good->product_attributes->count() >0)
-<form action="{{route('product_attribute_values.update_thumb_url')}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+@if($good->good_attributes->count() >0)
+<form action="{{route('good_attribute_values.update_thumb_url')}}" method="post" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
 <div class="modal-body">
         <table class="table">
             <tr>
@@ -12,7 +12,7 @@
                 <th>属性值</th>
             </tr>
 
-            @foreach($good->product_attributes as $key=>$attribute)
+            @foreach($good->good_attributes as $key=>$attribute)
                 <tr>
                     <td>
                         {{$attribute->attr_name}}
@@ -23,7 +23,7 @@
                                 data-type="text"
                                 data-pk="{{$attribute->id}}"
                                 data-value="{{$attribute->show_name}}"
-                                data-url="/admin/product_attributes/{{$attribute->id}}/update_show_name"
+                                data-url="/admin/good_attributes/{{$attribute->id}}/update_show_name"
                                 data-title="设置展示名">{{$attribute->show_name}}
                         </a>
                     </td>
@@ -38,7 +38,7 @@
                                                 data-type="text"
                                                 data-pk="{{$attribute_value->id}}"
                                                 data-value="{{$attribute_value->show_name}}"
-                                                data-url="/admin/product_attribute_values/{{$attribute_value->id}}/update_show_name"
+                                                data-url="/admin/good_attribute_values/{{$attribute_value->id}}/update_show_name"
                                                 data-title="设置展示名">{{$attribute_value->show_name}}
                                         </a>
                                     </td>

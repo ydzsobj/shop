@@ -269,7 +269,7 @@ class GoodController extends Controller
 
         //属性
         $attrs = collect([]);
-        foreach ($good->product_attributes as $key=>$attribute){
+        foreach ($good->good_attributes as $key=>$attribute){
 
             $key = $key+1;
 
@@ -323,7 +323,7 @@ class GoodController extends Controller
 
         $good->collection_id = null;
 
-        if($good->attributes->count() == 0 && $skus->count() >0){
+        if($good->good_attributes->count() == 0 && $skus->count() >0){
             $good->collection_id = $skus->first()->id;
         }
 
@@ -343,7 +343,7 @@ class GoodController extends Controller
             unset($good->comments);
         }
 
-        unset($good->attributes);
+        unset($good->good_attributes);
 
         return compact('good');
 
