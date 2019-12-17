@@ -15,14 +15,13 @@ class SlideController extends BaseController
         return view('admin.slide.create');
     }
 
-
     /**
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
     public function store(Request $request){
 
-        $req = $request->only('sort', 'good_id');
+        $req = $request->only('sort', 'good_id', 'country_id');
 
         $module_image_file = $request->file('slide_image_file');
 
@@ -54,7 +53,8 @@ class SlideController extends BaseController
 
         $update_data = $request->only([
             'sort',
-            'good_id'
+            'good_id',
+            'country_id'
         ]);
 
         $update_data = collect($update_data);

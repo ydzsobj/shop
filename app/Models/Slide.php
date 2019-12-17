@@ -13,6 +13,7 @@ class Slide extends Model
         'image_url',
         'sort',
         'good_id',
+        'country_id'
     ];
 
     /**

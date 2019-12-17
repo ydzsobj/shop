@@ -28,6 +28,8 @@ class BaseController extends Controller
 
         //上传配置
         View::share('upload_config', config('upload'));
+        //国家配置
+        View::share('country_list', config('country.country_list'));
 
 
     }

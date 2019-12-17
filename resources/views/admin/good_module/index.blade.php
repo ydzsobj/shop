@@ -183,6 +183,10 @@
                                 </th>
 
                                 <th>
+                                    所属国家
+                                </th>
+
+                                <th>
                                     图片
                                 </th>
 
@@ -209,6 +213,7 @@
                             @foreach($slides as $slide)
                                 <tr>
                                     <td>{{$slide->id}}</td>
+                                    <td>{{ collect(array_get($country_list, $slide->country_id))->get('name') }}</td>
                                     <td style="width: 80px;">
                                         <div style="width: 70px;"
                                              title=""
