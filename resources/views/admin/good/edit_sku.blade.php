@@ -27,7 +27,7 @@
             <tr>
                 <th class="column-__row_selector__">
                     <input type="checkbox" class="grid-select-all" />&nbsp;</th>
-                <th>SKUID</th><th>单品名称</th><th>属性规格</th><th>价格（{{$money_sign}}）</th><th>启用状态</th>
+                <th>SKUID</th><th>单品名称</th><th>属性规格</th><th>价格  {{ collect(array_get($country_list, $good->country_id))->get('money_sign') }}</th><th>启用状态</th>
             </tr>
 
             @foreach($good->skus as $sku)
