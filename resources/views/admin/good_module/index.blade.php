@@ -55,6 +55,9 @@
                                 <th>
                                     ID
                                 </th>
+                                <th>
+                                    所属国家
+                                </th>
 
                                 <th>
                                     展示位图片
@@ -85,6 +88,9 @@
                             @foreach($good_modules as $module)
                                 <tr>
                                     <td>{{$module->id}}</td>
+                                    <td>
+                                        {{ collect(array_get($country_list, $module->country_id))->get('name') }}
+                                    </td>
                                     <td>
                                         @foreach($module->good_module_images as $good_module_image)
                                         <div class="col-md-2"

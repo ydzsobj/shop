@@ -13,12 +13,12 @@ return [
             'global_email' => '',
             'global_phone' => '',
             'global_address' => '',
-            'global_title' => '',
+            'global_title' => 'FleekFly',
             'global_order_prefix' => '',
             'global_sms_msg' => '',
             'money_sign' => 'IDR',
-            'global_keywords' => '',
-            'global_description' => ''
+            'global_keywords' => 'FleekFly, Mall,Shoes, Bags,Clothes',
+            'global_description' => 'FleekFly online shopping mall!'
         ],
 
         2 => [
@@ -28,12 +28,12 @@ return [
             'global_email' => '',
             'global_phone' => '',
             'global_address' => '',
-            'global_title' => '',
+            'global_title' => 'FleekFly',
             'global_order_prefix' => '',
             'global_sms_msg' => '',
             'money_sign' => 'PHP',
-            'global_keywords' => '',
-            'global_description' => ''
+            'global_keywords' => 'FleekFly, Mall,Shoes, Bags,Clothes',
+            'global_description' => 'FleekFly online shopping mall!'
         ],
     ],
 

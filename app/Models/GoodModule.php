@@ -14,6 +14,7 @@ class GoodModule extends Model
         'name',
         'show_name',
         'image_url',
+        'country_id'
     ];
 
     /**

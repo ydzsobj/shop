@@ -19,6 +19,7 @@ class IndexController extends Controller
      * @apiName index
      * @apiGroup User
      *
+     * @apiParam {Number} country_id 国家地区id
      *
      * @apiSuccess {Array} category 分类
      * @apiSuccess {Array} slides 轮播
@@ -136,17 +137,22 @@ class IndexController extends Controller
      */
     public function index(Request $request)
     {
+
+        $country_id = $request->get('country_id');
+
         //分类
         $category = GoodCategory::select(
             'id as mallCategoryId',
             'show_name as mallCategoryName',
             'image_url'
         )
+            ->where('country_id', $country_id)
             ->orderBy('sort', 'desc')
             ->get();
 
         //轮播图
         $slides = Slide::select('id as slide_id','image_url as image','good_id')
+            ->where('country_id', $country_id)
             ->orderBy('sort','desc')
             ->get();
 
@@ -173,7 +179,7 @@ class IndexController extends Controller
 
         $gd = new Good();
 
-        $goods = $gd->user_good_data();
+        $goods = $gd->user_good_data($request->all());
 
         $hotGoods = $goods->all();
 

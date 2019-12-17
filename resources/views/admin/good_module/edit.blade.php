@@ -9,6 +9,26 @@
 
         <div class="fields-group">
 
+        <div class="form-group ">
+
+                <label for="country_id" class="col-sm-2 asterisk control-label">所属国家</label>
+
+                <div class="col-sm-8">
+
+                    <div class="input-group">
+
+                        <select class="form-control status" name="country_id" required="1">
+                            <option></option>
+                            @foreach($country_list as $key=>$country)
+                                <option value="{{$key}}" @if($detail->country_id == $key) selected @endif>{{$country['name']}}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+
             <div class="form-group  ">
 
                 <label for="name" class="col-sm-2 asterisk control-label">名称</label>
@@ -262,4 +282,9 @@
             // $(".good_id_29").trigger('change');
 
         })
+
+        $(".status").select2({
+            placeholder: {"id":"","text":"\u9009\u62e9"},
+            "allowClear":true
+        });
     </script>
