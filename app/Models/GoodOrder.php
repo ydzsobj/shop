@@ -184,6 +184,13 @@ class GoodOrder extends Model
              $base_query->where('good_orders.id', $search_id);
          }
 
+          //国家筛选
+          $country_id = $request->get('country_id');
+          if($country_id){
+              $base_query->where('good_orders.country_id', $country_id);
+          }
+
+
         //筛选过滤选中的id
         $filter_order_ids = $request->get('filter_order_ids');
         if($filter_order_ids){
@@ -243,7 +250,7 @@ class GoodOrder extends Model
         $this->page_size = $per_page;
 
 
-        $search = compact('start_date','end_date','status','keywords','per_page','search_item','date_search_item','search_id');
+        $search = compact('start_date','end_date','status','keywords','per_page','search_item','date_search_item','search_id', 'country_id');
 
         return [$base_query, $search];
     }

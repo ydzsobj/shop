@@ -185,7 +185,10 @@
                                     单品展示名
                                 </th>
                                 <th>
-                                    单品价格({{$money_sign}}) {!! $sort_links['price'] !!}
+                                    单品价格
+                                </th>
+                                <th>
+                                    货币单位
                                 </th>
                                 <th>
                                     单品类别
@@ -229,6 +232,7 @@
                                         {{$good->title}}
                                     </td>
                                     <td>{{$good->price}}</td>
+                                    <td> {{ collect(array_get($country_list, $good->country_id))->get('money_sign') }}</td>
                                     <td>{{$good->category->name}}</td>
 
                                     <td>{{$good->created_at}}</td>

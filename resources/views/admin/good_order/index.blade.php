@@ -105,9 +105,21 @@
                                                 </div>
 
                                                 <label class="col-sm-1 control-label">模糊搜索</label>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <input type="text" class="form-control filter_keywords" placeholder="收货人/收货电话" name="filter_keywords" value="{{$search['filter_keywords']}}">
                                                 </div>
+
+                                                <label class="col-sm-1 control-label">国家</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control status" name="country_id">
+                                                        <option></option>
+                                                        @foreach($country_list as $key=>$country)
+                                                            <option value="{{$key}}" @if($search['country_id'] == $key) selected @endif>{{$country['name']}}</option>
+                                                        @endforeach
+
+                                                    </select>
+                                                </div>
+
 
                                             </div>
 
@@ -191,7 +203,10 @@
                                     IP
                                 </th>
                                 <th>
-                                    总价({{$money_sign}})
+                                    总价
+                                </th>
+                                <th>
+                                    货币
                                 </th>
 
                                 <th>
@@ -270,6 +285,9 @@
                                         @endif
                                     </td>
                                     <td>
+                                        {{ collect(array_get($country_list, $order->country_id))->get('money_sign') }}
+                                    </td>
+                                    <td>
                                         <span style="color: @if($order->status == 1)green @elseif($order->status == 2) red @else orange @endif "
                                               title="审核记录"
                                               data-container="body"
@@ -286,7 +304,7 @@
                                         {{array_get($status, $order->status) }}
                                         </span>
                                     </td>
-                                    <td style="width:6%; word-break:break-all; word-wrap:break-word; white-space:inherit">
+                                    <td style="width:5%; word-break:break-all; word-wrap:break-word; white-space:inherit">
                                         {{$order->created_at}}
                                     </td>
                                     <td>

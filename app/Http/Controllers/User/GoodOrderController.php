@@ -29,6 +29,7 @@ class GoodOrderController extends Controller
      * @apiParam {string} [leave_word] 留言
      * @apiParam {string} [postcode] 邮编
      * @apiParam {string} [coupon_code_id] 优惠码id
+     * @apiParam {Number} country_id 国家ID
      * @apiParam {string} [total_off] 计算优惠后的价格
      *
      * @apiParamExample {json} Request-Example:
@@ -46,6 +47,7 @@ class GoodOrderController extends Controller
      *  	"leave_word":"尽快发货~~~~~",
      *  	"postcode":"470000",
      *  	"coupon_code_id": 15,
+     *  	"country_id": 1,
      *  	"total_off": 999000,
      *}
      *
@@ -132,6 +134,7 @@ class GoodOrderController extends Controller
             'ip' => $ip,
             'sn' => generate_sn(),
             'coupon_code_id' => $request->post('coupon_code_id'),
+            'country_id' => $request->post('country_id'),
         ];
 
         $go = GoodOrder::create(array_merge($insert_data, $address, compact('province', 'city', 'area')));
@@ -140,7 +143,7 @@ class GoodOrderController extends Controller
 
             //发送短信
             if(ServicePhone::check_available() >0){
-                sendSms::dispatch($go)->onQueue('sms');
+                // sendSms::dispatch($go)->onQueue('sms');
             }
 
             $go->order_skus()->createMany($cart_data->all());
