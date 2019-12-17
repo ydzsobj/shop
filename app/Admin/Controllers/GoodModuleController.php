@@ -17,8 +17,8 @@ class GoodModuleController extends BaseController
      */
     public function index(Request $request)
     {
-       $good_modules = GoodModule::orderBy('country_id', 'desc')->orderBy('id','desc')->get();
-       $slides = Slide::orderBy('country_id', 'desc')->orderBy('id','desc')->get();
+       $good_modules = GoodModule::orderBy('country_id', 'desc')->orderBy('sort','desc')->get();
+       $slides = Slide::orderBy('country_id', 'desc')->orderBy('sort','desc')->get();
 
        return view('admin.good_module.index', compact('good_modules','slides'));
     }
