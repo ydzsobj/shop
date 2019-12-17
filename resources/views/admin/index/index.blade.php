@@ -8,7 +8,7 @@
     <section class="content">
 
 
-        <div  class="box box-primary box-solid" style="width: 90%">
+        {{-- <div  class="box box-primary box-solid" style="width: 90%">
             <div class="box-header with-border">
                 <h3 class="box-title">全局配置</h3>
                 <div class="box-tools pull-right">
@@ -24,7 +24,7 @@
                     </tr>
                 </table>
             </div><!-- /.box-body -->
-        </div>
+        </div> --}}
 
         <div  class="box box-info box-solid" style="width: 90%">
             <div class="box-header with-border">
