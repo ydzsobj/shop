@@ -227,7 +227,9 @@ class IndexController extends Controller
 
         $global_configs = AdminConfig::pluck('value','name');
 
-        return returned(true, '', compact('config','global_configs'));
+        $country_list = config('country.country_list');
+
+        return returned(true, '', compact('config','global_configs', 'country_list'));
     }
 
 

@@ -36,16 +36,20 @@ class GoodController extends BaseController
         $gd = new Good();
         list($goods, $search) = $gd->get_data($request);
 
+        $country_list = config('country.country_list');
+
         //生成排序链接
         $sort_links = $this->build_sort_links($request);
 
-        return view('admin.good.index',compact('goods','search', 'admin_users','sort_links'));
+        return view('admin.good.index',compact('goods','search', 'admin_users','sort_links', 'country_list'));
     }
 
     //新增页面
     public function create(Request $request){
 
-        return view('admin.good.create');
+        $country_list = config('country.country_list');
+
+        return view('admin.good.create', compact('country_list'));
     }
 
     //新增
@@ -66,6 +70,7 @@ class GoodController extends BaseController
             'fb_pix',
             'about',
             'show_coupon_code',
+            'country_id'
         ]);
 
 

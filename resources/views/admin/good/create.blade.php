@@ -52,6 +52,21 @@
 
                             <div class="fields-group">
 
+                            <div class="form-group">
+
+                                    <label for="country_id" class="col-sm-2 asterisk control-label">所属国家</label>
+
+                                    <div class="col-sm-8">
+
+                                        <select class="form-control single_select" style="width: 100%;" name="country_id" required="1" >
+                                            <option></option>
+                                            @foreach($country_list as $key=>$country)
+                                                <option value="{{$key}}">{{$country['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group  ">
 
                                     <label for="title" class="col-sm-2 asterisk control-label">单品展示名</label>

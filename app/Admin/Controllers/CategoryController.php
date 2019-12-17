@@ -9,6 +9,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
+use Illuminate\Support\Arr;
 
 class CategoryController
 {
@@ -75,7 +76,16 @@ class CategoryController
     {
         $grid = new Grid(new GoodCategory());
 
+        $country_list = config('country.country_list');
+        $options = collect($country_list)->pluck('name', 'id');
+
         $grid->id('ID');
+        $grid->column('country_id','所属国家')->display(function ($country_id) use ($country_list) {
+
+            $country = Arr::get($country_list, $country_id);
+            return $country['name'];
+
+        });
         $grid->name('类别名称');
         $grid->show_name('展示名称');
 
@@ -86,9 +96,11 @@ class CategoryController
         $grid->created_at('创建时间');
 //        $grid->updated_at();
 
-        $grid->filter(function ($filter) {
+        $grid->model()->orderBy('country_id', 'desc');
+
+        $grid->filter(function ($filter) use ($options) {
             $filter->disableIdFilter();
-            $filter->like('name');
+            $filter->equal('country_id','所属国家')->select($options);
         });
 
         return $grid;
@@ -100,6 +112,12 @@ class CategoryController
 
 //        $form->display('id', 'ID');
 //        $form->text('name','类别名称')->rules('required');
+
+        $country_list = config('country.country_list');
+
+        $options = collect($country_list)->pluck('name', 'id');
+
+        $form->select('country_id', '所属国家')->rules('required')->options($options);
 
         $form->text('name','类别名称')
             ->creationRules(['required', "unique:good_categories"])

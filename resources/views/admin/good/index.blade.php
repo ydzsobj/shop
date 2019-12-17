@@ -93,7 +93,7 @@
                                                 <label class="col-sm-1 control-label">
                                                     关键词搜索
                                                 </label>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-3">
                                                     <div class="input-group input-group-sm">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-pencil"></i>
@@ -101,6 +101,17 @@
 
                                                         <input type="text" class="form-control keywords" placeholder="单品名/单品展示名" name="keywords" value="{{$search['keywords']}}">
                                                     </div>
+                                                </div>
+
+                                                <label class="col-sm-1 control-label">国家</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control status" name="country_id">
+                                                        <option></option>
+                                                        @foreach($country_list as $key=>$country)
+                                                            <option value="{{$key}}" @if($search['country_id'] == $key) selected @endif>{{$country['name']}}</option>
+                                                        @endforeach
+
+                                                    </select>
                                                 </div>
 
                                             </div>
@@ -187,6 +198,9 @@
                                     发布人
                                 </th>
                                 <th>
+                                    所属国家
+                                </th>
+                                <th>
                                     操作
                                 </th>
                             </tr>
@@ -220,6 +234,7 @@
                                     <td>{{$good->created_at}}</td>
 
                                     <td>{{$good->admin_user->username}}</td>
+                                    <td>{{ collect(array_get($country_list, $good->country_id))->get('name') }}</td>
                                     <td>
 
                                         <div class="grid-dropdown-actions dropdown">

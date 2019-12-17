@@ -53,7 +53,7 @@ Grid::init(function (Grid $grid) {
 
 //    $grid->disableCreateButton();
 
-    $grid->disableFilter();
+    // $grid->disableFilter();
 
     $grid->disableRowSelector();
 

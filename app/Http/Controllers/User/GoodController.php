@@ -6,6 +6,7 @@ use App\Models\Good;
 use App\Models\GoodModule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
 
 class GoodController extends Controller
 {

@@ -40,6 +40,7 @@ class Good extends Model
         'main_video_url',
         'fb_pix',
         'show_coupon_code',
+        'country_id'
 
     ];
 
@@ -138,6 +139,12 @@ class Good extends Model
             $base_query->where('good_module_id', $good_module_id);
         }
 
+         //国家类型
+         $country_id = $request->get('country_id');
+         if($country_id){
+             $base_query->where('country_id', $country_id);
+         }
+
         //单品类型
         $product_id = $request->get('product_id');
         if($product_id){
@@ -185,7 +192,7 @@ class Good extends Model
         }
 
 
-        $search = compact('start_date','end_date','category_id','product_id','status','keywords','per_page','good_module_id');
+        $search = compact('start_date','end_date','category_id','product_id','status','keywords','per_page','good_module_id','country_id');
 
         return [$base_query, $search];
     }
