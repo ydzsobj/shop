@@ -18,7 +18,7 @@ return [
     'up_config' => [
         "image_size"    => 1024*100*6,                                                 // 上传图片大小
         "file_size"     => 1024*1024*100,                                               // 上传文件大小
-        "media_size"    => 1024*1024*2,                                               // 上传视音频大小
+        "media_size"    => 1024*1024*10,                                               // 上传视音频大小
         "flash_size"    => 1024*1024*100,                                               // 上传flash大小
         "image_format"  => "jpg,gif,jpeg,png,bmp,svg",                                  // 上传图片格式
         "file_format"   => "doc,docx,xls,xlsx,ppt,htm,html,txt,rar,zip,mp4,pdf,pptx",   // 上传文件格式
