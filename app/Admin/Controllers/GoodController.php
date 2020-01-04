@@ -39,7 +39,7 @@ class GoodController extends BaseController
         //生成排序链接
         $sort_links = $this->build_sort_links($request);
 
-        return view('admin.good.index',compact('goods','search', 'admin_users','sort_links'));
+        return view('admin.good.index',compact('goods','search','sort_links'));
     }
 
     //新增页面
