@@ -237,6 +237,11 @@ class ProductController extends BaseController
 
         $res = Product::where('id', $id)->delete();
 
+        if($res){
+            //硬删除sku
+            ProductSku::where('product_id',$id)->delete();
+        }
+
         $msg = $res ? trans('common.set.success') : trans('common.set.fail');
 
         return response()->json(['success' => $res, 'msg' => $msg ]);

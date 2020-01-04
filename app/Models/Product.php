@@ -41,7 +41,7 @@ class Product extends Model
 
         $per_page = $per_page ?: $this->page_size;
 
-        $search = compact('page_size','keywords', 'per_page');
+        $search = compact('keywords', 'per_page');
 
         $products = self::with(['attrs.attribute_values','skus'])
             ->ofKeywords($keywords)
